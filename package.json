@@ -1,0 +1,29 @@
+{
+	"name": "aki-blog",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "astro dev --host",
+		"build": "astro build",
+		"preview": "astro preview --host",
+		"astro": "astro",
+		"lint": "eslint './src/**/*.{ts,tsx,astro}'",
+		"lint:fix": "npm run lint -- --fix; prettier --write './**/*'"
+	},
+	"dependencies": {
+		"@astrojs/preact": "^2.2.1",
+		"astro": "^2.8.3",
+		"microcms-js-sdk": "^2.5.0",
+		"preact": "^10.16.0",
+		"sass": "^1.63.6"
+	},
+	"devDependencies": {
+		"@typescript-eslint/parser": "^5.62.0",
+		"eslint": "^8.45.0",
+		"eslint-config-prettier": "^8.8.0",
+		"eslint-config-standard-with-typescript": "^36.0.1",
+		"eslint-plugin-astro": "^0.27.2",
+		"prettier": "^2.8.8",
+		"prettier-plugin-astro": "^0.10.0"
+	}
+}
