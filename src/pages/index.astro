@@ -6,5 +6,17 @@ const posts = await getBlogs({ fields: ["id", "title"] });
 ---
 
 <Layout>
-	{posts.contents.map((post) => <a href={`/${post.id}`}>{post.title}</a>)}
+	{
+		posts.contents.map((post) => (
+			<a class="post-list" href={`/${post.id}`}>
+				{post.title}
+			</a>
+		))
+	}
 </Layout>
+
+<style>
+	.post-list {
+		display: table;
+	}
+</style>
