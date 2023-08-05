@@ -11,6 +11,7 @@
 		"lint:fix": "npm run lint -- --fix; prettier --write './**/*'"
 	},
 	"dependencies": {
+		"@astrojs/sitemap": "^2.0.1",
 		"aki-modules": "github:AkimeAki/Modules#1.0.0",
 		"astro": "^2.8.3",
 		"cheerio": "^1.0.0-rc.12",
