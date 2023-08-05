@@ -1,5 +1,7 @@
 ---
 import AccessCounter from "@/components/molecules/AccessCounter.astro";
+import GoogleTagManager from "@/components/molecules/GoogleTagManager.astro";
+import GoogleTagManagerNoScript from "@/components/molecules/GoogleTagManagerNoScript.astro";
 import "aki-modules/reset.css";
 
 interface Props {
@@ -14,8 +16,10 @@ const pageTitle = title === undefined ? serviceTitle : `${title} | ${serviceTitl
 <!DOCTYPE html>
 <html lang="ja">
 	<head>
+
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
+		<GoogleTagManager />
 		<link rel="icon" href="/favicon.ico" />
 		<title>{pageTitle}</title>
 		<script
@@ -26,6 +30,7 @@ const pageTitle = title === undefined ? serviceTitle : `${title} | ${serviceTitl
 		<link rel="sitemap" href="/sitemap-index.xml" />
 	</head>
 	<body>
+		<GoogleTagManagerNoScript />
 		<header class="header">
 			<a class="title-link" href="/"><h1 class="title">{serviceTitle}</h1></a>
 		</header>
