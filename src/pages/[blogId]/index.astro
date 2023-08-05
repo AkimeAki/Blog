@@ -1,6 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import Post from "@/components/organisms/Post";
+import Post from "@/components/organisms/Post.astro";
 import { getBlogDetail, getBlogs } from "@/lib/microcms";
 
 export const getStaticPaths = async () => {
@@ -17,9 +17,9 @@ if (blogId === undefined) {
 	return;
 }
 
-const blog = await getBlogDetail(blogId, {});
+const blog = await getBlogDetail(blogId);
 ---
 
-<Layout>
-	<Post serverBlog={blog} />
+<Layout title={blog.title}>
+	<Post post={blog} />
 </Layout>

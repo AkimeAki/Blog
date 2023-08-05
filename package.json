@@ -11,10 +11,11 @@
 		"lint:fix": "npm run lint -- --fix; prettier --write './**/*'"
 	},
 	"dependencies": {
-		"@astrojs/preact": "^2.2.1",
+		"aki-modules": "github:AkimeAki/Modules#1.0.0",
 		"astro": "^2.8.3",
+		"cheerio": "^1.0.0-rc.12",
+		"highlight.js": "^11.8.0",
 		"microcms-js-sdk": "^2.5.0",
-		"preact": "^10.16.0",
 		"sass": "^1.63.6"
 	},
 	"devDependencies": {

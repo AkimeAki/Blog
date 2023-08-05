@@ -1,0 +1,26 @@
+---
+import type { Blog } from "@/lib/microcms";
+import type { MicroCMSListContent } from "microcms-js-sdk";
+import hljs from "highlight.js";
+import * as cheerio from "cheerio";
+// import javascript from "highlight.js/lib/languages/javascript";
+import "highlight.js/styles/vs2015.css";
+
+interface Props {
+	post: Blog & MicroCMSListContent;
+}
+
+const { post } = Astro.props;
+
+const $ = cheerio.load(post.content);
+$("pre code").each((_, element) => {
+	const result = hljs.highlightAuto($(element).text());
+	$(element).html(result.value);
+	$(element).addClass("hljs");
+});
+---
+
+<h1>{post.title}</h1>
+<div class="cms-content" set:html={$.html()} />
+
+<style></style>
