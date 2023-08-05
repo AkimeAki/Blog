@@ -20,7 +20,34 @@ $("pre code").each((_, element) => {
 });
 ---
 
-<h1>{post.title}</h1>
+<h2 class="post-title">{post.title}</h2>
 <div class="cms-content" set:html={$("body").html()} />
 
-<style></style>
+<style>
+	.post-title {
+		font-size: 30px;
+		margin-bottom: 30px;
+	}
+
+	.cms-content :global(blockquote) {
+		background-color: darkgrey;
+		padding: 10px;
+		color: white;
+	}
+
+	.cms-content > :global(*) {
+		margin-bottom: 30px;
+	}
+
+	.cms-content :global(h3) {
+		border-bottom: 1px solid black;
+		margin-bottom: 30px;
+		font-size: 20px;
+	}
+
+	.cms-content :global(h4) {
+		margin-bottom: 30px;
+		font-size: 17px;
+		text-decoration: underline;
+	}
+</style>
