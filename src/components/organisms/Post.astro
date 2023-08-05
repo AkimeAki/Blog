@@ -21,6 +21,6 @@ $("pre code").each((_, element) => {
 ---
 
 <h1>{post.title}</h1>
-<div class="cms-content" set:html={$.html()} />
+<div class="cms-content" set:html={$("body").html()} />
 
 <style></style>
