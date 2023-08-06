@@ -1,11 +1,18 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import Post from "@/components/organisms/Post.astro";
+import CommentArea from "@/components/molecules/CommentArea.astro";
 import { getBlogDetail, getBlogs } from "@/lib/microcms";
 
-export const getStaticPaths = async () => {
+interface pathType {
+	params: {
+		blogId: string;
+	};
+}
+
+export const getStaticPaths = async (): Promise<pathType[]> => {
 	const response = await getBlogs({ fields: ["id"] });
-	return response.contents.map((content: any) => ({
+	return response.contents.map((content) => ({
 		params: {
 			blogId: content.id
 		}
@@ -22,40 +29,13 @@ const blog = await getBlogDetail(blogId);
 
 <Layout title={blog.title}>
 	<Post post={blog} />
-	<p class="comment-note">匿名でコメントできるよ～↓（メアドはいるけど、適当で良いよ）</p>
-	<div id="disqus_thread"></div>
-
-	<script is:inline>
-		/**
-		 *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-		 *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
-		/*
-		var disqus_config = function () {
-		this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-		this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-		};
-		*/
-		// prettier-ignore
-		(function() { // DON'T EDIT BELOW THIS LINE
-		var d = document, s = d.createElement('script');
-		s.src = 'https://aki-blog.disqus.com/embed.js';
-		s.setAttribute('data-timestamp', +new Date());
-		(d.head || d.body).appendChild(s);
-		})();
-	</script>
-
-	<noscript>
-		Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
-	</noscript>
+	<p class="comment-note">匿名でコメントできるよ～↓<br />（メアドはいるけど、適当で良いよ）</p>
+	<CommentArea />
 </Layout>
 
 <style>
 	.comment-note {
 		margin-bottom: 10px;
 		font-weight: bold;
-	}
-
-	#disqus_thread {
-		max-width: 600px;
 	}
 </style>

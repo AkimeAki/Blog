@@ -3,7 +3,6 @@ import type { Blog } from "@/lib/microcms";
 import type { MicroCMSListContent } from "microcms-js-sdk";
 import hljs from "highlight.js";
 import * as cheerio from "cheerio";
-// import javascript from "highlight.js/lib/languages/javascript";
 import "highlight.js/styles/vs2015.css";
 
 interface Props {
@@ -12,27 +11,34 @@ interface Props {
 
 const { post } = Astro.props;
 
-const $ = cheerio.load(post.content);
-$("pre code").each((_, element) => {
-	const result = hljs.highlightAuto($(element).text());
-	$(element).html(result.value);
-	$(element).addClass("hljs");
-});
+let content = "";
+if (post.content !== undefined) {
+	const $ = cheerio.load(post.content);
+	$("pre code").each((_, element) => {
+		const result = hljs.highlightAuto($(element).text());
+		$(element).html(result.value);
+		$(element).addClass("hljs");
+	});
+
+	const html = $("body").html();
+	if (html !== null) {
+		content = html;
+	}
+}
+
+const date = post.publishedAt !== undefined ? post.publishedAt : post.createdAt;
 ---
 
 <h2 class="post-title">{post.title}</h2>
-<div class="cms-content" set:html={$("body").html()} />
+
+<time datetime={date}>{date}</time>
+<p>カテゴリー：{post.category !== undefined ? post.category.name : "なし"}</p>
+<article class="cms-content" set:html={content} />
 
 <style>
 	.post-title {
 		font-size: 30px;
 		margin-bottom: 30px;
-	}
-
-	.cms-content :global(blockquote) {
-		background-color: darkgrey;
-		padding: 10px;
-		color: white;
 	}
 
 	.cms-content > :global(*) {
