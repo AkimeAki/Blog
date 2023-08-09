@@ -36,6 +36,8 @@ const date = post.publishedAt !== undefined ? post.publishedAt : post.createdAt;
 <article class="cms-content" set:html={content} />
 
 <style>
+	@import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap");
+
 	.post-title {
 		font-size: 30px;
 		margin-bottom: 30px;
@@ -55,5 +57,9 @@ const date = post.publishedAt !== undefined ? post.publishedAt : post.createdAt;
 		margin-bottom: 30px;
 		font-size: 17px;
 		text-decoration: underline;
+	}
+
+	.cms-content :global(pre > code) {
+		font-family: "Source Code Pro", monospace;
 	}
 </style>
