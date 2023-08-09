@@ -1,4 +1,5 @@
 import { createClient } from "microcms-js-sdk";
+import { getListContents, getContentsDetail } from "aki-modules/microcms";
 import type { MicroCMSListContent, MicroCMSListResponse, MicroCMSQueries } from "microcms-js-sdk";
 
 const client = createClient({
@@ -16,16 +17,9 @@ export interface Blog {
 }
 
 export const getBlogs = async (queries: MicroCMSQueries = {}): Promise<MicroCMSListResponse<Blog>> => {
-	return await client.get<MicroCMSListResponse<Blog>>({ endpoint: "blogs", queries });
+	return await getListContents<Blog>(client, "blogs", queries);
 };
 
-export const getBlogDetail = async (
-	contentId: string,
-	queries: MicroCMSQueries = {}
-): Promise<Blog & MicroCMSListContent> => {
-	return await client.getListDetail<Blog & MicroCMSListContent>({
-		endpoint: "blogs",
-		contentId,
-		queries
-	});
+export const getBlogDetail = async (id: string, queries: MicroCMSQueries = {}): Promise<Blog & MicroCMSListContent> => {
+	return await getContentsDetail<Blog & MicroCMSListContent>(client, "blogs", id, queries);
 };
