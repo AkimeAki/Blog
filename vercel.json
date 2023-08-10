@@ -1,3 +1,10 @@
 {
-	"trailingSlash": false
+	"trailingSlash": false,
+	"redirects": [
+		{
+			"source": "/:path(.*)/index.html",
+			"destination": "/:path*",
+			"permanent": false
+		}
+	]
 }
