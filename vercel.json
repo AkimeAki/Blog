@@ -2,7 +2,7 @@
 	"trailingSlash": false,
 	"redirects": [
 		{
-			"source": "/:path(.*)/index.html",
+			"source": "/:path(.*)index.html",
 			"destination": "/:path*",
 			"permanent": false
 		}
