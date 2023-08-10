@@ -83,23 +83,25 @@ const pageTitle = title === undefined ? serviceTitle : `${title} | ${serviceTitl
 		</footer>
 		<img width="250" src="/face.png" alt="顔" />
 
-		<script
-			is:inline
-			async
-			src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6914867149724943"
-			crossorigin="anonymous"></script>
-		<!-- フッター -->
-		<ins
-			class="adsbygoogle"
-			style="display:block"
-			data-ad-client="ca-pub-6914867149724943"
-			data-ad-slot="4538234242"
-			data-ad-format="auto"
-			data-full-width-responsive="true"></ins>
-		<script is:inline>
-			// prettier-ignore
-			(adsbygoogle = window.adsbygoogle || []).push({});
-		</script>
+		<div id="footer-ad">
+			<script
+				is:inline
+				async
+				src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6914867149724943"
+				crossorigin="anonymous"></script>
+			<!-- フッター -->
+			<ins
+				class="adsbygoogle"
+				style="display:block"
+				data-ad-client="ca-pub-6914867149724943"
+				data-ad-slot="4538234242"
+				data-ad-format="auto"
+				data-full-width-responsive="true"></ins>
+			<script is:inline>
+				// prettier-ignore
+				(adsbygoogle = window.adsbygoogle || []).push({});
+			</script>
+		</div>
 
 		<style>
 			body {
@@ -148,6 +150,13 @@ const pageTitle = title === undefined ? serviceTitle : `${title} | ${serviceTitl
 				flex-direction: column;
 				flex-wrap: wrap;
 				align-items: start;
+			}
+
+			#footer-ad,
+			#footer-ad > ins,
+			#footer-ad > ins > :global(div),
+			#footer-ad > ins > :global(div > iframe) {
+				width: 100% !important;
 			}
 		</style>
 	</body>
