@@ -10,5 +10,6 @@ export default defineConfig({
 		assets: true
 	},
 	site: "https://blog.aki.wtf",
+	trailingSlash: "never",
 	integrations: [sitemap()]
 });
