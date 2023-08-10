@@ -2,7 +2,7 @@
 import Layout from "@/layouts/Layout.astro";
 import { getBlogs } from "@/lib/microcms";
 
-const posts = await getBlogs({ fields: ["id", "title", "category", "publishedAt", "createdAt"] });
+const posts = await getBlogs({ fields: ["id", "title", "tags", "publishedAt", "createdAt"] });
 ---
 
 <Layout>
@@ -13,11 +13,15 @@ const posts = await getBlogs({ fields: ["id", "title", "category", "publishedAt"
 
 				return (
 					<div class="post-wrap">
-						<div>
-							<time class="date" datetime={date}>
+						<div class="post-head">
+							<time class="post-date" datetime={date}>
 								{date}
 							</time>
-							<span>{post.category !== undefined ? post.category.name : ""}</span>
+							<div class="post-tags">
+								{post.tags.map((tag) => (
+									<span>#{tag.name}</span>
+								))}
+							</div>
 						</div>
 						<h2>{post.title}</h2>
 						<a class="post-link" href={`/${post.id}`} />
@@ -43,8 +47,22 @@ const posts = await getBlogs({ fields: ["id", "title", "category", "publishedAt"
 		text-decoration: underline;
 	}
 
-	.date {
+	.post-head {
+		display: flex;
+		gap: 10px;
+		flex-wrap: wrap;
+		align-items: flex-end;
+	}
+
+	.post-date {
 		font-size: 15px;
+	}
+
+	.post-tags {
+		display: flex;
+		gap: 15px;
+		flex-wrap: wrap;
+		align-items: center;
 	}
 
 	.post-link {

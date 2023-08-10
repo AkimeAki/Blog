@@ -11,9 +11,11 @@ export interface Blog {
 	title?: string;
 	content?: string;
 	thumbnail?: string;
-	category?: {
-		name: string;
-	} & MicroCMSListContent;
+	tags: Array<
+		{
+			name: string;
+		} & MicroCMSListContent
+	>;
 }
 
 export const getBlogs = async (queries: MicroCMSQueries = {}): Promise<MicroCMSListResponse<Blog>> => {

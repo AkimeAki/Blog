@@ -31,8 +31,12 @@ const date = post.publishedAt !== undefined ? post.publishedAt : post.createdAt;
 
 <h2 class="post-title">{post.title}</h2>
 
-<time datetime={date}>{date}</time>
-<p>カテゴリー：{post.category !== undefined ? post.category.name : "なし"}</p>
+<div class="post-head">
+	<time datetime={date}>{date}</time>
+	<div class="post-tags">
+		{post.tags.map((tag) => <span>#{tag.name}</span>)}
+	</div>
+</div>
 <article class="cms-content" set:html={content} />
 
 <style>
@@ -41,6 +45,17 @@ const date = post.publishedAt !== undefined ? post.publishedAt : post.createdAt;
 	.post-title {
 		font-size: 30px;
 		margin-bottom: 30px;
+	}
+
+	.post-head {
+		margin-bottom: 20px;
+	}
+
+	.post-tags {
+		display: flex;
+		gap: 15px;
+		flex-wrap: wrap;
+		align-items: center;
 	}
 
 	.cms-content > :global(*) {
