@@ -4,7 +4,7 @@
 		{
 			"source": "/:path(.*)index.html",
 			"destination": "/:path*",
-			"permanent": false
+			"permanent": true
 		}
 	]
 }
