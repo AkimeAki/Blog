@@ -8,26 +8,22 @@ const posts = await getBlogs({ fields: ["id", "title", "tags", "publishedAt", "c
 <Layout>
 	<div class="post-list">
 		{
-			posts.contents.map((post) => {
-				const date = post.publishedAt !== undefined ? post.publishedAt : post.createdAt;
-
-				return (
-					<div class="post-wrap">
-						<div class="post-head">
-							<time class="post-date" datetime={date}>
-								{date}
-							</time>
-							<div class="post-tags">
-								{post.tags.map((tag) => (
-									<span>#{tag.name}</span>
-								))}
-							</div>
+			posts.contents.map((post) => (
+				<div class="post-wrap">
+					<div class="post-head">
+						<time class="post-date" datetime={post.createdAt}>
+							{post.createdAt}
+						</time>
+						<div class="post-tags">
+							{post.tags.map((tag) => (
+								<span>#{tag.name}</span>
+							))}
 						</div>
-						<h2>{post.title}</h2>
-						<a class="post-link" href={`/${post.id}`} />
 					</div>
-				);
-			})
+					<h2>{post.title}</h2>
+					<a class="post-link" href={`/${post.id}`} />
+				</div>
+			))
 		}
 	</div>
 </Layout>

@@ -25,14 +25,12 @@ if (post.content !== undefined) {
 		content = html;
 	}
 }
-
-const date = post.publishedAt !== undefined ? post.publishedAt : post.createdAt;
 ---
 
 <h2 class="post-title">{post.title}</h2>
 
 <div class="post-head">
-	<time datetime={date}>{date}</time>
+	<time datetime={post.createdAt}>{post.createdAt}</time>
 	<div class="post-tags">
 		{post.tags.map((tag) => <span>#{tag.name}</span>)}
 	</div>
