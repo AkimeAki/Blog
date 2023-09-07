@@ -17,6 +17,17 @@ const posts = await getListContents<Blog>("blogs", { fields: ["id", "title", "ta
 					</time>
 					<h2 class="post-title">{post.title}</h2>
 					<a class="post-link" href={`/${post.id}`} />
+					<div class="post-tag-icons">
+						{post.tags.map((tag) => (
+							<img
+								class="post-tag-icon"
+								src={`${
+									tag.icon?.url ??
+									"https://images.microcms-assets.io/assets/037528aa59e842fb8f9d8b5a23a3726c/0bac6ea3c7414ee9bd7b5476b380e87f/Tag.png"
+								}?fm=webp&w=50`}
+							/>
+						))}
+					</div>
 					<div class="post-tags">
 						{post.tags.map((tag) => (
 							<div class="post-tag">
@@ -81,73 +92,59 @@ const posts = await getListContents<Blog>("blogs", { fields: ["id", "title", "ta
 				font-size: 15px;
 			}
 
-			.post-tags {
-				display: none;
+			.post-tag-icons {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				user-select: none;
+				pointer-events: none;
+				width: 50px;
+				height: 50px;
+				opacity: 0;
+				z-index: 1;
+				transition-duration: 500ms;
+				transition-property: opacity;
 
-				&[data-is-touch-device="false"] {
-					display: block;
+				.post-tag-icon {
 					position: absolute;
 					top: 50%;
 					left: 50%;
+					width: 100%;
+					height: 100%;
+					filter: drop-shadow(0 0 3px #424242);
 					transform: translate(-50%, -50%);
-					user-select: none;
-					pointer-events: none;
-					opacity: 0;
-					z-index: 1;
 					transition-duration: 500ms;
-					transition-property: opacity;
-
-					.post-tag {
-						display: flex;
-						flex-direction: column;
-						align-items: center;
-						position: absolute;
-						top: 50%;
-						left: 50%;
-						width: 50px;
-						height: 50px;
-						transform: translate(-50%, -50%);
-						transition-duration: 500ms;
-						transition-property: top, left;
-						transition-timing-function: cubic-bezier(0.18, 0.89, 0.32, 1.28);
-
-						.post-tag-icon {
-							filter: drop-shadow(0 0 3px #424242);
-						}
-
-						.post-tag-name {
-							filter: drop-shadow(0 0 3px white) drop-shadow(0 0 3px white) drop-shadow(0 0 3px white);
-							white-space: nowrap;
-						}
-					}
+					transition-property: top, left;
+					transition-timing-function: cubic-bezier(0.18, 0.89, 0.32, 1.28);
 				}
+			}
 
-				&[data-is-touch-device="true"] {
+			.post-tags {
+				display: flex;
+				gap: 5px;
+				flex-wrap: wrap;
+				align-items: center;
+				padding-top: 10px;
+
+				.post-tag {
 					display: flex;
 					gap: 5px;
 					flex-wrap: wrap;
 					align-items: center;
-					padding-top: 10px;
 
-					.post-tag {
-						display: flex;
-						gap: 5px;
-						flex-wrap: wrap;
-						align-items: center;
+					.post-tag-icon {
+						width: 15px;
+					}
 
-						.post-tag-icon {
-							width: 15px;
-						}
-
-						.post-tag-name {
-							font-size: 10px;
-						}
+					.post-tag-name {
+						font-size: 10px;
 					}
 				}
 			}
 
 			&:hover {
-				.post-tags[data-is-touch-device="false"] {
+				.post-tag-icons[data-is-touch-device="false"] {
 					opacity: 1;
 				}
 			}
@@ -172,7 +169,7 @@ const posts = await getListContents<Blog>("blogs", { fields: ["id", "title", "ta
 	const viewTagIcon = () => {
 		const cards = document.querySelectorAll<HTMLElement>(".post-card");
 		cards.forEach((card) => {
-			const tags = card.querySelectorAll<HTMLImageElement>(".post-tag");
+			const tags = card.querySelectorAll<HTMLImageElement>(".post-tag-icons > .post-tag-icon");
 			let size = setSize(card);
 			window.addEventListener(
 				"resize",
@@ -186,9 +183,9 @@ const posts = await getListContents<Blog>("blogs", { fields: ["id", "title", "ta
 				"ontouchstart" in window ||
 				navigator.maxTouchPoints > 0 ||
 				window.matchMedia("(pointer:coarse)").matches;
-			const postTags = card.querySelector<HTMLElement>(".post-tags");
-			if (postTags !== null) {
-				postTags.dataset.isTouchDevice = String(isTouchDevice);
+			const postTagIcons = card.querySelector<HTMLElement>(".post-tag-icons");
+			if (postTagIcons !== null) {
+				postTagIcons.dataset.isTouchDevice = String(isTouchDevice);
 			}
 			const randomRadList = [45, 135, 225, 315];
 			const randomRad = randomRadList[Math.floor(Math.random() * randomRadList.length)] ?? 45;
