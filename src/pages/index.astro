@@ -15,18 +15,9 @@ const posts = await getListContents<Blog>("blogs", { fields: ["id", "title", "ta
 					<time class="post-date" datetime={post.createdAt}>
 						{formatDate(post.createdAt)}
 					</time>
-					<h2 class="post-title">{post.title}</h2>
-					<a class="post-link" href={`/${post.id}`} />
-					<div class="post-tag-icons">
-						{post.tags.map((tag) => (
-							<img
-								class="post-tag-icon"
-								src={`${
-									tag.icon?.url ??
-									"https://images.microcms-assets.io/assets/037528aa59e842fb8f9d8b5a23a3726c/0bac6ea3c7414ee9bd7b5476b380e87f/Tag.png"
-								}?fm=webp&w=50`}
-							/>
-						))}
+					<div>
+						<h2 class="post-title">{post.title}</h2>
+						<a class="post-link" href={`/${post.id}`} />
 					</div>
 					<div class="post-tags">
 						{post.tags.map((tag) => (
@@ -40,6 +31,17 @@ const posts = await getListContents<Blog>("blogs", { fields: ["id", "title", "ta
 								/>
 								<span class="post-tag-name">{tag.name}</span>
 							</div>
+						))}
+					</div>
+					<div class="post-tag-icons">
+						{post.tags.map((tag) => (
+							<img
+								class="post-tag-icon"
+								src={`${
+									tag.icon?.url ??
+									"https://images.microcms-assets.io/assets/037528aa59e842fb8f9d8b5a23a3726c/0bac6ea3c7414ee9bd7b5476b380e87f/Tag.png"
+								}?fm=webp&w=50`}
+							/>
 						))}
 					</div>
 				</div>
@@ -72,6 +74,9 @@ const posts = await getListContents<Blog>("blogs", { fields: ["id", "title", "ta
 		}
 
 		.post-card {
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
 			position: relative;
 			background-color: white;
 			padding: 40px 10px 10px;
