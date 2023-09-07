@@ -165,10 +165,11 @@ const posts = await getListContents<Blog>("blogs", { fields: ["id", "title", "ta
 			if (postTags !== null) {
 				postTags.dataset.isTouchDevice = String(isTouchDevice);
 			}
-
+			const randomRadList = [45, 135, 225, 315];
+			const randomRad = randomRadList[Math.floor(Math.random() * randomRadList.length)] ?? 45;
 			card.addEventListener("mouseover", () => {
 				tags.forEach((tag, index) => {
-					const degree = (360 / tags.length) * (index + 1) + 45;
+					const degree = (360 / tags.length) * (index + 1) + randomRad;
 					const rad = degree * (1 / 180) * Math.PI;
 					const x = Math.cos(rad) * (size / 2 + tag.clientWidth / 2);
 					const y = Math.sin(rad) * (size / 2 + tag.clientWidth / 2);
