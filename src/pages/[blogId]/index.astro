@@ -2,7 +2,8 @@
 import Layout from "@/layouts/Layout.astro";
 import Post from "@/components/organisms/Post.astro";
 import CommentArea from "@/components/molecules/CommentArea.astro";
-import { getBlogDetail, getBlogs } from "@/lib/microcms";
+import { getContentsDetail, getListContents } from "@/lib/microcms";
+import type { Blog } from "@/lib/microcms";
 
 interface pathType {
 	params: {
@@ -11,7 +12,7 @@ interface pathType {
 }
 
 export const getStaticPaths = async (): Promise<pathType[]> => {
-	const response = await getBlogs({ fields: ["id"] });
+	const response = await getListContents<Blog>("blogs", { fields: ["id"] });
 	return response.contents.map((content) => ({
 		params: {
 			blogId: content.id
@@ -24,12 +25,11 @@ if (blogId === undefined) {
 	return;
 }
 
-const blog = await getBlogDetail(blogId);
+const blog = await getContentsDetail<Blog>("blogs", blogId);
 ---
 
 <Layout title={blog.title}>
 	<Post post={blog} />
-	<p class="comment-note">匿名でコメントできるよ～↓<br />（メアドはいるけど、適当で良いよ）</p>
 	<CommentArea />
 </Layout>
 

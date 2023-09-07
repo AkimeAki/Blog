@@ -54,15 +54,16 @@
 			"editor.defaultFormatter": "esbenp.prettier-vscode"
 		},
 		"cSpell.words": [
-			"astro",
-			"astrojs",
-			"dbaeumer",
-			"dockercompose",
-			"esbenp",
-			"Kaku",
-			"MICROCMS",
-			"preact",
-			"tsconfigs"
-		]
+            "Akime",
+            "astro",
+            "astrojs",
+            "dbaeumer",
+            "dockercompose",
+            "esbenp",
+            "Kaku",
+            "MICROCMS",
+            "preact",
+            "tsconfigs"
+        ]
 	}
 }

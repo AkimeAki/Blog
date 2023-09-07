@@ -6,9 +6,7 @@ export default defineConfig({
 	server: {
 		port: 4001
 	},
-	experimental: {
-		assets: true
-	},
+	experimental: {},
 	site: "https://blog.aki.wtf",
 	trailingSlash: "never",
 	integrations: [sitemap()]

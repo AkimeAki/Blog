@@ -11,12 +11,13 @@
 		"lint:fix": "npm run lint -- --fix; prettier --write './**/*'"
 	},
 	"dependencies": {
-		"@astrojs/sitemap": "^2.0.1",
-		"aki-modules": "github:AkimeAki/Modules#2.0.0",
-		"astro": "^2.8.3",
+		"@astrojs/sitemap": "^3.0.0",
+		"aki-reset-css": "github:AkimeAki/Reset-CSS#1.0.0",
+		"astro": "^3.0.9",
 		"cheerio": "^1.0.0-rc.12",
 		"highlight.js": "^11.8.0",
 		"microcms-js-sdk": "^2.5.0",
+		"null-to-undefined": "github:AkimeAki/Null-to-Undefined#1.0.0",
 		"sass": "^1.63.6"
 	},
 	"devDependencies": {

@@ -1,73 +1,192 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import { getBlogs } from "@/lib/microcms";
+import { formatDate } from "@/lib/format-date";
+import { getListContents } from "@/lib/microcms";
+import type { Blog } from "@/lib/microcms";
 
-const posts = await getBlogs({ fields: ["id", "title", "tags", "publishedAt", "createdAt"] });
+const posts = await getListContents<Blog>("blogs", { fields: ["id", "title", "tags", "publishedAt", "createdAt"] });
 ---
 
 <Layout>
 	<div class="post-list">
 		{
 			posts.contents.map((post) => (
-				<div class="post-wrap">
-					<div class="post-head">
-						<time class="post-date" datetime={post.createdAt}>
-							{post.createdAt}
-						</time>
-						<div class="post-tags">
-							{post.tags.map((tag) => (
-								<span>#{tag.name}</span>
-							))}
-						</div>
-					</div>
-					<h2>{post.title}</h2>
+				<div class="post-card">
+					<time class="post-date" datetime={post.createdAt}>
+						{formatDate(post.createdAt)}
+					</time>
+					<h2 class="post-title">{post.title}</h2>
 					<a class="post-link" href={`/${post.id}`} />
+					<div class="post-tags">
+						{post.tags.map((tag) => (
+							<div class="post-tag">
+								<img
+									class="post-tag-icon"
+									src={`${
+										tag.icon?.url ??
+										"https://images.microcms-assets.io/assets/037528aa59e842fb8f9d8b5a23a3726c/0bac6ea3c7414ee9bd7b5476b380e87f/Tag.png"
+									}?fm=webp&w=50`}
+								/>
+								<span class="post-tag-name">{tag.name}</span>
+							</div>
+						))}
+					</div>
 				</div>
 			))
 		}
 	</div>
 </Layout>
 
-<style>
+<style lang="scss">
 	.post-list {
-		display: flex;
-		flex-direction: column;
-		align-items: start;
-	}
-
-	.post-wrap {
-		display: table;
-		position: relative;
-	}
-
-	.post-wrap:hover {
-		text-decoration: underline;
-	}
-
-	.post-head {
-		display: flex;
-		gap: 10px;
-		flex-wrap: wrap;
-		align-items: flex-end;
-	}
-
-	.post-date {
-		font-size: 15px;
-	}
-
-	.post-tags {
-		display: flex;
-		gap: 15px;
-		flex-wrap: wrap;
-		align-items: center;
-	}
-
-	.post-link {
-		display: block;
-		position: absolute;
-		top: 0;
-		left: 0;
+		display: grid;
+		grid-template-columns: 1fr 1fr 1fr 1fr;
+		gap: 20px;
+		padding: 30px;
 		width: 100%;
-		height: 100%;
+		max-width: 1200px;
+		margin: 0 auto;
+
+		@media (max-width: 900px) {
+			grid-template-columns: 1fr 1fr 1fr;
+		}
+
+		@media (max-width: 700px) {
+			grid-template-columns: 1fr 1fr;
+		}
+
+		@media (max-width: 600px) {
+			grid-template-columns: 1fr;
+			padding: 5px;
+		}
+
+		.post-card {
+			position: relative;
+			background-color: white;
+			padding: 40px 10px 10px;
+			box-shadow: 0 0 3px #cccccc;
+			transition-duration: 200ms;
+
+			.post-date {
+				position: absolute;
+				top: 0;
+				left: 0;
+				font-size: 15px;
+				background-color: #a3a3a3;
+				color: white;
+				padding: 2px 5px;
+			}
+
+			.post-title {
+				font-size: 15px;
+				color: #616161;
+			}
+
+			.post-tags {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				user-select: none;
+				pointer-events: none;
+				opacity: 0;
+				z-index: 1;
+				transition-duration: 500ms;
+				transition-property: opacity;
+
+				.post-tag {
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					position: absolute;
+					top: 50%;
+					left: 50%;
+					width: 50px;
+					height: 50px;
+					transform: translate(-50%, -50%);
+					transition-duration: 500ms;
+					transition-property: top, left;
+					transition-timing-function: cubic-bezier(0.18, 0.89, 0.32, 1.28);
+
+					.post-tag-icon {
+						filter: drop-shadow(0 0 3px #424242);
+					}
+
+					.post-tag-name {
+						filter: drop-shadow(0 0 3px white) drop-shadow(0 0 3px white) drop-shadow(0 0 3px white);
+						white-space: nowrap;
+					}
+				}
+			}
+
+			&:hover {
+				.post-tags[data-is-touch-device="false"] {
+					user-select: auto;
+					pointer-events: auto;
+					opacity: 1;
+				}
+			}
+		}
+
+		.post-link {
+			display: block;
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+		}
 	}
 </style>
+
+<script>
+	const setSize = (element: HTMLElement): number => {
+		return element.clientWidth < element.clientHeight ? element.clientHeight : element.clientWidth;
+	};
+
+	const viewTagIcon = () => {
+		const cards = document.querySelectorAll<HTMLElement>(".post-card");
+		cards.forEach((card) => {
+			const tags = card.querySelectorAll<HTMLImageElement>(".post-tag");
+			let size = setSize(card);
+			window.addEventListener(
+				"resize",
+				() => {
+					size = setSize(card);
+				},
+				false
+			);
+
+			const isTouchDevice =
+				"ontouchstart" in window ||
+				navigator.maxTouchPoints > 0 ||
+				window.matchMedia("(pointer:coarse)").matches;
+			const postTags = card.querySelector<HTMLElement>(".post-tags");
+			if (postTags !== null) {
+				postTags.dataset.isTouchDevice = String(isTouchDevice);
+			}
+
+			card.addEventListener("mouseover", () => {
+				tags.forEach((tag, index) => {
+					const degree = (360 / tags.length) * (index + 1) + 45;
+					const rad = degree * (1 / 180) * Math.PI;
+					const x = Math.cos(rad) * (size / 2 + tag.clientWidth / 2);
+					const y = Math.sin(rad) * (size / 2 + tag.clientWidth / 2);
+					tag.style.top = `calc(50% + ${y}px)`;
+					tag.style.left = `calc(50% + ${x}px)`;
+				});
+			});
+
+			card.addEventListener("mouseleave", () => {
+				tags.forEach((tag) => {
+					tag.style.top = "";
+					tag.style.left = "";
+				});
+			});
+		});
+	};
+
+	viewTagIcon();
+
+	document.addEventListener("astro:after-swap", viewTagIcon);
+</script>

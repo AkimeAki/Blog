@@ -3,10 +3,10 @@ ps:
 	docker compose ps -a
 
 .PHONY: コンテナ起動
-up:
+init:
+	@make down
 	docker compose build --no-cache
 	docker compose up -d
-	@make package-install
 
 .PHONY: コンテナ削除
 down:

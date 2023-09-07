@@ -4,6 +4,7 @@ import type { MicroCMSListContent } from "microcms-js-sdk";
 import hljs from "highlight.js";
 import * as cheerio from "cheerio";
 import "highlight.js/styles/vs2015.css";
+import { formatDate } from "@/lib/format-date";
 
 interface Props {
 	post: Blog & MicroCMSListContent;
@@ -30,12 +31,28 @@ if (post.content !== undefined) {
 <h2 class="post-title">{post.title}</h2>
 
 <div class="post-head">
-	<time datetime={post.createdAt}>{post.createdAt}</time>
+	<time datetime={post.createdAt}>{formatDate(post.createdAt)}</time>
 	<div class="post-tags">
-		{post.tags.map((tag) => <span>#{tag.name}</span>)}
+		{
+			post.tags.map((tag) => (
+				<div class="post-tag">
+					<img
+						class="post-tag-icon"
+						src={`${
+							tag.icon?.url ??
+							"https://images.microcms-assets.io/assets/037528aa59e842fb8f9d8b5a23a3726c/0bac6ea3c7414ee9bd7b5476b380e87f/Tag.png"
+						}?fm=webp&w=50`}
+					/>
+					<span class="post-tag-name">{tag.name}</span>
+				</div>
+			))
+		}
 	</div>
 </div>
-<article class="cms-content" set:html={content} />
+<article class="cms-content">
+	<div set:html={content} />
+	<p class="comment-note">匿名でコメントできるます↓<br />（メアドはいるけど、適当でOK）</p>
+</article>
 
 <style>
 	@import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap");
@@ -43,39 +60,80 @@ if (post.content !== undefined) {
 	.post-title {
 		font-size: 30px;
 		margin-bottom: 30px;
+		font-weight: 500;
+		text-align: center;
 	}
 
 	.post-head {
 		margin-bottom: 20px;
+		width: 100%;
+		max-width: 800px;
+		margin: 0 auto;
+
+		.post-tags {
+			display: flex;
+			gap: 15px;
+			flex-wrap: wrap;
+			align-items: center;
+			padding: 10px 0;
+
+			.post-tag {
+				display: flex;
+				gap: 5px;
+				flex-wrap: wrap;
+				align-items: center;
+
+				.post-tag-icon {
+					width: 30px;
+				}
+			}
+		}
 	}
 
-	.post-tags {
-		display: flex;
-		gap: 15px;
-		flex-wrap: wrap;
-		align-items: center;
-	}
+	.cms-content {
+		width: 100%;
+		max-width: 800px;
+		margin: 0 auto;
 
-	.cms-content > :global(*) {
-		margin-bottom: 30px;
-	}
+		& :global(.iframely-responsive) {
+			position: relative;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 0;
+			padding-bottom: 56.25%;
+		}
 
-	.cms-content :global(h3) {
-		border-bottom: 1px solid black;
-		margin-bottom: 30px;
-		font-size: 20px;
-	}
+		& :global(.iframely-responsive > *) {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			border: 0;
+		}
 
-	.cms-content :global(h4) {
-		margin-bottom: 30px;
-		font-size: 17px;
-		text-decoration: underline;
-	}
+		& :global(*) {
+			margin-bottom: 30px;
+		}
 
-	.cms-content :global(pre > code),
-	.cms-content :global(pre > code *) {
-		font-family: "Source Code Pro", monospace;
-		tab-size: 4;
-		-moz-tab-size: 4;
+		& :global(h4) {
+			margin-bottom: 30px;
+			font-size: 17px;
+			text-decoration: underline;
+		}
+
+		& :global(h3) {
+			border-bottom: 1px solid black;
+			margin-bottom: 30px;
+			font-size: 20px;
+		}
+
+		& :global(pre > code),
+		& :global(pre > code *) {
+			font-family: "Source Code Pro", monospace;
+			tab-size: 4;
+			-moz-tab-size: 4;
+		}
 	}
 </style>

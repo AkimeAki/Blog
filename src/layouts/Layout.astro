@@ -1,6 +1,6 @@
 ---
-import AccessCounter from "@/components/molecules/AccessCounter.astro";
-import "aki-modules/reset.css";
+import { ViewTransitions } from "astro:transitions";
+import "aki-reset-css";
 
 interface Props {
 	title?: string | undefined;
@@ -30,6 +30,12 @@ const pageTitle = title === undefined ? serviceTitle : `${title} | ${serviceTitl
 		</script>
 		<!-- End Google Tag Manager -->
 		<link rel="icon" href="/favicon.ico" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;200;300;400;500;600;700;800;900&display=swap"
+			rel="stylesheet"
+		/>
 		<title>{pageTitle}</title>
 		<script
 			async
@@ -37,6 +43,7 @@ const pageTitle = title === undefined ? serviceTitle : `${title} | ${serviceTitl
 			crossorigin="anonymous"
 			is:inline></script>
 		<link rel="sitemap" href="/sitemap-index.xml" />
+		<ViewTransitions />
 	</head>
 	<body>
 		<!-- Google Tag Manager (noscript) -->
@@ -50,113 +57,59 @@ const pageTitle = title === undefined ? serviceTitle : `${title} | ${serviceTitl
 		<!-- End Google Tag Manager (noscript) -->
 
 		<header>
-			<a id="title-link" href="/"><h1 id="title">{serviceTitle}</h1></a>
+			<a id="title-link" href="/"><h1 id="title">This website is Aki's blog.</h1></a>
 		</header>
 		<main id="main">
-			<div id="content">
-				<slot />
-			</div>
-			<div id="ad">
-				<script
-					is:inline
-					async
-					src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6914867149724943"
-					crossorigin="anonymous"></script>
-				<!-- サイト横 -->
-				<ins
-					class="adsbygoogle"
-					style="display:block"
-					data-ad-client="ca-pub-6914867149724943"
-					data-ad-slot="5676319423"
-					data-ad-format="auto"
-					data-full-width-responsive="true"></ins>
-				<script is:inline>
-					// prettier-ignore
-					(adsbygoogle = window.adsbygoogle || []).push({});
-				</script>
-			</div>
+			<slot />
 		</main>
 		<footer>
-			<a href="https://twitter.com/Akime_Aki" target="_blank">Twitter</a>
-			<a href="https://www.youtube.com/channel/UCHV3Taosn76pn9_ip1u7Zkg" target="_blank">YouTube</a>
-			<AccessCounter />
+			<span id="copy">&copy; 彩季</span>
 		</footer>
-		<img width="250" src="/face.png" alt="顔" />
 
-		<div id="footer-ad">
-			<script
-				is:inline
-				async
-				src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6914867149724943"
-				crossorigin="anonymous"></script>
-			<!-- フッター -->
-			<ins
-				class="adsbygoogle"
-				style="display:block"
-				data-ad-client="ca-pub-6914867149724943"
-				data-ad-slot="4538234242"
-				data-ad-format="auto"
-				data-full-width-responsive="true"></ins>
-			<script is:inline>
-				// prettier-ignore
-				(adsbygoogle = window.adsbygoogle || []).push({});
-			</script>
-		</div>
+		<style lang="scss">
+			:global(*) {
+				font-family: "Noto Sans JP", sans-serif;
+			}
 
-		<style>
+			html {
+				overflow: hidden;
+			}
+
 			body {
-				padding: 5px;
+				background-color: #eeeeee;
+				overflow-y: scroll;
+			}
+
+			header {
+				padding: 40px 0;
 			}
 
 			#title-link {
 				display: table;
 				color: inherit;
 				text-decoration: none;
-			}
-
-			#title-link:hover {
-				text-decoration: underline;
+				margin: 0 auto;
 			}
 
 			#title {
-				font-size: 32px;
+				font-size: 25px;
+				color: #616161;
+				font-weight: 300;
 			}
 
 			#main {
-				display: flex;
-				padding: 30px 0;
-			}
-
-			#content {
-				width: calc(100% - 300px);
-			}
-
-			#ad {
-				width: 300px;
-			}
-
-			@media (max-width: 850px) {
-				#content {
-					width: 100%;
-				}
-
-				#ad {
-					display: none;
-				}
+				padding: 0 20px;
 			}
 
 			footer {
-				display: flex;
-				flex-direction: column;
-				flex-wrap: wrap;
-				align-items: start;
-			}
+				text-align: center;
+				padding: 60px 0;
 
-			#footer-ad,
-			#footer-ad > ins,
-			#footer-ad > ins > :global(div),
-			#footer-ad > ins > :global(div > iframe) {
-				width: 100% !important;
+				#copy {
+					display: inline-block;
+					color: #616161;
+					font-weight: 300;
+				}
 			}
 		</style>
 	</body>
