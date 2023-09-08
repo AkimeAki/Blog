@@ -10,7 +10,7 @@ const { title } = Astro.props;
 const serviceTitle = "彩季のBlogです。";
 const pageTitle = title === undefined ? serviceTitle : `${title} | ${serviceTitle}`;
 
-const path = Astro.url.pathname.slice(1).slice(0, -1);
+const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
 ---
 
 <!DOCTYPE html>
