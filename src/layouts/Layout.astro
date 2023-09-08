@@ -9,6 +9,8 @@ interface Props {
 const { title } = Astro.props;
 const serviceTitle = "彩季のBlogです。";
 const pageTitle = title === undefined ? serviceTitle : `${title} | ${serviceTitle}`;
+
+const path = Astro.url.pathname.slice(1).slice(0, -1);
 ---
 
 <!DOCTYPE html>
@@ -19,6 +21,7 @@ const pageTitle = title === undefined ? serviceTitle : `${title} | ${serviceTitl
 		<meta name="description" content="彩季のブログです。" />
 		<meta name="format-detection" content="email=no,telephone=no,address=no" />
 		<meta name="author" content="彩季" />
+		<link rel="canonical" href={`https://blog.aki.wtf/${path}`} />
 		<!-- Google Tag Manager -->
 		<script is:inline>
 			// prettier-ignore
@@ -111,5 +114,12 @@ const pageTitle = title === undefined ? serviceTitle : `${title} | ${serviceTitl
 				}
 			}
 		</style>
+		<script>
+			if (import.meta.env.DEV !== undefined && !import.meta.env.DEV) {
+				if (window.location.hostname !== "blog.aki.wtf") {
+					window.location.href = `https://blog.aki.wtf${window.location.pathname}${window.location.search}${window.location.hash}`;
+				}
+			}
+		</script>
 	</body>
 </html>
