@@ -124,7 +124,7 @@ const path = Astro.url.pathname.replace(/^\//, "").replace(/\/$/, "");
 
 			if (window.location.pathname !== "/" && /.*\/$/.test(window.location.pathname)) {
 				// prettier-ignore
-				window.location.href = `${window.location.pathname.replace(/^\//, "")}${window.location.search}${window.location.hash}`;
+				window.location.href = `${window.location.pathname.replace(/\/$/, "")}${window.location.search}${window.location.hash}`;
 			}
 
 			if (/.*\/index\.html$/.test(window.location.pathname)) {
