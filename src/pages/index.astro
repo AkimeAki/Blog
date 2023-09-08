@@ -12,8 +12,8 @@ const posts = await getListContents<Blog>("blogs", { fields: ["id", "title", "ta
 		{
 			posts.contents.map((post) => (
 				<div class="post-card">
-					<time class="post-date" datetime={post.createdAt}>
-						{formatDate(post.createdAt)}
+					<time class="post-date" datetime={post.publishedAt ?? post.createdAt}>
+						{formatDate(post.publishedAt ?? post.createdAt)}
 					</time>
 					<div>
 						<h2 class="post-title">{post.title}</h2>

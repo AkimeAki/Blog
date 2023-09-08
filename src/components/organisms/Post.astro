@@ -31,7 +31,7 @@ if (post.content !== undefined) {
 <h2 class="post-title">{post.title}</h2>
 
 <div class="post-head">
-	<time datetime={post.createdAt}>{formatDate(post.createdAt)}</time>
+	<time datetime={post.publishedAt ?? post.createdAt}>{formatDate(post.publishedAt ?? post.createdAt)}</time>
 	<div class="post-tags">
 		{
 			post.tags.map((tag) => (
