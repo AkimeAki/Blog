@@ -10,7 +10,7 @@ const { title } = Astro.props;
 const serviceTitle = "彩季のBlogです。";
 const pageTitle = title === undefined ? serviceTitle : `${title} | ${serviceTitle}`;
 
-const path = Astro.url.pathname.replace(/^\//, "").replace(/\/$/, "");
+const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
 ---
 
 <!DOCTYPE html>
@@ -123,19 +123,12 @@ const path = Astro.url.pathname.replace(/^\//, "").replace(/\/$/, "");
 			}
 
 			if (window.location.pathname !== "/") {
-				if (/.*\/index\.html$/.test(window.location.pathname)) {
-					if (window.location.pathname === "/index.html") {
-						// prettier-ignore
-						window.history.replaceState(null, null, "/");
-					} else {
-						// prettier-ignore
-						window.history.replaceState(null, null `${window.location.pathname.replace(/\/index\.html$/, "")}${window.location.search}${window.location.hash}`);
-					}
-				}
-
-				if (/.*\/$/.test(window.location.pathname)) {
+				if (window.location.pathname === "/index.html") {
 					// prettier-ignore
-					window.history.replaceState(null, null, `${window.location.pathname.replace(/\/$/, "")}${window.location.search}${window.location.hash}`);
+					window.history.replaceState(null, null, "/");
+				} else if (/.*\.html$/.test(window.location.pathname)) {
+					// prettier-ignore
+					window.history.replaceState(null, null, `${window.location.pathname.replace(/\.html$/, "")}${window.location.search}${window.location.hash}`);
 				}
 			}
 		</script>
