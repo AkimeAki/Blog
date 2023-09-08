@@ -9,5 +9,8 @@ export default defineConfig({
 	experimental: {},
 	site: "https://blog.aki.wtf",
 	trailingSlash: "never",
-	integrations: [sitemap()]
+	integrations: [sitemap()],
+	build: {
+		format: "file"
+	}
 });
