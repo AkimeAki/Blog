@@ -1,13 +1,32 @@
-<div id="disqus_thread"><span id="comment-load-text">コメントエリアロード中...</span></div>
+<div id="comment-area">
+	<div id="disqus_thread"></div>
+	<div id="comment-load">
+		<div id="comment-load-wrap">
+			<span id="comment-load-text">コメントエリアロード中...</span>
+		</div>
+	</div>
+</div>
 
 <script>
-	let executed = false;
-	const target = document.querySelector<HTMLElement>("#disqus_thread");
+	const disqus = document.querySelector<HTMLElement>("#disqus_thread");
 
 	const observer = new IntersectionObserver((entries) => {
 		entries.forEach((entry) => {
-			if (entry.isIntersecting && !executed) {
+			if (entry.isIntersecting) {
 				observer.disconnect();
+
+				window.setTimeout(() => {
+					const load = document.querySelector<HTMLElement>("#comment-load");
+					if (load !== null) {
+						load.remove();
+					}
+
+					if (disqus !== null) {
+						disqus.style.opacity = "1";
+						disqus.style.userSelect = "auto";
+						disqus.style.pointerEvents = "auto";
+					}
+				}, 1500);
 
 				/**
 				 *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
@@ -31,8 +50,8 @@
 		});
 	});
 
-	if (target !== null) {
-		observer.observe(target);
+	if (disqus !== null) {
+		observer.observe(disqus);
 	}
 </script>
 
@@ -40,14 +59,48 @@
 	Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
 </noscript>
 
-<style>
-	#disqus_thread {
+<style lang="scss">
+	#comment-area {
+		position: relative;
 		width: 100%;
+		min-height: 100px;
 		max-width: 600px;
 		margin: 0 auto;
 
-		#comment-load-text {
+		#disqus_thread {
+			width: 100%;
+			opacity: 0;
+			user-select: none;
+			pointer-events: none;
+			transition-duration: 200ms;
+			transition-property: opacity, user-select, pointer-events;
+		}
+
+		#comment-load {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-color: #cccccc;
 			font-weight: bold;
+			text-align: center;
+			z-index: 1;
+
+			#comment-load-wrap {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100px;
+
+				#comment-load-text {
+					position: absolute;
+					top: 50%;
+					left: 50%;
+					transform: translate(-50%, -50%);
+				}
+			}
 		}
 	}
 </style>
