@@ -1,5 +1,6 @@
 ---
 import "aki-reset-css";
+import GoogleFont from "@/components/atoms/GoogleFont.astro";
 
 interface Props {
 	title?: string | undefined;
@@ -34,24 +35,10 @@ const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
 		<link rel="icon" href="/favicon.ico" />
 		<title>{pageTitle}</title>
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link
-			rel="preload"
-			as="style"
-			href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;200;300;400;500;600;700;800;900&display=swap"
+		<GoogleFont
+			link="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;200;300;400;500;600;700;800;900"
 		/>
-		<link
-			rel="stylesheet"
-			href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;200;300;400;500;600;700;800;900&display=swap"
-			media="print"
-			onload="this.media='all'"
-		/>
-		<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap" />
-		<link
-			rel="stylesheet"
-			href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap"
-			media="print"
-			onload="this.media='all'"
-		/>
+		<GoogleFont link="https://fonts.googleapis.com/css2?family=Source+Code+Pro" />
 		<link rel="sitemap" href="/sitemap-index.xml" />
 	</head>
 	<body>
