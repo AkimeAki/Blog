@@ -17,7 +17,6 @@ const posts = await getListContents<Blog>("blogs", { fields: ["id", "title", "ta
 					</time>
 					<div>
 						<h2 class="post-title">{post.title}</h2>
-						<a class="post-link" href={`/${post.id}`} />
 					</div>
 					<div class="post-tags">
 						{post.tags.map((tag) => {
@@ -33,6 +32,7 @@ const posts = await getListContents<Blog>("blogs", { fields: ["id", "title", "ta
 										}?fm=webp&w=${size + 10}`}
 										width={size}
 										height={size}
+										alt={`${tag.name}のアイコン`}
 									/>
 									<span class="post-tag-name">{tag.name}</span>
 								</div>
@@ -52,10 +52,12 @@ const posts = await getListContents<Blog>("blogs", { fields: ["id", "title", "ta
 									}?fm=webp&w=${size + 10}`}
 									width={size}
 									height={size}
+									alt={`${tag.name}のアイコン`}
 								/>
 							);
 						})}
 					</div>
+					<a class="post-link" href={`/${post.id}`} aria-label={`記事『${post.title}』を読む`} />
 				</div>
 			))
 		}
@@ -161,15 +163,15 @@ const posts = await getListContents<Blog>("blogs", { fields: ["id", "title", "ta
 					opacity: 1;
 				}
 			}
-		}
 
-		.post-link {
-			display: block;
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
+			.post-link {
+				display: block;
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+			}
 		}
 	}
 </style>
