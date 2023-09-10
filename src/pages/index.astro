@@ -171,50 +171,42 @@ const posts = await getListContents<Blog>("blogs", { fields: ["id", "title", "ta
 		return element.clientWidth < element.clientHeight ? element.clientHeight : element.clientWidth;
 	};
 
-	const viewTagIcon = () => {
-		const cards = document.querySelectorAll<HTMLElement>(".post-card");
-		cards.forEach((card) => {
-			const tags = card.querySelectorAll<HTMLImageElement>(".post-tag-icons > .post-tag-icon");
-			let size = setSize(card);
-			window.addEventListener(
-				"resize",
-				() => {
-					size = setSize(card);
-				},
-				false
-			);
+	const cards = document.querySelectorAll<HTMLElement>(".post-card");
+	cards.forEach((card) => {
+		const tags = card.querySelectorAll<HTMLImageElement>(".post-tag-icons > .post-tag-icon");
+		let size = setSize(card);
+		window.addEventListener(
+			"resize",
+			() => {
+				size = setSize(card);
+			},
+			false
+		);
 
-			const isTouchDevice =
-				"ontouchstart" in window ||
-				navigator.maxTouchPoints > 0 ||
-				window.matchMedia("(pointer:coarse)").matches;
-			const postTagIcons = card.querySelector<HTMLElement>(".post-tag-icons");
-			if (postTagIcons !== null) {
-				postTagIcons.dataset.isTouchDevice = String(isTouchDevice);
-			}
-			const randomRadList = [45, 135, 225, 315];
-			const randomRad = randomRadList[Math.floor(Math.random() * randomRadList.length)] ?? 45;
-			card.addEventListener("mouseover", () => {
-				tags.forEach((tag, index) => {
-					const degree = (360 / tags.length) * (index + 1) + randomRad;
-					const rad = degree * (1 / 180) * Math.PI;
-					const x = Math.cos(rad) * (size / 2 + tag.clientWidth / 2);
-					const y = Math.sin(rad) * (size / 2 + tag.clientWidth / 2);
-					tag.style.top = `calc(50% + ${y}px)`;
-					tag.style.left = `calc(50% + ${x}px)`;
-				});
-			});
-
-			card.addEventListener("mouseleave", () => {
-				tags.forEach((tag) => {
-					tag.style.top = "";
-					tag.style.left = "";
-				});
+		const isTouchDevice =
+			"ontouchstart" in window || navigator.maxTouchPoints > 0 || window.matchMedia("(pointer:coarse)").matches;
+		const postTagIcons = card.querySelector<HTMLElement>(".post-tag-icons");
+		if (postTagIcons !== null) {
+			postTagIcons.dataset.isTouchDevice = String(isTouchDevice);
+		}
+		const randomRadList = [45, 135, 225, 315];
+		const randomRad = randomRadList[Math.floor(Math.random() * randomRadList.length)] ?? 45;
+		card.addEventListener("mouseover", () => {
+			tags.forEach((tag, index) => {
+				const degree = (360 / tags.length) * (index + 1) + randomRad;
+				const rad = degree * (1 / 180) * Math.PI;
+				const x = Math.cos(rad) * (size / 2 + tag.clientWidth / 2);
+				const y = Math.sin(rad) * (size / 2 + tag.clientWidth / 2);
+				tag.style.top = `calc(50% + ${y}px)`;
+				tag.style.left = `calc(50% + ${x}px)`;
 			});
 		});
-	};
 
-	viewTagIcon();
-
-	document.addEventListener("astro:after-swap", viewTagIcon);
+		card.addEventListener("mouseleave", () => {
+			tags.forEach((tag) => {
+				tag.style.top = "";
+				tag.style.left = "";
+			});
+		});
+	});
 </script>

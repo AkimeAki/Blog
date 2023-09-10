@@ -1,5 +1,4 @@
 ---
-import { ViewTransitions } from "astro:transitions";
 import "aki-reset-css";
 
 interface Props {
@@ -14,7 +13,7 @@ const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
 ---
 
 <!doctype html>
-<html lang="ja" transition:animate="none">
+<html lang="ja">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
@@ -34,11 +33,6 @@ const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
 		<!-- End Google Tag Manager -->
 		<link rel="icon" href="/favicon.ico" />
 		<title>{pageTitle}</title>
-		<script
-			async
-			src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6914867149724943"
-			crossorigin="anonymous"
-			is:inline></script>
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
 			rel="preload"
@@ -59,7 +53,6 @@ const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
 			onload="this.media='all'"
 		/>
 		<link rel="sitemap" href="/sitemap-index.xml" />
-		<ViewTransitions />
 	</head>
 	<body>
 		<!-- Google Tag Manager (noscript) -->
