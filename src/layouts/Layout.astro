@@ -118,10 +118,10 @@ const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
 			if (window.location.pathname !== "/") {
 				if (window.location.pathname === "/index.html") {
 					// prettier-ignore
-					window.history.replaceState(null, null, "/");
+					window.location.href = "/";
 				} else if (/.*\.html$/.test(window.location.pathname)) {
 					// prettier-ignore
-					window.history.replaceState(null, null, `${window.location.pathname.replace(/\.html$/, "")}${window.location.search}${window.location.hash}`);
+					window.location.href = `${window.location.pathname.replace(/\.html$/, "")}${window.location.search}${window.location.hash}`;
 				}
 			}
 		</script>
