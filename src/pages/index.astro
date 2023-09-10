@@ -20,29 +20,41 @@ const posts = await getListContents<Blog>("blogs", { fields: ["id", "title", "ta
 						<a class="post-link" href={`/${post.id}`} />
 					</div>
 					<div class="post-tags">
-						{post.tags.map((tag) => (
-							<div class="post-tag">
+						{post.tags.map((tag) => {
+							const size = 15;
+
+							return (
+								<div class="post-tag">
+									<img
+										class="post-tag-icon"
+										src={`${
+											tag.icon?.url ??
+											"https://images.microcms-assets.io/assets/037528aa59e842fb8f9d8b5a23a3726c/0bac6ea3c7414ee9bd7b5476b380e87f/Tag.png"
+										}?fm=webp&w=${size + 10}`}
+										width={size}
+										height={size}
+									/>
+									<span class="post-tag-name">{tag.name}</span>
+								</div>
+							);
+						})}
+					</div>
+					<div class="post-tag-icons">
+						{post.tags.map((tag) => {
+							const size = 50;
+
+							return (
 								<img
 									class="post-tag-icon"
 									src={`${
 										tag.icon?.url ??
 										"https://images.microcms-assets.io/assets/037528aa59e842fb8f9d8b5a23a3726c/0bac6ea3c7414ee9bd7b5476b380e87f/Tag.png"
-									}?fm=webp&w=50`}
+									}?fm=webp&w=${size + 10}`}
+									width={size}
+									height={size}
 								/>
-								<span class="post-tag-name">{tag.name}</span>
-							</div>
-						))}
-					</div>
-					<div class="post-tag-icons">
-						{post.tags.map((tag) => (
-							<img
-								class="post-tag-icon"
-								src={`${
-									tag.icon?.url ??
-									"https://images.microcms-assets.io/assets/037528aa59e842fb8f9d8b5a23a3726c/0bac6ea3c7414ee9bd7b5476b380e87f/Tag.png"
-								}?fm=webp&w=50`}
-							/>
-						))}
+							);
+						})}
 					</div>
 				</div>
 			))
@@ -101,11 +113,11 @@ const posts = await getListContents<Blog>("blogs", { fields: ["id", "title", "ta
 				position: absolute;
 				top: 50%;
 				left: 50%;
+				width: 50px;
+				height: 50px;
 				transform: translate(-50%, -50%);
 				user-select: none;
 				pointer-events: none;
-				width: 50px;
-				height: 50px;
 				opacity: 0;
 				z-index: 1;
 				transition-duration: 500ms;
@@ -137,10 +149,6 @@ const posts = await getListContents<Blog>("blogs", { fields: ["id", "title", "ta
 					gap: 5px;
 					flex-wrap: wrap;
 					align-items: center;
-
-					.post-tag-icon {
-						width: 15px;
-					}
 
 					.post-tag-name {
 						font-size: 10px;

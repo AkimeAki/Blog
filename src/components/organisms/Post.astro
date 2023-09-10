@@ -34,18 +34,24 @@ if (post.content !== undefined) {
 	<time datetime={post.publishedAt ?? post.createdAt}>{formatDate(post.publishedAt ?? post.createdAt)}</time>
 	<div class="post-tags">
 		{
-			post.tags.map((tag) => (
-				<div class="post-tag">
-					<img
-						class="post-tag-icon"
-						src={`${
-							tag.icon?.url ??
-							"https://images.microcms-assets.io/assets/037528aa59e842fb8f9d8b5a23a3726c/0bac6ea3c7414ee9bd7b5476b380e87f/Tag.png"
-						}?fm=webp&w=50`}
-					/>
-					<span class="post-tag-name">{tag.name}</span>
-				</div>
-			))
+			post.tags.map((tag) => {
+				const size = 30;
+
+				return (
+					<div class="post-tag">
+						<img
+							class="post-tag-icon"
+							src={`${
+								tag.icon?.url ??
+								"https://images.microcms-assets.io/assets/037528aa59e842fb8f9d8b5a23a3726c/0bac6ea3c7414ee9bd7b5476b380e87f/Tag.png"
+							}?fm=webp&w=${size + 10}`}
+							width={size}
+							height={size}
+						/>
+						<span class="post-tag-name">{tag.name}</span>
+					</div>
+				);
+			})
 		}
 	</div>
 </div>
