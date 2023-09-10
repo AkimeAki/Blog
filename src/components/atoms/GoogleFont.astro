@@ -2,5 +2,8 @@
 const { link } = Astro.props;
 ---
 
-<link rel="preload" as="style" href={`${link}&display=swap`} />
-<link rel="stylesheet" href={`${link}&display=swap`} media="print" onload="this.media='all'" />
+<script define:vars={{ link }}>
+	window.addEventListener("load", () => {
+		document.head.insertAdjacentHTML("beforeEnd", `<link rel="stylesheet" href="${link}&display=swap" />`);
+	});
+</script>
