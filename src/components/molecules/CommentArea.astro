@@ -10,23 +10,10 @@
 <script>
 	const disqus = document.querySelector<HTMLElement>("#disqus_thread");
 
-	const observer = new IntersectionObserver((entries) => {
+	const scrollObserver = new IntersectionObserver((entries) => {
 		entries.forEach((entry) => {
 			if (entry.isIntersecting) {
-				observer.disconnect();
-
-				window.setTimeout(() => {
-					const load = document.querySelector<HTMLElement>("#comment-load");
-					if (load !== null) {
-						load.remove();
-					}
-
-					if (disqus !== null) {
-						disqus.style.opacity = "1";
-						disqus.style.userSelect = "auto";
-						disqus.style.pointerEvents = "auto";
-					}
-				}, 1500);
+				scrollObserver.disconnect();
 
 				/**
 				 *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
@@ -50,8 +37,28 @@
 		});
 	});
 
+	const loadObserver = new ResizeObserver(() => {
+		if (disqus !== null) {
+			if (disqus.clientHeight > 300) {
+				window.setTimeout(() => {
+					const load = document.querySelector<HTMLElement>("#comment-load");
+					if (load !== null) {
+						load.style.opacity = "0";
+						load.style.userSelect = "none";
+						load.style.pointerEvents = "none";
+					}
+
+					disqus.style.opacity = "1";
+					disqus.style.userSelect = "auto";
+					disqus.style.pointerEvents = "auto";
+				}, 500);
+			}
+		}
+	});
+
 	if (disqus !== null) {
-		observer.observe(disqus);
+		scrollObserver.observe(disqus);
+		loadObserver.observe(disqus);
 	}
 </script>
 
@@ -72,7 +79,7 @@
 			opacity: 0;
 			user-select: none;
 			pointer-events: none;
-			transition-duration: 200ms;
+			transition-duration: 400ms;
 			transition-property: opacity, user-select, pointer-events;
 		}
 
@@ -84,6 +91,8 @@
 			height: 100%;
 			background-color: #cccccc;
 			z-index: 1;
+			transition-duration: 400ms;
+			transition-property: opacity, user-select, pointer-events;
 
 			#comment-load-wrap {
 				position: absolute;
