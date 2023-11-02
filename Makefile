@@ -4,17 +4,13 @@ ps:
 
 .PHONY: コンテナ起動
 init:
-	@make down
+	@make delete
 	docker compose build --no-cache
 	docker compose up -d
 
 .PHONY: コンテナ削除
-down:
+delete:
 	docker compose down --rmi all --volumes --remove-orphans
-
-.PHONY: パッケージインストール
-package-install:
-	docker compose exec -it app npm ci
 
 .PHONY: コンテナにアタッチ
 attach:

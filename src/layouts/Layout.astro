@@ -107,23 +107,5 @@ const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
 				}
 			}
 		</style>
-		<script>
-			if (import.meta.env.DEV !== undefined && !import.meta.env.DEV) {
-				if (window.location.hostname !== "blog.aki.wtf") {
-					// prettier-ignore
-					window.location.href = `https://blog.aki.wtf${window.location.pathname}${window.location.search}${window.location.hash}`;
-				}
-			}
-
-			if (window.location.pathname !== "/") {
-				if (window.location.pathname === "/index.html") {
-					// prettier-ignore
-					window.location.href = "/";
-				} else if (/.*\.html$/.test(window.location.pathname)) {
-					// prettier-ignore
-					window.location.href = `${window.location.pathname.replace(/\.html$/, "")}${window.location.search}${window.location.hash}`;
-				}
-			}
-		</script>
 	</body>
 </html>
