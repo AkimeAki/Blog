@@ -122,5 +122,27 @@ if (post.content !== undefined) {
 			tab-size: 4;
 			-moz-tab-size: 4;
 		}
+
+		& :global(div[data-filename]) {
+			position: relative;
+			padding-top: 30px;
+
+			&:after {
+				position: absolute;
+				content: attr(data-filename);
+				top: 0;
+				left: 0;
+				background-color: white;
+				border-top-right-radius: 7px;
+				border-top-left-radius: 7px;
+				padding: 3px 15px;
+				transform: translateY(-1px);
+				font-size: 14px;
+				border-top: 2px solid #2e2e2e;
+				border-left: 2px solid #2e2e2e;
+				border-right: 2px solid #2e2e2e;
+				font-weight: 700;
+			}
+		}
 	}
 </style>

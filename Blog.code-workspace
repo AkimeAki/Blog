@@ -52,18 +52,14 @@
 		"[css]": {
 			"editor.formatOnSave": true,
 			"editor.defaultFormatter": "esbenp.prettier-vscode"
-		},
-		"cSpell.words": [
-			"Akime",
-			"astro",
-			"astrojs",
-			"dbaeumer",
-			"dockercompose",
-			"esbenp",
-			"Kaku",
-			"MICROCMS",
-			"preact",
-			"tsconfigs"
+		}
+	},
+	"extensions": {
+		"recommendations": [
+			"astro-build.astro-vscode",
+			"dbaeumer.vscode-eslint",
+			"esbenp.prettier-vscode",
+			"EditorConfig.EditorConfig"
 		]
 	}
 }

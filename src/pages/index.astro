@@ -5,6 +5,22 @@ import { getListContents } from "@/lib/microcms";
 import type { Blog } from "@/lib/microcms";
 
 const posts = await getListContents<Blog>("blogs", { fields: ["id", "title", "tags", "publishedAt", "createdAt"] });
+
+const postIcons: { id: string; urls: string[] }[] = [];
+posts.contents.forEach((post) => {
+	const urls: string[] = [];
+
+	post.tags.forEach((tag) => {
+		if (tag.icon !== undefined) {
+			urls.push(tag.icon.url);
+		}
+	});
+
+	postIcons.push({
+		id: post.id,
+		urls
+	});
+});
 ---
 
 <Layout>
@@ -39,25 +55,12 @@ const posts = await getListContents<Blog>("blogs", { fields: ["id", "title", "ta
 							);
 						})}
 					</div>
-					<div class="post-tag-icons">
-						{post.tags.map((tag) => {
-							const size = 50;
-
-							return (
-								<img
-									class="post-tag-icon"
-									src={`${
-										tag.icon?.url ??
-										"https://images.microcms-assets.io/assets/037528aa59e842fb8f9d8b5a23a3726c/0bac6ea3c7414ee9bd7b5476b380e87f/Tag.png"
-									}?fm=webp&w=${size + 10}`}
-									width={size}
-									height={size}
-									alt={`${tag.name}のアイコン`}
-								/>
-							);
-						})}
-					</div>
-					<a class="post-link" href={`/${post.id}`} aria-label={`記事『${post.title}』を読む`} />
+					<a
+						class="post-link"
+						href={`/${post.id}`}
+						data-id={post.id}
+						aria-label={`記事『${post.title}』を読む`}
+					/>
 				</div>
 			))
 		}
@@ -111,34 +114,6 @@ const posts = await getListContents<Blog>("blogs", { fields: ["id", "title", "ta
 				font-size: 15px;
 			}
 
-			.post-tag-icons {
-				position: absolute;
-				top: 50%;
-				left: 50%;
-				width: 50px;
-				height: 50px;
-				transform: translate(-50%, -50%);
-				user-select: none;
-				pointer-events: none;
-				opacity: 0;
-				z-index: 1;
-				transition-duration: 500ms;
-				transition-property: opacity;
-
-				.post-tag-icon {
-					position: absolute;
-					top: 50%;
-					left: 50%;
-					width: 100%;
-					height: 100%;
-					filter: drop-shadow(0 0 3px #424242);
-					transform: translate(-50%, -50%);
-					transition-duration: 500ms;
-					transition-property: top, left;
-					transition-timing-function: cubic-bezier(0.18, 0.89, 0.32, 1.28);
-				}
-			}
-
 			.post-tags {
 				display: flex;
 				gap: 5px;
@@ -171,52 +146,66 @@ const posts = await getListContents<Blog>("blogs", { fields: ["id", "title", "ta
 				left: 0;
 				width: 100%;
 				height: 100%;
+
+				:global(.flow-post-icon) {
+					position: absolute;
+					width: 40px;
+					aspect-ratio: 1/1;
+					top: 90%;
+					animation-name: fadeIn;
+					animation-duration: 3000ms;
+					animation-iteration-count: 1;
+					animation-timing-function: ease-out;
+					opacity: 0;
+					user-select: none;
+					pointer-events: none;
+
+					@keyframes fadeIn {
+						50% {
+							transform: translateX(50%);
+							opacity: 1;
+						}
+
+						100% {
+							opacity: 0;
+							top: -50%;
+							transform: translateX(40%);
+						}
+					}
+				}
 			}
 		}
 	}
 </style>
 
-<script>
-	const setSize = (element: HTMLElement): number => {
-		return element.clientWidth < element.clientHeight ? element.clientHeight : element.clientWidth;
-	};
-
-	const cards = document.querySelectorAll<HTMLElement>(".post-card");
-	cards.forEach((card) => {
-		const tags = card.querySelectorAll<HTMLImageElement>(".post-tag-icons > .post-tag-icon");
-		let size = setSize(card);
-		window.addEventListener(
-			"resize",
+<script define:vars={{ postIcons }}>
+	const postLinks = document.querySelectorAll(".post-link");
+	postLinks.forEach((postLink) => {
+		postLink.addEventListener(
+			"mouseover",
 			() => {
-				size = setSize(card);
+				postIcons.forEach((postIcon) => {
+					if (postIcon.id === postLink.dataset.id) {
+						postIcon.urls
+							.sort(() => Math.random() - 0.5)
+							.forEach((url) => {
+								const delay = Math.random() * 2001;
+								const x = Math.random() * postLink.clientWidth + 1 + "px";
+								setTimeout(() => {
+									const icon = document.createElement("img");
+									icon.src = url;
+									icon.classList.add("flow-post-icon");
+									icon.style.left = x;
+									postLink.appendChild(icon);
+									setTimeout(() => {
+										icon.remove();
+									}, 3001);
+								}, delay);
+							});
+					}
+				});
 			},
 			false
 		);
-
-		const isTouchDevice =
-			"ontouchstart" in window || navigator.maxTouchPoints > 0 || window.matchMedia("(pointer:coarse)").matches;
-		const postTagIcons = card.querySelector<HTMLElement>(".post-tag-icons");
-		if (postTagIcons !== null) {
-			postTagIcons.dataset.isTouchDevice = String(isTouchDevice);
-		}
-		const randomRadList = [45, 135, 225, 315];
-		const randomRad = randomRadList[Math.floor(Math.random() * randomRadList.length)] ?? 45;
-		card.addEventListener("mouseover", () => {
-			tags.forEach((tag, index) => {
-				const degree = (360 / tags.length) * (index + 1) + randomRad;
-				const rad = degree * (1 / 180) * Math.PI;
-				const x = Math.cos(rad) * (size / 2 + tag.clientWidth / 2);
-				const y = Math.sin(rad) * (size / 2 + tag.clientWidth / 2);
-				tag.style.top = `calc(50% + ${y}px)`;
-				tag.style.left = `calc(50% + ${x}px)`;
-			});
-		});
-
-		card.addEventListener("mouseleave", () => {
-			tags.forEach((tag) => {
-				tag.style.top = "";
-				tag.style.left = "";
-			});
-		});
 	});
 </script>
