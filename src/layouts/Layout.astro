@@ -54,6 +54,10 @@ const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
 		<header>
 			<a id="title-link" href="/"><h1 id="title">This website is Aki's blog.</h1></a>
 		</header>
+		<nav>
+			<a class="nav-link" href="https://github.com/AkimeAki" target="_blank">GitHub</a>
+			<a class="nav-link" href="https://aki.wtf/" target="_blank">ポートフォリオ</a>
+		</nav>
 		<main id="main">
 			<slot />
 		</main>
@@ -162,19 +166,35 @@ const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
 			}
 
 			header {
-				padding: 40px 0;
-			}
-
-			#title-link {
-				display: table;
-				color: inherit;
-				text-decoration: none;
+				padding: 40px 0 0 0;
+				max-width: 1200px;
 				margin: 0 auto;
+				text-align: center;
+
+				#title-link {
+					color: inherit;
+					text-decoration: none;
+
+					#title {
+						display: inline-block;
+						font-size: 25px;
+						font-weight: 300;
+					}
+				}
 			}
 
-			#title {
-				font-size: 25px;
-				font-weight: 300;
+			nav {
+				display: flex;
+				gap: 20px;
+				padding: 0 50px 40px 50px;
+				max-width: 1240px;
+				margin: 0 auto;
+				justify-content: space-between;
+
+				.nav-link {
+					text-decoration: none;
+					color: #616161;
+				}
 			}
 
 			#main {
