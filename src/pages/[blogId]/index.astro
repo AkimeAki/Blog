@@ -3,6 +3,7 @@ import Layout from "@/layouts/Layout.astro";
 import Post from "@/components/organisms/Post.astro";
 import CommentArea from "@/components/molecules/CommentArea.astro";
 import { getContentsDetail, getListContents } from "@/lib/microcms";
+import cheerio from "cheerio";
 import type { Blog } from "@/lib/microcms";
 
 interface pathType {
@@ -26,9 +27,12 @@ if (blogId === undefined) {
 }
 
 const blog = await getContentsDetail<Blog>("blogs", blogId);
+
+const $ = cheerio.load(blog.content ?? "");
+const description = $.text().substring(0, 80) + "...";
 ---
 
-<Layout title={blog.title}>
+<Layout title={blog.title} ogType="article" description={description}>
 	<Post post={blog} />
 	<CommentArea />
 </Layout>
