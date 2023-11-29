@@ -34,7 +34,7 @@ const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
 		<!-- End Google Tag Manager -->
 		<meta property="og:url" content={`https://blog.aki.wtf/${path}`} />
 		<meta property="og:type" content={ogType} />
-		<meta property="og:title" content={pageTitle} />
+		<meta property="og:title" content={title ?? serviceTitle} />
 		<meta property="og:description" content={description} />
 		<meta property="og:site_name" content="彩季のBlogです。" />
 		<meta property="og:image" content={ogImage} />
