@@ -9,6 +9,11 @@
 		"prettier.documentSelectors": ["**/*.astro"],
 		"npm.packageManager": "npm",
 		"eslint.workingDirectories": ["./"],
+		"files.readonlyInclude": {
+			"node_modules/**/*": true,
+			"dist/**/*": true,
+			".git/**/*": true
+		},
 		"[json]": {
 			"editor.formatOnSave": true,
 			"editor.defaultFormatter": "esbenp.prettier-vscode"
