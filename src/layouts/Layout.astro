@@ -1,6 +1,7 @@
 ---
+import SnsIcon from "@/components/SnsIcon.astro";
 interface Props {
-	title?: string | undefined;
+	title?: string;
 	ogType?: string;
 	description?: string;
 	ogImage?: string;
@@ -73,12 +74,24 @@ const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
 			<a class="nav-link" href="https://github.com/AkimeAki" target="_blank">GitHub</a>
 			<a class="nav-link" href="https://aki.wtf/" target="_blank">ポートフォリオ</a>
 		</nav>
+
 		<main id="main">
 			<slot />
 		</main>
+
 		<footer>
 			<span id="copy">&copy; 彩季</span>
+			<div class="footer-link">
+				<SnsIcon file="twitter" name="Twitter" href="https://twitter.com/Akime_Aki" />
+				<SnsIcon file="x" name="X" href="https://x.com/Akime_Aki" />
+				<SnsIcon
+					file="youtube"
+					name="YouTube"
+					href="https://www.youtube.com/channel/UCHV3Taosn76pn9_ip1u7Zkg"
+				/>
+			</div>
 		</footer>
+
 		<style is:global>
 			/*
 			* 初期設定
@@ -105,31 +118,6 @@ const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
 
 			:root {
 				background-color: white;
-			}
-
-			/* display */
-			head,
-			meta,
-			title,
-			link,
-			style,
-			script {
-				display: none;
-			}
-
-			html,
-			body,
-			p,
-			div,
-			article,
-			aside,
-			footer,
-			header,
-			hgroup,
-			main,
-			nav,
-			section {
-				display: block;
 			}
 
 			html,
@@ -223,6 +211,13 @@ const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
 				#copy {
 					display: inline-block;
 					font-weight: 300;
+				}
+
+				.footer-link {
+					display: flex;
+					justify-content: center;
+					padding: 20px 10px;
+					gap: 20px;
 				}
 			}
 		</style>

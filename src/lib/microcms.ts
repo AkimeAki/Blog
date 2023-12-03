@@ -15,8 +15,8 @@ const client = createClient({
 });
 
 export interface Blog {
-	title?: string;
-	content?: string;
+	title: string;
+	contents: string;
 	thumbnail?: string;
 	tags: Array<
 		{

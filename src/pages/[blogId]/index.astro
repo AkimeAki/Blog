@@ -1,7 +1,7 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import Post from "@/components/organisms/Post.astro";
-import CommentArea from "@/components/molecules/CommentArea.astro";
+import Post from "@/components/Post.astro";
+import CommentArea from "@/components/CommentArea.astro";
 import { getContentsDetail, getListContents } from "@/lib/microcms";
 import cheerio from "cheerio";
 import type { Blog } from "@/lib/microcms";
@@ -28,7 +28,7 @@ if (blogId === undefined) {
 
 const blog = await getContentsDetail<Blog>("blogs", blogId);
 
-const $ = cheerio.load(blog.content ?? "");
+const $ = cheerio.load(blog.contents);
 const description = $.text().substring(0, 80) + "...";
 ---
 

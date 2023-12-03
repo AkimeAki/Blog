@@ -12,19 +12,17 @@ interface Props {
 
 const { post } = Astro.props;
 
-let content = "";
-if (post.content !== undefined) {
-	const $ = cheerio.load(post.content);
-	$("pre code").each((_, element) => {
-		const result = hljs.highlightAuto($(element).text());
-		$(element).html(result.value);
-		$(element).addClass("hljs");
-	});
+let contents = "";
+const $ = cheerio.load(post.contents);
+$("pre code").each((_, element) => {
+	const result = hljs.highlightAuto($(element).text());
+	$(element).html(result.value);
+	$(element).addClass("hljs");
+});
 
-	const html = $("body").html();
-	if (html !== null) {
-		content = html;
-	}
+const html = $("body").html();
+if (html !== null) {
+	contents = html;
 }
 ---
 
@@ -57,7 +55,7 @@ if (post.content !== undefined) {
 	</div>
 </div>
 <article class="cms-content">
-	<div set:html={content} />
+	<div set:html={contents} />
 	<p class="comment-note">匿名でコメントできます↓<br />（メアドはいるけど、適当でOK）</p>
 </article>
 
