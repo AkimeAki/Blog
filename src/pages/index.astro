@@ -4,7 +4,9 @@ import { formatDate } from "@/lib/format-date";
 import { getListContents } from "@/lib/microcms";
 import type { Blog } from "@/lib/microcms";
 
-const posts = await getListContents<Blog>("blogs", { fields: ["id", "title", "tags", "publishedAt", "createdAt"] });
+const posts = await getListContents<Blog>("blogs", {
+	fields: ["id", "title", "tags", "publishedAt", "createdAt", "thumbnail"]
+});
 
 const postIcons: { id: string; urls: string[] }[] = [];
 posts.contents.forEach((post) => {
@@ -32,6 +34,7 @@ posts.contents.forEach((post) => {
 						{formatDate(post.publishedAt ?? post.createdAt)}
 					</time>
 					<div>
+						{post.thumbnail !== undefined && <img src={`${post.thumbnail.url}?fm=webp&w=250`} />}
 						<h2 class="post-title">{post.title}</h2>
 					</div>
 					<div class="post-tags">
@@ -119,7 +122,7 @@ posts.contents.forEach((post) => {
 				gap: 5px;
 				flex-wrap: wrap;
 				align-items: center;
-				padding-top: 10px;
+				padding-top: 30px;
 
 				.post-tag {
 					display: flex;

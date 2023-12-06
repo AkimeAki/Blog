@@ -17,7 +17,7 @@ const client = createClient({
 export interface Blog {
 	title: string;
 	contents: string;
-	thumbnail?: string;
+	thumbnail?: MicroCMSImage;
 	tags: Array<
 		{
 			name: string;
