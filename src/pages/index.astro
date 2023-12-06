@@ -34,7 +34,9 @@ posts.contents.forEach((post) => {
 						{formatDate(post.publishedAt ?? post.createdAt)}
 					</time>
 					<div>
-						{post.thumbnail !== undefined && <img src={`${post.thumbnail.url}?fm=webp&w=250`} />}
+						{post.thumbnail !== undefined && (
+							<img class="post-thumbnail" src={`${post.thumbnail.url}?fm=webp&w=600`} />
+						)}
 						<h2 class="post-title">{post.title}</h2>
 					</div>
 					<div class="post-tags">
@@ -115,6 +117,10 @@ posts.contents.forEach((post) => {
 
 			.post-title {
 				font-size: 15px;
+			}
+
+			.post-thumbnail {
+				width: 100%;
 			}
 
 			.post-tags {
