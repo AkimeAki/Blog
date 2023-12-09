@@ -57,8 +57,8 @@ if (html !== null) {
 		}
 	</div>
 </div>
-<article class="cms-content">
-	<div set:html={contents} />
+<article class="cms-contents">
+	<div class="rich-contents" set:html={contents} />
 	<p class="comment-note">匿名でコメントできます↓<br />（メアドはいるけど、適当でOK）</p>
 </article>
 
@@ -91,7 +91,7 @@ if (html !== null) {
 
 		.post-tags {
 			display: flex;
-			gap: 15px;
+			gap: 30px;
 			flex-wrap: wrap;
 			align-items: center;
 			padding: 10px 0;
@@ -103,58 +103,65 @@ if (html !== null) {
 				align-items: center;
 
 				.post-tag-icon {
-					width: 30px;
+					width: 25px;
+				}
+
+				.post-tag-name {
+					font-size: 15px;
 				}
 			}
 		}
 	}
 
-	.cms-content {
+	.cms-contents {
 		width: 100%;
 		max-width: 800px;
 		margin: 0 auto;
 
-		& :global(*) {
-			margin-bottom: 30px;
-		}
+		.rich-contents {
+			display: flex;
+			flex-direction: column;
+			gap: 30px;
 
-		& :global(h4) {
-			margin-bottom: 30px;
-			font-size: 17px;
-			text-decoration: underline;
-		}
+			& :global(h4) {
+				margin-top: 40px;
+				font-size: 17px;
+				text-decoration: underline;
+			}
 
-		& :global(h3) {
-			border-bottom: 1px solid black;
-			margin-bottom: 30px;
-			font-size: 20px;
-		}
+			& :global(h3) {
+				border-bottom: 1px solid black;
+				margin-top: 40px;
+				font-size: 20px;
+			}
 
-		& :global(pre > code),
-		& :global(pre > code *) {
-			font-family: "Source Code Pro", monospace;
-			tab-size: 4;
-			-moz-tab-size: 4;
-		}
+			& :global(pre > code),
+			& :global(pre > code *) {
+				font-family: "Source Code Pro", monospace;
+				tab-size: 4;
+				-moz-tab-size: 4;
+				font-size: 13px;
+			}
 
-		& :global(div[data-filename]) {
-			position: relative;
-			padding-top: 30px;
+			& :global(div[data-filename]) {
+				position: relative;
+				padding-top: 30px;
 
-			&:after {
-				position: absolute;
-				content: attr(data-filename);
-				top: 0;
-				left: 0;
-				background-color: white;
-				border-top-right-radius: 7px;
-				border-top-left-radius: 7px;
-				padding: 3px 15px;
-				font-size: 14px;
-				border-top: 2px solid #2e2e2e;
-				border-left: 2px solid #2e2e2e;
-				border-right: 2px solid #2e2e2e;
-				font-weight: 700;
+				&:after {
+					position: absolute;
+					content: attr(data-filename);
+					top: 0;
+					left: 0;
+					background-color: white;
+					border-top-right-radius: 7px;
+					border-top-left-radius: 7px;
+					padding: 3px 15px;
+					font-size: 14px;
+					border-top: 2px solid #2e2e2e;
+					border-left: 2px solid #2e2e2e;
+					border-right: 2px solid #2e2e2e;
+					font-weight: 700;
+				}
 			}
 		}
 	}
