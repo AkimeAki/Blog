@@ -5,9 +5,16 @@ interface Props {
 	ogType?: string;
 	description?: string;
 	ogImage?: string;
+	notFound?: boolean;
 }
 
-const { title, ogType = "article", description = "彩季のブログです。", ogImage = "/default-ogp.png" } = Astro.props;
+const {
+	title,
+	ogType = "article",
+	description = "彩季のブログです。",
+	ogImage = "/default-ogp.png",
+	notFound = false
+} = Astro.props;
 const serviceTitle = "彩季のBlogです。";
 const pageTitle = title === undefined ? serviceTitle : `${title} | ${serviceTitle}`;
 
@@ -22,7 +29,7 @@ const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
 		<meta name="description" content={description} />
 		<meta name="format-detection" content="email=no,telephone=no,address=no" />
 		<meta name="author" content="彩季" />
-		<link rel="canonical" href={`https://blog.aki.wtf/${path}`} />
+		{!notFound && <link rel="canonical" href={`https://blog.aki.wtf/${path}`} />}
 		<!-- Google Tag Manager -->
 		<script is:inline>
 			// prettier-ignore

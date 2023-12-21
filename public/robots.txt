@@ -2,4 +2,5 @@ User-agent: *
 Allow: /
 Disallow: /*/
 Disallow: /*.html
+Disallow: /404
 Sitemap: https://blog.aki.wtf/sitemap-index.xml
