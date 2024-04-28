@@ -1,5 +1,7 @@
 ---
 import SnsIcon from "@/components/SnsIcon.astro";
+import "@/global.css";
+
 interface Props {
 	title?: string;
 	ogType?: string;
@@ -11,11 +13,11 @@ interface Props {
 const {
 	title,
 	ogType = "article",
-	description = "彩季のブログです。",
+	description = "エンジニアがちまちま書いてるブログ",
 	ogImage = "/default-ogp.png",
 	notFound = false
 } = Astro.props;
-const serviceTitle = "彩季のBlogです。";
+const serviceTitle = "孅いエンジニアブログ";
 const pageTitle = title === undefined ? serviceTitle : `${title} | ${serviceTitle}`;
 
 const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
@@ -42,9 +44,9 @@ const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
 		<!-- End Google Tag Manager -->
 		<meta property="og:url" content={`https://blog.aki.wtf/${path}`} />
 		<meta property="og:type" content={ogType} />
-		<meta property="og:title" content={title ?? serviceTitle} />
+		<meta property="og:title" content={pageTitle} />
 		<meta property="og:description" content={description} />
-		<meta property="og:site_name" content="彩季のBlogです。" />
+		<meta property="og:site_name" content={serviceTitle} />
 		<meta property="og:image" content={ogImage} />
 		<meta name="twitter:card" content={ogImage === "/default-ogp.png" ? "summary" : "summary_large_image"} />
 		<meta name="twitter:site" content="@Akime_Aki" />
@@ -75,19 +77,24 @@ const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
 		<!-- End Google Tag Manager (noscript) -->
 
 		<header>
-			<a id="title-link" href="/"><h1 id="title">This website is Aki's blog.</h1></a>
+			<div id="title-wrap">
+				<a id="title-link" href="/">
+					<h1 id="title">孅いエンジニアブログ</h1>
+				</a>
+			</div>
+			<nav>
+				<a class="header-nav-link" href="https://twitter.com/Akime_Aki" target="_blank">X / Twitter</a>
+				<a class="header-nav-link" href="https://github.com/AkimeAki" target="_blank">GitHub</a>
+				<a class="header-nav-link" href="/" target="_blank">作ったもの</a>
+			</nav>
 		</header>
-		<nav>
-			<a class="nav-link" href="https://github.com/AkimeAki" target="_blank">GitHub</a>
-			<a class="nav-link" href="https://aki.wtf/" target="_blank">ポートフォリオ</a>
-		</nav>
 
 		<main id="main">
 			<slot />
 		</main>
 
 		<footer>
-			<span id="copy">&copy; 彩季</span>
+			<span id="copy">Created by 彩季</span>
 			<div class="footer-link">
 				<SnsIcon file="twitter" name="Twitter" href="https://twitter.com/Akime_Aki" />
 				<SnsIcon file="x" name="X" href="https://x.com/Akime_Aki" />
@@ -99,127 +106,94 @@ const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
 			</div>
 			<a href="/policy">プライバシーポリシー</a>
 		</footer>
+	</body>
+</html>
 
-		<style is:global>
-			/*
-			* 初期設定
-			*/
+<style lang="scss">
+	html {
+		overflow: hidden;
+	}
 
-			* {
-				/* インターフェース */
-				box-sizing: border-box;
-				padding: 0;
+	body {
+		background-color: #eeeeee;
+		overflow-y: scroll;
+	}
 
-				/* マージン・パディング */
-				margin: 0;
+	header {
+		text-align: center;
+		background-color: #ed5841;
 
-				/* フォント */
-				font-family: "游ゴシック体", YuGothic, "游ゴシック", "メイリオ", Meiryo, "Hiragino Kaku Gothic Pro",
-					"ヒラギノ角ゴ Pro W3", "ＭＳ Ｐゴシック", sans-serif;
-				font-size: 18px;
-				line-height: 1.6;
+		#title-wrap {
+			display: flex;
+			justify-content: center;
+			padding: 30px 0 32px 0;
+
+			#title-link {
+				text-decoration: none;
+
+				#title {
+					display: inline-block;
+					font-size: 23px;
+					font-weight: bold;
+					color: white;
+				}
 			}
+		}
 
-			*:focus {
-				outline: none;
-			}
+		nav {
+			display: flex;
+			max-width: 1240px;
+			margin: 0 auto;
+			justify-content: space-between;
 
-			:root {
-				background-color: white;
-			}
-
-			html,
-			body {
+			.header-nav-link {
+				text-decoration: none;
+				padding: 10px 0;
 				width: 100%;
-				height: 100%;
-			}
+				background-color: #ed5841;
+				color: white;
+				transition-duration: 200ms;
+				transition-property: background-color;
 
-			ul,
-			ol {
-				padding-block-start: 0;
-				padding-block-end: 0;
-				padding-inline-start: 40px;
-				margin-inline-start: 0;
-				margin-inline-end: 0;
-			}
+				&:hover {
+					background-color: #f26f5b;
+				}
 
-			a {
-				color: #1976d2;
-			}
+				&[href^="https://twitter.com/"]
+				{
+					&:hover {
+						background-color: #4593c3;
+					}
+				}
 
-			img {
-				max-width: 100%;
-				height: auto;
-			}
-		</style>
-
-		<style lang="scss">
-			:global(*) {
-				font-family: "Noto Sans JP", sans-serif;
-				color: #616161;
-			}
-
-			html {
-				overflow: hidden;
-			}
-
-			body {
-				background-color: #eeeeee;
-				overflow-y: scroll;
-			}
-
-			header {
-				padding: 40px 0 0 0;
-				max-width: 1200px;
-				margin: 0 auto;
-				text-align: center;
-
-				#title-link {
-					color: inherit;
-					text-decoration: none;
-
-					#title {
-						display: inline-block;
-						font-size: 25px;
-						font-weight: 300;
+				&[href^="https://github.com/"]
+				{
+					&:hover {
+						background-color: #606060;
 					}
 				}
 			}
+		}
+	}
 
-			nav {
-				display: flex;
-				gap: 20px;
-				padding: 0 50px 40px 50px;
-				max-width: 1240px;
-				margin: 0 auto;
-				justify-content: space-between;
+	#main {
+		padding: 30px 20px;
+	}
 
-				.nav-link {
-					text-decoration: none;
-					color: #616161;
-				}
-			}
+	footer {
+		text-align: center;
+		padding: 60px 0;
 
-			#main {
-				padding: 0 20px;
-			}
+		#copy {
+			display: inline-block;
+			font-weight: 300;
+		}
 
-			footer {
-				text-align: center;
-				padding: 60px 0;
-
-				#copy {
-					display: inline-block;
-					font-weight: 300;
-				}
-
-				.footer-link {
-					display: flex;
-					justify-content: center;
-					padding: 20px 10px;
-					gap: 20px;
-				}
-			}
-		</style>
-	</body>
-</html>
+		.footer-link {
+			display: flex;
+			justify-content: center;
+			padding: 20px 10px;
+			gap: 20px;
+		}
+	}
+</style>

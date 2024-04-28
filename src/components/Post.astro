@@ -163,6 +163,15 @@ if (html !== null) {
 					font-weight: 700;
 				}
 			}
+
+			& :global(.iframely-embed:has(.iframely-responsive)) {
+				display: flex;
+				justify-content: center;
+
+				& :global(.iframely-responsive) {
+					max-width: 500px;
+				}
+			}
 		}
 	}
 </style>
