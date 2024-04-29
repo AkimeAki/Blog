@@ -87,6 +87,9 @@ const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
 			<nav>
 				<a class="header-nav-link" href="https://twitter.com/Akime_Aki" target="_blank">X / Twitter</a>
 				<a class="header-nav-link" href="https://github.com/AkimeAki" target="_blank">GitHub</a>
+				<a class="header-nav-link" href="https://coffee.aki.wtf" target="_blank" data-link="ai-bg">
+					AIが背景画像を<br />生成するブログ
+				</a>
 				<a class="header-nav-link" href="/" target="_blank">作ったもの</a>
 			</nav>
 		</header>
@@ -146,13 +149,39 @@ const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
 					justify-content: space-between;
 
 					.header-nav-link {
+						display: flex;
+						justify-content: center;
+						align-items: center;
 						text-decoration: none;
 						padding: 10px 0;
 						width: 100%;
 						background-color: #ed5841;
+						font-size: 18px;
 						color: white;
 						transition-duration: 200ms;
 						transition-property: background-color;
+
+						@media (max-width: 700px) {
+							font-size: 15px;
+						}
+
+						&[data-link="ai-bg"] {
+							br {
+								display: none;
+							}
+
+							@media (max-width: 1060px) {
+								font-size: 15px;
+
+								br {
+									display: block;
+								}
+							}
+
+							@media (max-width: 700px) {
+								font-size: 13px;
+							}
+						}
 
 						&:hover {
 							background-color: #f26f5b;
