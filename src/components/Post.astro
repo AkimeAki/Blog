@@ -36,20 +36,11 @@ if (html !== null) {
 	<div class="post-tags">
 		{
 			post.tags.map((tag) => {
-				const size = 30;
+				// const size = 30;
 
 				return (
 					<div class="post-tag">
-						<img
-							class="post-tag-icon"
-							src={`${
-								tag.icon?.url ??
-								"https://images.microcms-assets.io/assets/037528aa59e842fb8f9d8b5a23a3726c/0bac6ea3c7414ee9bd7b5476b380e87f/Tag.png"
-							}?fm=webp&w=${size + 10}`}
-							width={size}
-							height={size}
-							alt={`${tag.name}のアイコン`}
-						/>
+						{/* <img class="post-tag-icon" src={""} width={size} height={size} alt={`${tag.name}のアイコン`} /> */}
 						<span class="post-tag-name">{tag.name}</span>
 					</div>
 				);
@@ -59,7 +50,6 @@ if (html !== null) {
 </div>
 <article class="cms-contents">
 	<div class="rich-contents" set:html={contents} />
-	<p class="comment-note">匿名でコメントできます↓<br />（メアドはいるけど、適当でOK）</p>
 </article>
 
 <style lang="scss">

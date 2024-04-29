@@ -1,8 +1,7 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import Post from "@/components/Post.astro";
-import CommentArea from "@/components/CommentArea.astro";
-import { getContentsDetail, getListContents } from "@/lib/microcms";
+import { getContentsDetail, getListAllContents } from "@/lib/microcms";
 import cheerio from "cheerio";
 import type { Blog } from "@/lib/microcms";
 
@@ -13,8 +12,8 @@ interface pathType {
 }
 
 export const getStaticPaths = async (): Promise<pathType[]> => {
-	const response = await getListContents<Blog>("blogs", { fields: ["id"] });
-	return response.contents.map((content) => ({
+	const response = await getListAllContents<Blog>("blogs", { fields: ["id"] });
+	return response.map((content) => ({
 		params: {
 			blogId: content.id
 		}
@@ -34,7 +33,6 @@ const description = $.text().substring(0, 80) + "...";
 
 <Layout title={blog.title} ogType="article" description={description}>
 	<Post post={blog} />
-	<CommentArea />
 </Layout>
 
 <style>

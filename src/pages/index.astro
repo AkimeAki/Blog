@@ -1,34 +1,16 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import { formatDate } from "@/lib/format-date";
-import { getListContents } from "@/lib/microcms";
+import { getListAllContents } from "@/lib/microcms";
 import type { Blog } from "@/lib/microcms";
 
-const posts = await getListContents<Blog>("blogs", {
-	fields: ["id", "title", "tags", "publishedAt", "createdAt", "thumbnail"]
-});
-
-const postIcons: { id: string; urls: string[] }[] = [];
-posts.contents.forEach((post) => {
-	const urls: string[] = [];
-
-	post.tags.forEach((tag) => {
-		if (tag.icon !== undefined) {
-			urls.push(tag.icon.url);
-		}
-	});
-
-	postIcons.push({
-		id: post.id,
-		urls
-	});
-});
+const posts = await getListAllContents<Blog>("blogs");
 ---
 
 <Layout ogType="blog">
 	<div class="post-list">
 		{
-			posts.contents.map((post) => (
+			posts.map((post) => (
 				<div class="post-card">
 					<time class="post-date" datetime={post.publishedAt ?? post.createdAt}>
 						{formatDate(post.publishedAt ?? post.createdAt)}
@@ -43,20 +25,15 @@ posts.contents.forEach((post) => {
 					</div>
 					<div class="post-tags">
 						{post.tags.map((tag) => {
-							const size = 15;
-
 							return (
 								<div class="post-tag">
-									<img
+									{/* <img
 										class="post-tag-icon"
-										src={`${
-											tag.icon?.url ??
-											"https://images.microcms-assets.io/assets/037528aa59e842fb8f9d8b5a23a3726c/0bac6ea3c7414ee9bd7b5476b380e87f/Tag.png"
-										}?fm=webp&w=${size + 10}`}
+										src={""}
 										width={size}
 										height={size}
 										alt={`${tag.name}のアイコン`}
-									/>
+									/> */}
 									<span class="post-tag-name">{tag.name}</span>
 								</div>
 							);
@@ -66,6 +43,7 @@ posts.contents.forEach((post) => {
 						class="post-link"
 						href={`/${post.id}`}
 						data-id={post.id}
+						data-tags={JSON.stringify(post.tags.map((tag) => tag.id))}
 						aria-label={`記事『${post.title}』を読む`}
 					/>
 				</div>
@@ -165,29 +143,61 @@ posts.contents.forEach((post) => {
 				width: 100%;
 				height: 100%;
 
-				:global(.flow-post-icon) {
+				:global(.flow-tag) {
 					position: absolute;
 					width: 40px;
 					aspect-ratio: 1/1;
 					top: 90%;
-					animation-name: fadeIn;
-					animation-duration: 3000ms;
+					image-rendering: pixelated;
 					animation-iteration-count: 1;
 					animation-timing-function: ease-out;
 					opacity: 0;
 					user-select: none;
 					pointer-events: none;
 
-					@keyframes fadeIn {
-						50% {
-							transform: translateX(50%);
-							opacity: 1;
-						}
+					&[data-tag="astro"] {
+						animation-name: tagAnimationAstro;
+						animation-duration: 1500ms;
+					}
 
+					@keyframes tagAnimationAstro {
+						0% {
+							transform: translateX(5px);
+						}
+						5% {
+							transform: translateX(-5px);
+						}
+						10% {
+							transform: translateX(5px);
+						}
+						15% {
+							transform: translateX(-5px);
+						}
+						20% {
+							transform: translateX(5px);
+						}
+						25% {
+							transform: translateX(-5px);
+						}
+						30% {
+							transform: translateX(5px);
+						}
+						35% {
+							transform: translateX(-5px);
+						}
+						40% {
+							transform: translateX(5px);
+						}
+						45% {
+							transform: translateX(-5px);
+						}
+						50% {
+							opacity: 1;
+							transform: translateY(0);
+						}
 						100% {
 							opacity: 0;
-							top: -50%;
-							transform: translateX(40%);
+							transform: translateY(-500px);
 						}
 					}
 				}
@@ -196,34 +206,45 @@ posts.contents.forEach((post) => {
 	}
 </style>
 
-<script define:vars={{ postIcons }}>
-	const postLinks = document.querySelectorAll(".post-link");
-	postLinks.forEach((postLink) => {
-		postLink.addEventListener(
-			"mouseover",
-			() => {
-				postIcons.forEach((postIcon) => {
-					if (postIcon.id === postLink.dataset.id) {
-						postIcon.urls
-							.sort(() => Math.random() - 0.5)
-							.forEach((url) => {
-								const delay = Math.random() * 2001;
-								const x = Math.random() * postLink.clientWidth + 1 + "px";
-								setTimeout(() => {
-									const icon = document.createElement("img");
-									icon.src = url;
-									icon.classList.add("flow-post-icon");
-									icon.style.left = x;
-									postLink.appendChild(icon);
-									setTimeout(() => {
-										icon.remove();
-									}, 3001);
-								}, delay);
-							});
+<script>
+	const flowTagIcons = () => {
+		const postLinks = document.querySelectorAll<HTMLAnchorElement>(".post-link");
+		postLinks.forEach((postLink) => {
+			postLink.addEventListener(
+				"mouseover",
+				() => {
+					if (document.body.dataset.touch === "true") {
+						return;
 					}
-				});
-			},
-			false
-		);
-	});
+
+					const tags: string[] = JSON.parse(postLink.dataset.tags ?? "[]");
+
+					tags.forEach((tagId) => {
+						const delay = Math.random() * 2001;
+						const x = Math.random() * postLink.clientWidth + 1 + "px";
+
+						if (tagId !== "astro") {
+							return;
+						}
+
+						setTimeout(() => {
+							const icon = document.createElement("img");
+							icon.src = `/tag-logos/${tagId}.gif`;
+							icon.classList.add("flow-tag");
+							icon.dataset.tag = tagId;
+							icon.style.left = x;
+							postLink.appendChild(icon);
+							setTimeout(() => {
+								icon.remove();
+							}, 6000);
+						}, delay);
+					});
+				},
+				false
+			);
+		});
+	};
+
+	flowTagIcons();
+	document.addEventListener("astro:after-swap", flowTagIcons);
 </script>

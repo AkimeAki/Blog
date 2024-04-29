@@ -1,4 +1,5 @@
 ---
+import { ViewTransitions } from "astro:transitions";
 import SnsIcon from "@/components/SnsIcon.astro";
 import "@/global.css";
 
@@ -64,6 +65,7 @@ const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
 			async
 			src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6914867149724943"
 			crossorigin="anonymous"></script>
+		<ViewTransitions />
 	</head>
 	<body>
 		<!-- Google Tag Manager (noscript) -->
@@ -106,94 +108,126 @@ const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
 			</div>
 			<a href="/policy">プライバシーポリシー</a>
 		</footer>
+		<style lang="scss">
+			html {
+				overflow: hidden;
+			}
+
+			body {
+				background-color: #eeeeee;
+				overflow-y: scroll;
+			}
+
+			header {
+				text-align: center;
+				background-color: #ed5841;
+
+				#title-wrap {
+					display: flex;
+					justify-content: center;
+					padding: 30px 0 32px 0;
+
+					#title-link {
+						text-decoration: none;
+
+						#title {
+							display: inline-block;
+							font-size: 23px;
+							font-weight: bold;
+							color: white;
+						}
+					}
+				}
+
+				nav {
+					display: flex;
+					max-width: 1240px;
+					margin: 0 auto;
+					justify-content: space-between;
+
+					.header-nav-link {
+						text-decoration: none;
+						padding: 10px 0;
+						width: 100%;
+						background-color: #ed5841;
+						color: white;
+						transition-duration: 200ms;
+						transition-property: background-color;
+
+						&:hover {
+							background-color: #f26f5b;
+						}
+
+						&[href^="https://twitter.com/"]
+						{
+							&:hover {
+								background-color: #4593c3;
+							}
+						}
+
+						&[href^="https://github.com/"]
+						{
+							&:hover {
+								background-color: #606060;
+							}
+						}
+					}
+				}
+			}
+
+			#main {
+				padding: 30px 20px;
+			}
+
+			footer {
+				text-align: center;
+				padding: 60px 0;
+
+				#copy {
+					display: inline-block;
+					font-weight: 300;
+				}
+
+				.footer-link {
+					display: flex;
+					justify-content: center;
+					padding: 20px 10px;
+					gap: 20px;
+				}
+			}
+		</style>
+
+		<script>
+			const isTouchDevice = (): boolean => {
+				if (typeof window !== "undefined") {
+					return (
+						"ontouchstart" in window ||
+						navigator.maxTouchPoints > 0 ||
+						window.matchMedia("(pointer:coarse)").matches
+					);
+				} else {
+					return false;
+				}
+			};
+
+			document.body.dataset.touch = isTouchDevice() ? "true" : "false";
+
+			const touched = (): void => {
+				document.body.dataset.touch = "true";
+			};
+
+			const move = (e: PointerEvent): void => {
+				if (e.pointerType === "mouse") {
+					document.body.dataset.touch = "false";
+				}
+
+				if (e.pointerType === "touch" || e.pointerType === "pen") {
+					document.body.dataset.touch = "true";
+				}
+			};
+
+			window.addEventListener("touchstart", touched, false);
+			window.addEventListener("pointermove", move, false);
+		</script>
 	</body>
 </html>
-
-<style lang="scss">
-	html {
-		overflow: hidden;
-	}
-
-	body {
-		background-color: #eeeeee;
-		overflow-y: scroll;
-	}
-
-	header {
-		text-align: center;
-		background-color: #ed5841;
-
-		#title-wrap {
-			display: flex;
-			justify-content: center;
-			padding: 30px 0 32px 0;
-
-			#title-link {
-				text-decoration: none;
-
-				#title {
-					display: inline-block;
-					font-size: 23px;
-					font-weight: bold;
-					color: white;
-				}
-			}
-		}
-
-		nav {
-			display: flex;
-			max-width: 1240px;
-			margin: 0 auto;
-			justify-content: space-between;
-
-			.header-nav-link {
-				text-decoration: none;
-				padding: 10px 0;
-				width: 100%;
-				background-color: #ed5841;
-				color: white;
-				transition-duration: 200ms;
-				transition-property: background-color;
-
-				&:hover {
-					background-color: #f26f5b;
-				}
-
-				&[href^="https://twitter.com/"]
-				{
-					&:hover {
-						background-color: #4593c3;
-					}
-				}
-
-				&[href^="https://github.com/"]
-				{
-					&:hover {
-						background-color: #606060;
-					}
-				}
-			}
-		}
-	}
-
-	#main {
-		padding: 30px 20px;
-	}
-
-	footer {
-		text-align: center;
-		padding: 60px 0;
-
-		#copy {
-			display: inline-block;
-			font-weight: 300;
-		}
-
-		.footer-link {
-			display: flex;
-			justify-content: center;
-			padding: 20px 10px;
-			gap: 20px;
-		}
-	}
-</style>
