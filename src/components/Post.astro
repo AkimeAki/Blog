@@ -36,11 +36,17 @@ if (html !== null) {
 	<div class="post-tags">
 		{
 			post.tags.map((tag) => {
-				// const size = 30;
+				const size = 30;
 
 				return (
 					<div class="post-tag">
-						{/* <img class="post-tag-icon" src={""} width={size} height={size} alt={`${tag.name}のアイコン`} /> */}
+						<img
+							class="post-tag-icon"
+							src={`/logo/${tag.id}.png`}
+							width={size}
+							height={size}
+							alt={`${tag.name}のアイコン`}
+						/>
 						<span class="post-tag-name">{tag.name}</span>
 					</div>
 				);
@@ -93,6 +99,7 @@ if (html !== null) {
 				align-items: center;
 
 				.post-tag-icon {
+					border-radius: 9999px;
 					width: 25px;
 				}
 
