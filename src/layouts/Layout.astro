@@ -119,11 +119,19 @@ const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
 			body {
 				background-color: #eeeeee;
 				overflow-y: scroll;
+
+				@media (prefers-color-scheme: dark) {
+					background-color: #363636;
+				}
 			}
 
 			header {
 				text-align: center;
 				background-color: #ed5841;
+
+				@media (prefers-color-scheme: dark) {
+					background-color: #216135;
+				}
 
 				#title-wrap {
 					display: flex;
@@ -160,6 +168,10 @@ const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
 						font-size: 18px;
 						color: white;
 						z-index: 1;
+
+						@media (prefers-color-scheme: dark) {
+							background-color: #216135;
+						}
 
 						&:after {
 							position: absolute;
@@ -201,6 +213,10 @@ const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
 							&:after {
 								opacity: 1;
 								background-color: #f26f5b;
+
+								@media (prefers-color-scheme: dark) {
+									background-color: #316642;
+								}
 							}
 						}
 
@@ -246,6 +262,10 @@ const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
 				#copy {
 					display: inline-block;
 					font-weight: 300;
+
+					@media (prefers-color-scheme: dark) {
+						color: white;
+					}
 				}
 
 				.footer-link {

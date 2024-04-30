@@ -10,6 +10,10 @@
 	font-size: 18px;
 	line-height: 1.6;
 	color: #616161;
+
+	@media (prefers-color-scheme: dark) {
+		color: white;
+	}
 }
 
 *:focus {
@@ -37,6 +41,10 @@ ol {
 
 a {
 	color: #1976d2;
+
+	@media (prefers-color-scheme: dark) {
+		color: #4d93da;
+	}
 }
 
 img {

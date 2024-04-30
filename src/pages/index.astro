@@ -94,6 +94,10 @@ const posts = await getListAllContents<Blog>("blogs");
 			transition-duration: 200ms;
 			z-index: 1;
 
+			@media (prefers-color-scheme: dark) {
+				box-shadow: 0 0 3px #222222;
+			}
+
 			.post-date {
 				position: absolute;
 				top: 0;
@@ -102,10 +106,18 @@ const posts = await getListAllContents<Blog>("blogs");
 				background-color: #a3a3a3;
 				color: white;
 				padding: 2px 5px;
+
+				@media (prefers-color-scheme: dark) {
+					background-color: #202020;
+				}
 			}
 
 			.post-title {
 				font-size: 15px;
+
+				@media (prefers-color-scheme: dark) {
+					color: white;
+				}
 			}
 
 			.post-thumbnail {
@@ -132,6 +144,10 @@ const posts = await getListAllContents<Blog>("blogs");
 
 					.post-tag-name {
 						font-size: 10px;
+
+						@media (prefers-color-scheme: dark) {
+							color: white;
+						}
 					}
 				}
 			}
@@ -162,11 +178,19 @@ const posts = await getListAllContents<Blog>("blogs");
 					transition-duration: 200ms;
 					transition-property: background-color;
 					z-index: -1;
+
+					@media (prefers-color-scheme: dark) {
+						background-color: #4e4e4e;
+					}
 				}
 
 				&:hover {
 					&:after {
 						background-color: #7cee8b;
+
+						@media (prefers-color-scheme: dark) {
+							background-color: #490404;
+						}
 					}
 				}
 
@@ -236,6 +260,31 @@ const posts = await getListAllContents<Blog>("blogs");
 </style>
 
 <script>
+	const createBubbleTag = (postLink: HTMLAnchorElement) => {
+		const tags: string[] = JSON.parse(postLink.dataset.tags ?? "[]");
+
+		tags.forEach((tagId) => {
+			const delay = Math.random() * 2001;
+			const x = Math.random() * postLink.clientWidth + 1 + "px";
+
+			setTimeout(() => {
+				const wrap = document.createElement("div");
+				wrap.classList.add("flow-tag-wrapper");
+
+				const icon = document.createElement("img");
+				icon.src = `/logo/${tagId}.png`;
+				icon.classList.add("flow-tag");
+				icon.dataset.tag = tagId;
+				wrap.style.left = x;
+				postLink.appendChild(wrap);
+				wrap.appendChild(icon);
+				setTimeout(() => {
+					wrap.remove();
+				}, 3001);
+			}, delay);
+		});
+	};
+
 	const flowTagIcons = () => {
 		const postLinks = document.querySelectorAll<HTMLAnchorElement>(".post-link");
 		postLinks.forEach((postLink) => {
@@ -246,28 +295,19 @@ const posts = await getListAllContents<Blog>("blogs");
 						return;
 					}
 
-					const tags: string[] = JSON.parse(postLink.dataset.tags ?? "[]");
+					createBubbleTag(postLink);
+				},
+				false
+			);
 
-					tags.forEach((tagId) => {
-						const delay = Math.random() * 2001;
-						const x = Math.random() * postLink.clientWidth + 1 + "px";
+			postLink.addEventListener(
+				"touchstart",
+				() => {
+					if (document.body.dataset.touch === "false") {
+						return;
+					}
 
-						setTimeout(() => {
-							const wrap = document.createElement("div");
-							wrap.classList.add("flow-tag-wrapper");
-
-							const icon = document.createElement("img");
-							icon.src = `/logo/${tagId}.png`;
-							icon.classList.add("flow-tag");
-							icon.dataset.tag = tagId;
-							wrap.style.left = x;
-							postLink.appendChild(wrap);
-							wrap.appendChild(icon);
-							setTimeout(() => {
-								wrap.remove();
-							}, 3001);
-						}, delay);
-					});
+					createBubbleTag(postLink);
 				},
 				false
 			);
