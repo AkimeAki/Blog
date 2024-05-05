@@ -90,7 +90,7 @@ const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
 				<a class="header-nav-link" href="https://coffee.aki.wtf" target="_blank" data-link="ai-bg">
 					AIが背景画像を<br />生成するブログ
 				</a>
-				<a class="header-nav-link" href="/" target="_blank">作ったもの</a>
+				<a class="header-nav-link" href="/" target="_blank"><s>作ったもの</s></a>
 			</nav>
 		</header>
 
@@ -168,6 +168,10 @@ const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
 						font-size: 18px;
 						color: white;
 						z-index: 1;
+
+						* {
+							color: inherit;
+						}
 
 						@media (prefers-color-scheme: dark) {
 							background-color: #216135;
