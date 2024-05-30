@@ -15,13 +15,20 @@ const {
 	title,
 	ogType = "article",
 	description = "エンジニアがちまちま書いてるブログ",
-	ogImage = "/default-ogp.png",
+	ogImage = `${Astro.site}default-ogp.png`,
 	notFound = false
 } = Astro.props;
 const serviceTitle = "孅いエンジニアブログ";
 const pageTitle = title === undefined ? serviceTitle : `${title} | ${serviceTitle}`;
 
 const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
+
+const schema = {
+	"@context": "https://schema.org",
+	"@type": "WebSite",
+	name: serviceTitle,
+	url: Astro.site
+};
 ---
 
 <!doctype html>
@@ -32,7 +39,7 @@ const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
 		<meta name="description" content={description} />
 		<meta name="format-detection" content="email=no,telephone=no,address=no" />
 		<meta name="author" content="彩季" />
-		{!notFound && <link rel="canonical" href={`https://blog.aki.wtf/${path}`} />}
+		{!notFound && <link rel="canonical" href={`${Astro.site}${path}`} />}
 		<!-- Google Tag Manager -->
 		<script is:inline>
 			// prettier-ignore
@@ -43,16 +50,20 @@ const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
 			})(window,document,'script','dataLayer','GTM-W7HGV4S5');
 		</script>
 		<!-- End Google Tag Manager -->
-		<meta property="og:url" content={`https://blog.aki.wtf/${path}`} />
+		<meta property="og:url" content={`${Astro.site}${path}`} />
 		<meta property="og:type" content={ogType} />
 		<meta property="og:title" content={pageTitle} />
 		<meta property="og:description" content={description} />
 		<meta property="og:site_name" content={serviceTitle} />
 		<meta property="og:image" content={ogImage} />
-		<meta name="twitter:card" content={ogImage === "/default-ogp.png" ? "summary" : "summary_large_image"} />
+		<meta
+			name="twitter:card"
+			content={ogImage === `${Astro.site}default-ogp.png` ? "summary" : "summary_large_image"}
+		/>
 		<meta name="twitter:site" content="@Akime_Aki" />
 		<link rel="icon" href="/favicon.ico" />
 		<title>{pageTitle}</title>
+		<script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
