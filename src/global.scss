@@ -30,6 +30,19 @@ body {
 	height: 100%;
 }
 
+html {
+	overflow: hidden;
+}
+
+body {
+	background-color: #eeeeee;
+	overflow-y: scroll;
+
+	@media (prefers-color-scheme: dark) {
+		background-color: #363636;
+	}
+}
+
 ul,
 ol {
 	padding-block-start: 0;

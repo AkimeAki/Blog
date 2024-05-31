@@ -1,0 +1,35 @@
+---
+import SnsIcon from "@/components/SnsIcon.astro";
+---
+
+<footer>
+	<span id="copy">Created by 彩季</span>
+	<div class="footer-link">
+		<SnsIcon file="twitter" name="Twitter" href="https://twitter.com/Akime_Aki" />
+		<SnsIcon file="x" name="X" href="https://x.com/Akime_Aki" />
+		<SnsIcon file="youtube" name="YouTube" href="https://www.youtube.com/channel/UCHV3Taosn76pn9_ip1u7Zkg" />
+	</div>
+</footer>
+
+<style lang="scss">
+	footer {
+		text-align: center;
+		padding: 60px 0;
+
+		#copy {
+			display: inline-block;
+			font-weight: 300;
+
+			@media (prefers-color-scheme: dark) {
+				color: white;
+			}
+		}
+
+		.footer-link {
+			display: flex;
+			justify-content: center;
+			padding: 20px 10px;
+			gap: 20px;
+		}
+	}
+</style>

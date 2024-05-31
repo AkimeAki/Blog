@@ -1,7 +1,8 @@
 ---
 import { ViewTransitions } from "astro:transitions";
-import SnsIcon from "@/components/SnsIcon.astro";
-import "@/global.css";
+import "@/global.scss";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
 
 interface Props {
 	title?: string;
@@ -92,205 +93,17 @@ const schema = {
 		</noscript>
 		<!-- End Google Tag Manager (noscript) -->
 
-		<header>
-			<div id="title-wrap">
-				<a id="title-link" href="/">
-					<h1 id="title">孅いエンジニアブログ</h1>
-				</a>
-			</div>
-			<nav>
-				<a class="header-nav-link" href="https://twitter.com/Akime_Aki" target="_blank">X / Twitter</a>
-				<a class="header-nav-link" href="https://github.com/AkimeAki" target="_blank">GitHub</a>
-				<a class="header-nav-link" href="https://coffee.aki.wtf" target="_blank" data-link="ai-bg">
-					AIが背景画像を<br />生成するブログ
-				</a>
-				<a class="header-nav-link" href="/" target="_blank"><s>作ったもの</s></a>
-			</nav>
-		</header>
+		<Header />
 
 		<main id="main">
 			<slot />
 		</main>
 
-		<footer>
-			<span id="copy">Created by 彩季</span>
-			<div class="footer-link">
-				<SnsIcon file="twitter" name="Twitter" href="https://twitter.com/Akime_Aki" />
-				<SnsIcon file="x" name="X" href="https://x.com/Akime_Aki" />
-				<SnsIcon
-					file="youtube"
-					name="YouTube"
-					href="https://www.youtube.com/channel/UCHV3Taosn76pn9_ip1u7Zkg"
-				/>
-			</div>
-		</footer>
+		<Footer />
+
 		<style lang="scss">
-			html {
-				overflow: hidden;
-			}
-
-			body {
-				background-color: #eeeeee;
-				overflow-y: scroll;
-
-				@media (prefers-color-scheme: dark) {
-					background-color: #363636;
-				}
-			}
-
-			header {
-				text-align: center;
-				background-color: #ed5841;
-
-				@media (prefers-color-scheme: dark) {
-					background-color: #216135;
-				}
-
-				#title-wrap {
-					display: flex;
-					justify-content: center;
-					padding: 30px 0 32px 0;
-
-					#title-link {
-						text-decoration: none;
-
-						#title {
-							display: inline-block;
-							font-size: 23px;
-							font-weight: bold;
-							color: white;
-						}
-					}
-				}
-
-				nav {
-					display: flex;
-					max-width: 1240px;
-					margin: 0 auto;
-					justify-content: space-between;
-
-					.header-nav-link {
-						display: flex;
-						position: relative;
-						justify-content: center;
-						align-items: center;
-						text-decoration: none;
-						padding: 10px 0;
-						width: 100%;
-						background-color: #ed5841;
-						font-size: 18px;
-						color: white;
-						z-index: 1;
-
-						* {
-							color: inherit;
-						}
-
-						@media (prefers-color-scheme: dark) {
-							background-color: #216135;
-						}
-
-						&:after {
-							position: absolute;
-							display: block;
-							content: "";
-							top: 0;
-							left: 0;
-							width: 100%;
-							height: 100%;
-							opacity: 0;
-							transition-duration: 300ms;
-							transition-property: opacity;
-							z-index: -1;
-						}
-
-						@media (max-width: 700px) {
-							font-size: 15px;
-						}
-
-						&[data-link="ai-bg"] {
-							br {
-								display: none;
-							}
-
-							@media (max-width: 1060px) {
-								font-size: 15px;
-
-								br {
-									display: block;
-								}
-							}
-
-							@media (max-width: 700px) {
-								font-size: 13px;
-							}
-						}
-
-						&:hover {
-							&:after {
-								opacity: 1;
-								background-color: #f26f5b;
-
-								@media (prefers-color-scheme: dark) {
-									background-color: #316642;
-								}
-							}
-						}
-
-						&[href^="https://twitter.com"]
-						{
-							&:hover {
-								&:after {
-									background-color: #4593c3;
-								}
-							}
-						}
-
-						&[href^="https://github.com"]
-						{
-							&:hover {
-								&:after {
-									background-color: #606060;
-								}
-							}
-						}
-
-						&[href^="https://coffee.aki.wtf"]
-						{
-							&:hover {
-								&:after {
-									background-image: url(https://r2.coffee.aki.wtf/aydb7jwmw.png);
-									background-position: center center;
-								}
-							}
-						}
-					}
-				}
-			}
-
 			#main {
 				padding: 30px 20px;
-			}
-
-			footer {
-				text-align: center;
-				padding: 60px 0;
-
-				#copy {
-					display: inline-block;
-					font-weight: 300;
-
-					@media (prefers-color-scheme: dark) {
-						color: white;
-					}
-				}
-
-				.footer-link {
-					display: flex;
-					justify-content: center;
-					padding: 20px 10px;
-					gap: 20px;
-				}
 			}
 		</style>
 
