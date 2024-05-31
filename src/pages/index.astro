@@ -17,7 +17,11 @@ const posts = await getListAllContents<Blog>("blogs");
 					</time>
 					<div>
 						{post.thumbnail !== undefined ? (
-							<img class="post-thumbnail" src={`${post.thumbnail.url}?fm=webp&w=600`} />
+							<img
+								class="post-thumbnail"
+								src={`${post.thumbnail.url}?fm=webp&w=600`}
+								transition:name={`${post.id}-image`}
+							/>
 						) : (
 							<img class="post-thumbnail" src="/default-thumbnail.png" />
 						)}
