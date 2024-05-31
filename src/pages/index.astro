@@ -185,11 +185,13 @@ const posts = await getListAllContents<Blog>("blogs");
 				}
 
 				&:hover {
-					&:after {
-						background-color: #7cee8b;
+					@media (hover: hover) {
+						&:after {
+							background-color: #7cee8b;
 
-						@media (prefers-color-scheme: dark) {
-							background-color: #490404;
+							@media (prefers-color-scheme: dark) {
+								background-color: #490404;
+							}
 						}
 					}
 				}
