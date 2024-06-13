@@ -38,7 +38,7 @@ const $ = cheerio.load(blog.contents);
 const description = $.text().substring(0, 80) + "...";
 ---
 
-<Layout title={blog.title} ogType="article" description={description}>
+<Layout title={blog.title} ogType="article" description={description} ogImage={blog?.thumbnail?.url}>
 	<Post post={blog} />
 </Layout>
 
