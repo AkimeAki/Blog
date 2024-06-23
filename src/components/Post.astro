@@ -192,11 +192,11 @@ if (html !== null) {
 				vertical-align: middle;
 			}
 
-			& :global(.iframely-embed:has(.iframely-responsive)) {
+			& :global(.iframely-embed) {
 				display: flex;
 				justify-content: center;
 
-				& :global(.iframely-responsive) {
+				& > div {
 					max-width: 500px;
 				}
 			}
