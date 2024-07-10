@@ -31,6 +31,8 @@ const { blog } = Astro.props;
 
 const $ = cheerio.load(blog.contents);
 const description = $.text().substring(0, 80) + "...";
+
+const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
 ---
 
 <Layout title={blog.title} ogType="article" description={description} ogImage={blog?.thumbnail?.url}>
@@ -59,7 +61,7 @@ const description = $.text().substring(0, 80) + "...";
 				async="async"></script>
 		</div>
 		<div>
-			<a class="save-to-pocket-button" href={`https://getpocket.com/save?url=${Astro.url.href}`} target="_blank">
+			<a class="save-to-pocket-button" href={`https://getpocket.com/save?url=${Astro.site}${path}`} target="_blank">
 				<img src="/icon/pocket.svg" alt="Pocketに保存" width="80" style="border: none;" />
 				<span>に保存</span>
 			</a>
@@ -78,7 +80,7 @@ const description = $.text().substring(0, 80) + "...";
 		<div>
 			<a
 				class="share-bluesky-button"
-				href={`https://bsky.app/intent/compose?text=${Astro.url.href}`}
+				href={`https://bsky.app/intent/compose?text=${Astro.site}${path}`}
 				target="_blank"
 			>
 				<img src="/icon/bluesky.svg" alt="Blueskyでシェア" width="22" style="border: none;" />
