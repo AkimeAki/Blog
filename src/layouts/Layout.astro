@@ -139,5 +139,12 @@ const schema = {
 			window.addEventListener("touchstart", touched, false);
 			window.addEventListener("pointermove", move, false);
 		</script>
+		<script>
+			document.addEventListener("astro:after-swap", () => {
+				window.dataLayer.push({
+					event: "view-transitions-change-path"
+				});
+			});
+		</script>
 	</body>
 </html>
