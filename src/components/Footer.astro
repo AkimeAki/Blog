@@ -3,7 +3,7 @@ import SnsIcon from "@/components/SnsIcon.astro";
 ---
 
 <footer>
-	<span id="copy">Created by 彩季</span>
+	<span id="copy">Created by <a href="https://aki.wtf" target="_blank">彩季</a></span>
 	<div class="footer-link">
 		<SnsIcon file="twitter" name="Twitter" href="https://twitter.com/Akime_Aki" />
 		<SnsIcon file="x" name="X" href="https://x.com/Akime_Aki" />
@@ -22,6 +22,11 @@ import SnsIcon from "@/components/SnsIcon.astro";
 
 			@media (prefers-color-scheme: dark) {
 				color: white;
+			}
+
+			a {
+				font-weight: bold;
+				text-decoration: none;
 			}
 		}
 
