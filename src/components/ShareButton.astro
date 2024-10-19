@@ -1,0 +1,71 @@
+---
+interface Props {
+	url: string;
+	text?: string;
+	service: "x" | "hatena" | "pocket" | "bluesky";
+}
+
+const { url, service, text = "" } = Astro.props;
+
+let shareText = "";
+let serviceName = "";
+let href = "";
+switch (service) {
+	case "x":
+		shareText = "でシェア";
+		serviceName = "X";
+		href = `https://twitter.com/intent/tweet?text=${decodeURIComponent(text)}&url=${decodeURIComponent(url)}`;
+		break;
+
+	case "hatena":
+		shareText = "に保存";
+		serviceName = "はてなブックマーク";
+		href = `https://b.hatena.ne.jp/entry/s/${decodeURIComponent(url.replace("https://", ""))}#bbutton`;
+		break;
+
+	case "pocket":
+		shareText = "に保存";
+		serviceName = "Pocket";
+		href = `https://getpocket.com/save?url=${decodeURIComponent(url)}`;
+		break;
+
+	case "bluesky":
+		shareText = "でシェア";
+		serviceName = "Bluesky";
+		href = `https://bsky.app/intent/compose?text=${decodeURIComponent(text + " " + url)}}`;
+		break;
+}
+---
+
+<a class="share-button" href={href} target="_blank" data-service={service} target="_blank">
+	<img src={`/icon/${service}.png`} alt={`${serviceName}${shareText}`} />
+	<span>{shareText}</span>
+</a>
+
+<style lang="scss">
+	.share-button {
+		display: inline-flex;
+		background-color: #d7ffe3;
+		padding: 6px 18px;
+		gap: 5px;
+		align-items: center;
+		border: 2px solid #8ac46f;
+		user-select: none;
+
+		&:hover {
+			opacity: 0.8;
+		}
+
+		img {
+			width: 20px;
+			pointer-events: none;
+		}
+
+		span {
+			margin-bottom: 3px;
+			display: block;
+			font-size: 15px;
+			pointer-events: none;
+		}
+	}
+</style>

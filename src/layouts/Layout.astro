@@ -1,8 +1,8 @@
 ---
 import { ViewTransitions } from "astro:transitions";
-import "@/global.scss";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
+import "@akimeaki/reset-css";
 
 interface Props {
 	title?: string;
@@ -101,12 +101,6 @@ const schema = {
 
 		<Footer />
 
-		<style lang="scss">
-			#main {
-				padding: 30px 20px;
-			}
-		</style>
-
 		<script>
 			const isTouchDevice = (): boolean => {
 				if (typeof window !== "undefined") {
@@ -146,5 +140,27 @@ const schema = {
 				});
 			});
 		</script>
+		<style lang="scss">
+			:global(*) {
+				font-family: "Noto Sans JP", sans-serif;
+
+				@media (prefers-color-scheme: dark) {
+					color: white;
+				}
+			}
+
+			body {
+				background-color: #eeeeee;
+				overflow-y: scroll;
+
+				@media (prefers-color-scheme: dark) {
+					background-color: #363636;
+				}
+			}
+
+			#main {
+				padding: 30px 20px;
+			}
+		</style>
 	</body>
 </html>

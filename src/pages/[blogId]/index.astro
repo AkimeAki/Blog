@@ -2,9 +2,10 @@
 import Layout from "@/layouts/Layout.astro";
 import Post from "@/components/Post.astro";
 import { getListAllContents } from "@/lib/microcms";
-import cheerio from "cheerio";
 import type { Blog } from "@/lib/microcms";
 import type { MicroCMSContentId, MicroCMSDate } from "microcms-js-sdk";
+import { JSDOM } from "jsdom";
+import ShareButton from "@/components/ShareButton.astro";
 
 interface pathType {
 	params: {
@@ -29,8 +30,10 @@ export const getStaticPaths = async (): Promise<pathType[]> => {
 
 const { blog } = Astro.props;
 
-const $ = cheerio.load(blog.contents);
-const description = $.text().substring(0, 80) + "...";
+const contentsDom = new JSDOM(blog.contents);
+const body = contentsDom.window.document.querySelector("body");
+const contents = body !== null ? body.textContent ?? "" : "";
+const description = contents.substring(0, 80) + "...";
 
 const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
 ---
@@ -38,115 +41,26 @@ const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
 <Layout title={blog.title} ogType="article" description={description} ogImage={blog?.thumbnail?.url}>
 	<Post post={blog} />
 	<div class="post-button">
-		<div>
-			<a
-				href="https://b.hatena.ne.jp/entry/"
-				class="hatena-bookmark-button"
-				data-hatena-bookmark-layout="basic-label-counter"
-				data-hatena-bookmark-lang="ja"
-				data-hatena-bookmark-height="35"
-				title="このエントリーをはてなブックマークに追加"
-				><img
-					src="https://b.st-hatena.com/images/v4/public/entry-button/button-only@2x.png"
-					alt="このエントリーをはてなブックマークに追加"
-					width="20"
-					height="20"
-					style="border: none;"
-				/></a
-			>
-			<script
-				type="text/javascript"
-				src="https://b.st-hatena.com/js/bookmark_button.js"
-				charset="utf-8"
-				async="async"></script>
-		</div>
-		<div>
-			<a class="save-to-pocket-button" href={`https://getpocket.com/save?url=${Astro.site}${path}`} target="_blank">
-				<img src="/icon/pocket.svg" alt="Pocketに保存" width="80" style="border: none;" />
-				<span>に保存</span>
-			</a>
-		</div>
-		<div>
-			<div class="twitter-share-button">
-				<a
-					href="https://twitter.com/share?ref_src=twsrc%5Etfw"
-					class="twitter-share-button"
-					data-show-count="true"
-					data-size="large">Tweet</a
-				>
-				<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-			</div>
-		</div>
-		<div>
-			<a
-				class="share-bluesky-button"
-				href={`https://bsky.app/intent/compose?text=${Astro.site}${path}`}
-				target="_blank"
-			>
-				<img src="/icon/bluesky.svg" alt="Blueskyでシェア" width="22" style="border: none;" />
-				<span>Share</span>
-			</a>
-		</div>
+		<ShareButton url={`${Astro.site}${path}`} service="x" text={blog.title} />
+		<ShareButton url={`${Astro.site}${path}`} service="bluesky" text={blog.title} />
+		<ShareButton url={`${Astro.site}${path}`} service="pocket" />
+		<ShareButton url={`${Astro.site}${path}`} service="hatena" />
 	</div>
+
+	<style lang="scss">
+		.comment-note {
+			margin-bottom: 10px;
+			font-weight: bold;
+		}
+
+		.post-button {
+			width: 100%;
+			max-width: 800px;
+			margin: 60px auto;
+			display: flex;
+			gap: 20px;
+			user-select: none;
+			flex-wrap: wrap;
+		}
+	</style>
 </Layout>
-
-<style lang="scss">
-	.comment-note {
-		margin-bottom: 10px;
-		font-weight: bold;
-	}
-
-	.post-button {
-		width: 100%;
-		max-width: 800px;
-		margin: 60px auto;
-		display: flex;
-		gap: 20px;
-		user-select: none;
-		flex-wrap: wrap;
-	}
-
-	.save-to-pocket-button {
-		display: flex;
-		color: initial;
-		text-decoration: none;
-		border: 2px solid #68dd99;
-		padding: 5px;
-		background-color: #d5fcdf;
-		gap: 5px;
-		white-space: nowrap;
-
-		span {
-			font-size: 12px;
-
-			color: #616161;
-
-			@media (prefers-color-scheme: dark) {
-				color: #616161;
-			}
-		}
-	}
-
-	.twitter-share-button {
-		transform: scale(1.2);
-		transform-origin: left top;
-		padding-right: 17px;
-	}
-
-	.share-bluesky-button {
-		display: flex;
-		color: initial;
-		text-decoration: none;
-		border: 2px solid #57acf1;
-		padding: 5px;
-		background-color: #ceebff;
-		gap: 5px;
-		white-space: nowrap;
-		color: #616161;
-
-		span {
-			color: #616161;
-			font-size: 13px;
-		}
-	}
-</style>

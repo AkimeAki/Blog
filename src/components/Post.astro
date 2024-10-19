@@ -1,10 +1,9 @@
 ---
 import type { Blog } from "@/lib/microcms";
 import type { MicroCMSListContent } from "microcms-js-sdk";
-import hljs from "highlight.js";
-import * as cheerio from "cheerio";
-import "highlight.js/styles/vs2015.css";
 import { formatDate } from "@/lib/format-date";
+import { codeToHtml } from "shiki";
+import { JSDOM } from "jsdom";
 
 interface Props {
 	post: Blog & MicroCMSListContent;
@@ -12,18 +11,32 @@ interface Props {
 
 const { post } = Astro.props;
 
-let contents = "";
-const $ = cheerio.load(post.contents);
-$("pre code").each((_, element) => {
-	const result = hljs.highlightAuto($(element).text());
-	$(element).html(result.value);
-	$(element).addClass("hljs");
-});
+const contentsDom = new JSDOM(post.contents);
+const codes = contentsDom.window.document.querySelectorAll("pre > code");
+for (const code of codes) {
+	let lang = "";
+	for (const className of code.classList.value.split(" ")) {
+		const match = className.match(/^language-(.+)$/);
+		if (match !== null) {
+			lang = match[1] ?? "";
+			break;
+		}
+	}
 
-const html = $("body").html();
-if (html !== null) {
-	contents = html;
+	if (lang !== "" && code.textContent !== null) {
+		const hilightedCode = await codeToHtml(code.textContent, {
+			lang: lang,
+			theme: "github-dark-dimmed"
+		});
+
+		if (code.parentElement !== null) {
+			code.parentElement.outerHTML = hilightedCode;
+		}
+	}
 }
+
+const body = contentsDom.window.document.querySelector("body");
+const contents = body !== null ? body.innerHTML : "";
 ---
 
 <div class="post-info">
@@ -80,6 +93,7 @@ if (html !== null) {
 			text-align: center;
 			width: 100%;
 			max-width: 1000px;
+			padding: 50px 0;
 		}
 
 		.post-thumbnail {
@@ -129,6 +143,21 @@ if (html !== null) {
 			flex-direction: column;
 			gap: 30px;
 
+			& :global(a) {
+				color: #9deb83;
+
+				@media (prefers-color-scheme: dark) {
+					color: #9deb83;
+				}
+			}
+
+			& :global(img) {
+				max-width: 100%;
+				height: auto;
+				margin: 0 auto;
+				display: block;
+			}
+
 			& :global(h4) {
 				margin-top: 40px;
 				font-size: 17px;
@@ -139,6 +168,7 @@ if (html !== null) {
 				border-bottom: 1px solid black;
 				margin-top: 40px;
 				font-size: 20px;
+				padding: 10px 0;
 
 				@media (prefers-color-scheme: dark) {
 					border-bottom: 1px solid white;
@@ -153,9 +183,19 @@ if (html !== null) {
 				font-size: 13px;
 			}
 
+			& :global(pre:has(code)) {
+				padding: 5px 10px 10px;
+				border-radius: 7px;
+				overflow-x: auto;
+			}
+
+			& :global(div[data-filename] > pre:has(code)) {
+				border-top-left-radius: 0;
+			}
+
 			& :global(div[data-filename]) {
 				position: relative;
-				padding-top: 30px;
+				padding-top: 22px;
 
 				&:after {
 					position: absolute;
@@ -181,6 +221,10 @@ if (html !== null) {
 				}
 			}
 
+			& > :global(p) {
+				line-height: 1.6;
+			}
+
 			& > :global(p > code) {
 				font-family: "Source Code Pro", monospace;
 				background-color: #242424;
@@ -200,25 +244,28 @@ if (html !== null) {
 					max-width: 500px;
 				}
 			}
-		}
-	}
-</style>
 
-<style is:global>
-	.iframely-responsive {
-		position: relative;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 0;
-		padding-bottom: 56.25%;
-	}
-	.iframely-responsive > * {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		border: 0;
+			& :global(.iframely-embed > div) {
+				max-width: 500px;
+			}
+
+			& :global(.iframely-responsive) {
+				position: relative;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 0;
+				padding-bottom: 56.25%;
+			}
+
+			& :global(.iframely-responsive > *) {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				border: 0;
+			}
+		}
 	}
 </style>
