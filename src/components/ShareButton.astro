@@ -49,8 +49,15 @@ switch (service) {
 		padding: 6px 18px;
 		gap: 5px;
 		align-items: center;
-		border: 2px solid #8ac46f;
+		border-width: 2px;
+		border-style: solid;
+		border-color: #8ac46f;
 		user-select: none;
+
+		@media (prefers-color-scheme: dark) {
+			background-color: #c14b4b;
+			border-color: #6f1414;
+		}
 
 		&:hover {
 			opacity: 0.8;
