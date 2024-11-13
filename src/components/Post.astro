@@ -63,7 +63,7 @@ const contents = body !== null ? body.innerHTML : "";
 					<div class="post-tag">
 						<img
 							class="post-tag-icon"
-							src={`/logo/${tag.id}.png`}
+							src={tag.image !== undefined ? tag.image.url : ""}
 							width={size}
 							height={size}
 							alt={`${tag.name}のアイコン`}

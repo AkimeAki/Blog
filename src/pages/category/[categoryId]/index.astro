@@ -1,0 +1,35 @@
+---
+import { getListAllContents } from "@/lib/microcms";
+import type { Blog, Category } from "@/lib/microcms";
+import type { MicroCMSContentId, MicroCMSDate } from "microcms-js-sdk";
+import PostList from "@/components/PostList.astro";
+
+interface pathType {
+	params: {
+		categoryId: string;
+	};
+	props: {
+		category: Category & MicroCMSContentId & MicroCMSDate;
+	};
+}
+
+export const getStaticPaths = async (): Promise<pathType[]> => {
+	const response = await getListAllContents<Category>("categories");
+
+	return response.map((content) => ({
+		params: {
+			categoryId: content.id
+		},
+		props: {
+			category: content
+		}
+	}));
+};
+
+const { categoryId } = Astro.params;
+const posts = (await getListAllContents<Blog>("blogs")).filter((post) => {
+	return post.category !== undefined && post.category.id === categoryId;
+});
+---
+
+<PostList posts={posts} />

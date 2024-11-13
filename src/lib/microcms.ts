@@ -14,13 +14,21 @@ const client = createClient({
 	apiKey: import.meta.env.MICROCMS_API_KEY
 });
 
+export interface Category {
+	name: string;
+}
+
 export interface Blog {
 	title: string;
 	contents: string;
 	thumbnail?: MicroCMSImage;
+	category?: {
+		name: string;
+	} & MicroCMSListContent;
 	tags: Array<
 		{
 			name: string;
+			image?: MicroCMSImage;
 		} & MicroCMSListContent
 	>;
 }
