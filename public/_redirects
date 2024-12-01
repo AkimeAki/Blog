@@ -1,2 +1,11 @@
-/:post /posts/:post 301
+/follow-cursor-slow /posts/follow-cursor-slow 301
+/gas-print-extension /posts/gas-print-extension 301
+/null-to-undefined /posts/null-to-undefined 301
+/vercel-redirect /posts/vercel-redirect 301
+/convert-and-download-image-extension /posts/convert-and-download-image-extension 301
+/vite-single-file-build /posts/vite-single-file-build 301
+/netlify-cant-redirect-index-html-trailing-slash /posts/netlify-cant-redirect-index-html-trailing-slash 301
+/astro-react-router /posts/astro-react-router 301
+/background-ai-blog /posts/background-ai-blog 301
+/cockroachdb-docker-compose-prisma /posts/cockroachdb-docker-compose-prisma 301
 /category/:category /categories/:category 301
