@@ -1,0 +1,2 @@
+/:post /posts/:post 301
+/category/:category /categories/:category 301
