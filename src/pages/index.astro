@@ -3,7 +3,9 @@ import PostList from "@/components/PostList.astro";
 import { getListAllContents } from "@/lib/microcms";
 import type { Blog } from "@/lib/microcms";
 
-const posts = await getListAllContents<Blog>("blogs");
+const posts = (await getListAllContents<Blog>("blogs")).filter((post) => {
+	return (post.category !== undefined && post.category.id !== "allergy-navi") || post.category === undefined;
+});
 ---
 
 <PostList posts={posts} />

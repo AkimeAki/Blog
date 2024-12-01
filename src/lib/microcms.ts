@@ -16,15 +16,14 @@ const client = createClient({
 
 export interface Category {
 	name: string;
+	color: string;
 }
 
 export interface Blog {
 	title: string;
 	contents: string;
 	thumbnail?: MicroCMSImage;
-	category?: {
-		name: string;
-	} & MicroCMSListContent;
+	category?: Category & MicroCMSListContent;
 	tags: Array<
 		{
 			name: string;

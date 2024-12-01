@@ -6,31 +6,45 @@ import type { MicroCMSContentId, MicroCMSDate } from "microcms-js-sdk";
 
 interface Props {
 	posts: (Blog & MicroCMSContentId & MicroCMSDate)[];
+	title?: string;
 }
 
-const { posts } = Astro.props;
+const { posts, title } = Astro.props;
 ---
 
 <Layout ogType="blog">
+	{title !== undefined && <h2 class="category-name">{title}</h2>}
 	<div class="post-list">
 		{
 			posts.map((post) => (
 				<div class="post-card">
-					<time class="post-date" datetime={post.publishedAt ?? post.createdAt}>
-						{formatDate(post.publishedAt ?? post.createdAt)}
-					</time>
-					<div>
+					<div class="post-head">
 						{post.thumbnail !== undefined ? (
 							<img
 								class="post-thumbnail"
-								src={`${post.thumbnail.url}?fm=webp&w=800`}
+								src={`${post.thumbnail.url}?fm=webp&w=500`}
 								transition:name={`${post.id}-image`}
 							/>
 						) : (
 							<img class="post-thumbnail" src="/default-thumbnail.png" />
 						)}
+						<div class="post-info">
+							<time class="post-date" datetime={post.publishedAt ?? post.createdAt}>
+								{formatDate(post.publishedAt ?? post.createdAt)}
+							</time>
+							{post.category !== undefined && (
+								<a
+									href={`/categories/${post.category.id}`}
+									class="post-category"
+									style={{ "--_background": post.category.color }}
+								>
+									{post.category.name}
+								</a>
+							)}
+						</div>
 						<h2 class="post-title">{post.title}</h2>
 					</div>
+
 					<div class="post-tags">
 						{post.tags.map((tag) => {
 							const size = 20;
@@ -50,14 +64,9 @@ const { posts } = Astro.props;
 							);
 						})}
 					</div>
-					{post.category !== undefined && (
-						<a href={`/category/${post.category.id}`} class="post-category">
-							{post.category.name}
-						</a>
-					)}
 					<a
 						class="post-link"
-						href={`/${post.id}`}
+						href={`/posts/${post.id}`}
 						data-id={post.id}
 						data-tags={JSON.stringify(post.tags.map((tag) => tag.id))}
 						aria-label={`記事『${post.title}』を読む`}
@@ -69,6 +78,14 @@ const { posts } = Astro.props;
 </Layout>
 
 <style lang="scss">
+	.category-name {
+		padding: 0 30px 30px;
+		width: 100%;
+		max-width: 1200px;
+		margin: 0 auto;
+		font-size: 20px;
+	}
+
 	.post-list {
 		display: grid;
 		grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -109,30 +126,14 @@ const { posts } = Astro.props;
 			z-index: 1;
 			border: 2px solid transparent;
 
-			&:has(.post-category) {
-				border-color: #f0425a;
-
-				@media (prefers-color-scheme: dark) {
-					border-color: #216135;
-				}
-			}
-
 			@media (prefers-color-scheme: dark) {
 				box-shadow: 0 0 3px #222222;
 			}
 
-			.post-date {
-				position: absolute;
-				top: 0;
-				left: 0;
-				font-size: 15px;
-				background-color: #a3a3a3;
-				color: white;
-				padding: 5px;
-
-				@media (prefers-color-scheme: dark) {
-					background-color: #202020;
-				}
+			.post-head {
+				display: flex;
+				flex-direction: column;
+				gap: 10px;
 			}
 
 			.post-title {
@@ -146,6 +147,8 @@ const { posts } = Astro.props;
 
 			.post-thumbnail {
 				width: 100%;
+				aspect-ratio: 75/47;
+				object-fit: cover;
 			}
 
 			.post-tags {
@@ -176,21 +179,39 @@ const { posts } = Astro.props;
 				}
 			}
 
-			.post-category {
-				position: relative;
-				z-index: 99;
-				display: block;
-				font-size: 14px;
-				background-color: #f0425a;
-				width: calc(100% + 20px);
-				margin-left: -10px;
-				margin-bottom: -10px;
-				text-align: center;
-				padding: 10px;
-				color: white;
+			.post-info {
+				display: flex;
+				gap: 10px;
 
-				@media (prefers-color-scheme: dark) {
-					background-color: #216135;
+				.post-date {
+					display: block;
+					font-size: 15px;
+				}
+
+				.post-category {
+					--_foreground-threshold: 0.7;
+					--_foreground: oklch(
+						from var(--_background) round(up, var(--_foreground-threshold) / l - 1, 1) 0 h
+					);
+
+					display: block;
+					background-color: var(--_background);
+					color: var(--_foreground);
+					border-style: solid;
+					border-color: transparent;
+					border-width: 1px;
+
+					font-size: 12px;
+					padding: 2px 6px 3px;
+					border-radius: 8px;
+					position: relative;
+					z-index: 1;
+
+					&:hover {
+						color: var(--_background);
+						background-color: var(--_foreground);
+						border-color: var(--_background);
+					}
 				}
 			}
 

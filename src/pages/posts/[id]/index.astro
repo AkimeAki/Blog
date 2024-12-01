@@ -9,7 +9,7 @@ import ShareButton from "@/components/ShareButton.astro";
 
 interface pathType {
 	params: {
-		blogId: string;
+		id: string;
 	};
 	props: {
 		blog: Blog & MicroCMSContentId & MicroCMSDate;
@@ -20,7 +20,7 @@ export const getStaticPaths = async (): Promise<pathType[]> => {
 	const response = await getListAllContents<Blog>("blogs");
 	return response.map((content) => ({
 		params: {
-			blogId: content.id
+			id: content.id
 		},
 		props: {
 			blog: content

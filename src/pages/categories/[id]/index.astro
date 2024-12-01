@@ -6,7 +6,7 @@ import PostList from "@/components/PostList.astro";
 
 interface pathType {
 	params: {
-		categoryId: string;
+		id: string;
 	};
 	props: {
 		category: Category & MicroCMSContentId & MicroCMSDate;
@@ -18,7 +18,7 @@ export const getStaticPaths = async (): Promise<pathType[]> => {
 
 	return response.map((content) => ({
 		params: {
-			categoryId: content.id
+			id: content.id
 		},
 		props: {
 			category: content
@@ -26,10 +26,11 @@ export const getStaticPaths = async (): Promise<pathType[]> => {
 	}));
 };
 
-const { categoryId } = Astro.params;
+const { id: categoryId } = Astro.params;
+const { category } = Astro.props;
 const posts = (await getListAllContents<Blog>("blogs")).filter((post) => {
 	return post.category !== undefined && post.category.id === categoryId;
 });
 ---
 
-<PostList posts={posts} />
+<PostList posts={posts} title={category.name} />
