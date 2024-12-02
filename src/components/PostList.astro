@@ -16,7 +16,7 @@ const { posts, title } = Astro.props;
 	{title !== undefined && <h2 class="category-name">{title}</h2>}
 	<div class="post-list">
 		{
-			posts.map((post) => (
+			posts.map((post, index) => (
 				<div class="post-card">
 					<div class="post-head">
 						{post.thumbnail !== undefined ? (
@@ -25,13 +25,13 @@ const { posts, title } = Astro.props;
 								src={`${post.thumbnail.url}?fm=webp&w=500`}
 								transition:name={`${post.id}-image`}
 								alt={post.title}
-								loading="lazy"
+								loading={index > 3 ? "lazy" : undefined}
 							/>
 						) : (
 							<img
 								class="post-thumbnail"
 								src="/default-thumbnail-small.webp"
-								loading="lazy"
+								loading={index > 3 ? "lazy" : undefined}
 								alt={post.title}
 							/>
 						)}
