@@ -39,7 +39,7 @@ for (const code of codes) {
 const images = document.querySelectorAll("img");
 for (const image of images) {
 	image.src = `${image.src}?fm=webp`;
-	image.loading = "lazy";
+	image.setAttribute("loading", "lazy");
 }
 
 const body = document.querySelector("body");
