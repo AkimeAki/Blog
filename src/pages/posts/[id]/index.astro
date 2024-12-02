@@ -80,10 +80,10 @@ const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
 
 	<Post post={blog} />
 	<div class="post-button">
-		<ShareButton url={`${Astro.site}${path}`} service="x" text={blog.title} />
-		<ShareButton url={`${Astro.site}${path}`} service="bluesky" text={blog.title} />
-		<ShareButton url={`${Astro.site}${path}`} service="pocket" />
-		<ShareButton url={`${Astro.site}${path}`} service="hatena" />
+		<ShareButton url={`${Astro.site}${path}`} service="x" text={blog.title} loading="lazy" />
+		<ShareButton url={`${Astro.site}${path}`} service="bluesky" text={blog.title} loading="lazy" />
+		<ShareButton url={`${Astro.site}${path}`} service="pocket" loading="lazy" />
+		<ShareButton url={`${Astro.site}${path}`} service="hatena" loading="lazy" />
 	</div>
 
 	<style lang="scss">

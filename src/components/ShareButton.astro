@@ -3,9 +3,10 @@ interface Props {
 	url: string;
 	text?: string;
 	service: "x" | "hatena" | "pocket" | "bluesky";
+	loading?: "eager" | "lazy";
 }
 
-const { url, service, text = "" } = Astro.props;
+const { url, service, text = "", loading } = Astro.props;
 
 let shareText = "";
 let serviceName = "";
@@ -38,7 +39,7 @@ switch (service) {
 ---
 
 <a class="share-button" href={href} target="_blank" data-service={service} target="_blank">
-	<img src={`/icon/${service}.png`} alt={`${serviceName}${shareText}`} />
+	<img src={`/icon/${service}.png`} alt={`${serviceName}${shareText}`} loading={loading} />
 	<span>{shareText}</span>
 </a>
 
