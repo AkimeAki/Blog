@@ -24,9 +24,16 @@ const { posts, title } = Astro.props;
 								class="post-thumbnail"
 								src={`${post.thumbnail.url}?fm=webp&w=500`}
 								transition:name={`${post.id}-image`}
+								alt={post.title}
+								loading="lazy"
 							/>
 						) : (
-							<img class="post-thumbnail" src="/default-thumbnail.png" />
+							<img
+								class="post-thumbnail"
+								src="/default-thumbnail-small.webp"
+								loading="lazy"
+								alt={post.title}
+							/>
 						)}
 						<div class="post-info">
 							<time class="post-date" datetime={post.publishedAt ?? post.createdAt}>
@@ -54,10 +61,11 @@ const { posts, title } = Astro.props;
 									<img
 										data-tag-id={tag.id}
 										class="post-tag-icon"
-										src={tag.image !== undefined ? tag.image.url : ""}
+										src={tag.image !== undefined ? `${tag.image.url}?fm=webp&w=${size}` : ""}
 										width={size}
 										height={size}
 										alt={tag.name}
+										loading="lazy"
 									/>
 									<span class="post-tag-name">{tag.name}</span>
 								</div>

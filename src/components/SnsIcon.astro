@@ -3,13 +3,14 @@ interface Props {
 	file: string;
 	name: string;
 	href: string;
+	loading?: "eager" | "lazy";
 }
 
-const { file, name, href } = Astro.props;
+const { file, name, href, loading } = Astro.props;
 ---
 
 <a class="sns-link" href={href} target="_blank">
-	<img src={`/icon/circle/${file}.png`} alt={`${name}アイコン`} />
+	<img src={`/icon/circle/${file}.png`} alt={name} loading={loading} />
 </a>
 
 <style lang="scss">
