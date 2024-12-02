@@ -53,11 +53,10 @@ const contents = body !== null ? body.innerHTML : "";
 </div>
 
 <div class="post-head">
-	<time datetime={post.publishedAt ?? post.createdAt}>{formatDate(post.publishedAt ?? post.createdAt)}</time>
 	<div class="post-tags">
 		{
 			post.tags.map((tag) => {
-				const size = 30;
+				const size = 20;
 
 				return (
 					<div class="post-tag">
@@ -66,7 +65,7 @@ const contents = body !== null ? body.innerHTML : "";
 							src={tag.image !== undefined ? tag.image.url : ""}
 							width={size}
 							height={size}
-							alt={`${tag.name}のアイコン`}
+							alt={tag.name}
 						/>
 						<span class="post-tag-name">{tag.name}</span>
 					</div>
@@ -74,6 +73,9 @@ const contents = body !== null ? body.innerHTML : "";
 			})
 		}
 	</div>
+	<time class="post-published-at" datetime={post.publishedAt ?? post.createdAt}>
+		{formatDate(post.publishedAt ?? post.createdAt)}
+	</time>
 </div>
 <article class="cms-contents">
 	<div class="rich-contents" set:html={contents} />
@@ -85,7 +87,7 @@ const contents = body !== null ? body.innerHTML : "";
 		flex-direction: column;
 		align-items: center;
 		gap: 30px;
-		margin-bottom: 60px;
+		margin-bottom: 30px;
 
 		.post-title {
 			font-size: 30px;
@@ -113,10 +115,10 @@ const contents = body !== null ? body.innerHTML : "";
 
 		.post-tags {
 			display: flex;
-			gap: 30px;
+			gap: 10px;
 			flex-wrap: wrap;
 			align-items: center;
-			padding: 10px 0;
+			padding: 10px 0 30px;
 
 			.post-tag {
 				display: flex;
@@ -126,15 +128,21 @@ const contents = body !== null ? body.innerHTML : "";
 
 				.post-tag-icon {
 					border-radius: 9999px;
-					width: 25px;
+					width: 20px;
 					height: auto;
 					background-color: #dfdfdf;
 				}
 
 				.post-tag-name {
-					font-size: 15px;
+					font-size: 13px;
 				}
 			}
+		}
+
+		.post-published-at {
+			font-size: 15px;
+			text-align: right;
+			display: block;
 		}
 	}
 

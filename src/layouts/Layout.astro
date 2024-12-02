@@ -12,10 +12,12 @@ interface Props {
 	notFound?: boolean;
 }
 
+const defaultDescription = "エンジニアがちまちま書いてるブログ";
+
 const {
 	title,
 	ogType = "article",
-	description = "エンジニアがちまちま書いてるブログ",
+	description = defaultDescription,
 	ogImage = `${Astro.site}default-ogp.png`,
 	notFound = false
 } = Astro.props;
@@ -23,13 +25,6 @@ const serviceTitle = "孅いエンジニアブログ";
 const pageTitle = title === undefined ? serviceTitle : `${title} | ${serviceTitle}`;
 
 const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
-
-const schema = {
-	"@context": "https://schema.org",
-	"@type": "WebSite",
-	name: serviceTitle,
-	url: Astro.site
-};
 ---
 
 <!doctype html>
@@ -67,7 +62,23 @@ const schema = {
 		<meta name="twitter:image" content={ogImage} />
 		<link rel="icon" href="/favicon.ico" />
 		<title>{pageTitle}</title>
-		<script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} />
+		<script
+			type="application/ld+json"
+			is:inline
+			set:html={JSON.stringify({
+				"@context": "https://schema.org",
+				"@type": "WebSite",
+				name: serviceTitle,
+				description: defaultDescription,
+				inLanguage: "ja",
+				url: Astro.site,
+				author: {
+					"@type": "Person",
+					name: "彩季",
+					url: "https://aki.wtf"
+				}
+			})}
+		/>
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link

@@ -57,7 +57,7 @@ const { posts, title } = Astro.props;
 										src={tag.image !== undefined ? tag.image.url : ""}
 										width={size}
 										height={size}
-										alt={`${tag.name}のアイコン`}
+										alt={tag.name}
 									/>
 									<span class="post-tag-name">{tag.name}</span>
 								</div>
@@ -120,7 +120,7 @@ const { posts, title } = Astro.props;
 			flex-direction: column;
 			justify-content: space-between;
 			position: relative;
-			padding: 40px 10px 10px;
+			padding: 10px;
 			box-shadow: 0 0 3px #cccccc;
 			transition-duration: 200ms;
 			z-index: 1;

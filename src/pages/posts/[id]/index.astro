@@ -6,6 +6,7 @@ import type { Blog } from "@/lib/microcms";
 import type { MicroCMSContentId, MicroCMSDate } from "microcms-js-sdk";
 import { JSDOM } from "jsdom";
 import ShareButton from "@/components/ShareButton.astro";
+import { formatDate } from "@/lib/format-date";
 
 interface pathType {
 	params: {
@@ -39,6 +40,44 @@ const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
 ---
 
 <Layout title={blog.title} ogType="article" description={description} ogImage={blog?.thumbnail?.url}>
+	{
+		blog.publishedAt !== undefined && (
+			<script
+				type="application/ld+json"
+				is:inline
+				set:html={JSON.stringify({
+					"@context": "https://schema.org",
+					"@type": "BlogPosting",
+					headline: blog.title,
+					name: blog.title,
+					datePublished: formatDate(blog.publishedAt, "jsonld"),
+					dateModified: formatDate(blog.updatedAt, "jsonld"),
+					inLanguage: "ja",
+					description: description,
+					image:
+						blog.thumbnail !== undefined
+							? {
+									"@type": "ImageObject",
+									url: `${blog.thumbnail.url}?fm=webp`,
+									width: blog.thumbnail.width,
+									height: blog.thumbnail.height
+								}
+							: {
+									"@type": "ImageObject",
+									url: "/default-thumbnail.png",
+									width: 1200,
+									height: 670
+								},
+					author: {
+						"@type": "Person",
+						name: "彩季",
+						url: "https://aki.wtf"
+					}
+				})}
+			/>
+		)
+	}
+
 	<Post post={blog} />
 	<div class="post-button">
 		<ShareButton url={`${Astro.site}${path}`} service="x" text={blog.title} />
