@@ -54,6 +54,7 @@ const contents = body !== null ? body.innerHTML : "";
 				class="post-thumbnail"
 				src={`${post.thumbnail.url}?fm=webp&w=800`}
 				transition:name={`${post.id}-image`}
+				alt={post.title}
 			/>
 		)
 	}
