@@ -38,21 +38,27 @@ for (const code of codes) {
 
 const images = document.querySelectorAll("img");
 for (const image of images) {
-	image.src = `${image.src}?fm=webp`;
+	const src = image.src;
+	image.src = `${src}?fm=webp&w=880`;
+	image.srcset = `${src}?fm=webp&w=300px 300w,${src}?fm=webp&w=500px 500w,${src}?fm=webp&w=650px 650w,${src}?fm=webp&w=880px 880w`;
+	image.sizes = "(max-width: 350px) 300px,(max-width: 550px) 500px,(max-width: 700px) 650px,875px";
 	image.setAttribute("loading", "lazy");
 }
 
 const body = document.querySelector("body");
 const contents = body !== null ? body.innerHTML : "";
+const thumbnailSrc = post.thumbnail !== undefined ? post.thumbnail.url : undefined;
 ---
 
 <div class="post-info">
 	<h2 class="post-title">{post.title}</h2>
 	{
-		post.thumbnail !== undefined && (
+		thumbnailSrc !== undefined && (
 			<img
 				class="post-thumbnail"
-				src={`${post.thumbnail.url}?fm=webp&w=800`}
+				src={`${thumbnailSrc}?fm=webp&w=880`}
+				srcset={`${thumbnailSrc}?fm=webp&w=300px 300w,${thumbnailSrc}?fm=webp&w=500px 500w,${thumbnailSrc}?fm=webp&w=650px 650w,${thumbnailSrc}?fm=webp&w=880px 880w`}
+				sizes="(max-width: 350px) 300px,(max-width: 550px) 500px,(max-width: 700px) 650px,875px"
 				transition:name={`${post.id}-image`}
 				alt={post.title}
 			/>
