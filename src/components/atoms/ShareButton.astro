@@ -39,7 +39,7 @@ switch (service) {
 ---
 
 <a class="share-button" href={href} target="_blank" data-service={service} target="_blank">
-	<img src={`/icon/${service}.png`} alt={`${serviceName}${shareText}`} loading={loading} />
+	<img src={`/icon/${service}.png`} alt={`${serviceName}${shareText}`} loading={loading} width="20" height="20" />
 	<span>{shareText}</span>
 </a>
 
@@ -70,7 +70,6 @@ switch (service) {
 		}
 
 		span {
-			margin-bottom: 3px;
 			display: block;
 			font-size: 15px;
 			pointer-events: none;

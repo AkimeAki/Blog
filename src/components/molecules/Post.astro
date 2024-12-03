@@ -76,7 +76,7 @@ const thumbnailSrc = post.thumbnail !== undefined ? post.thumbnail.url : undefin
 					<div class="post-tag">
 						<img
 							class="post-tag-icon"
-							src={tag.image !== undefined ? tag.image.url : ""}
+							src={tag.image !== undefined ? `${tag.image.url}?fm=webp&w=${size}` : ""}
 							width={size}
 							height={size}
 							alt={tag.name}
