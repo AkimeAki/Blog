@@ -1,11 +1,11 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import Post from "@/components/Post.astro";
+import Post from "@/components/molecules/Post.astro";
 import { getListAllContents } from "@/lib/microcms";
 import type { Blog } from "@/lib/microcms";
 import type { MicroCMSContentId, MicroCMSDate } from "microcms-js-sdk";
 import { JSDOM } from "jsdom";
-import ShareButton from "@/components/ShareButton.astro";
+import ShareButton from "@/components/atoms/ShareButton.astro";
 import { formatDate } from "@/lib/format-date";
 
 interface pathType {

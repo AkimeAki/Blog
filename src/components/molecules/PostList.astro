@@ -147,6 +147,7 @@ const { posts, title } = Astro.props;
 			.post-title {
 				font-size: 15px;
 				line-height: 1.6;
+				font-weight: bold;
 
 				@media (prefers-color-scheme: dark) {
 					color: white;
@@ -189,6 +190,7 @@ const { posts, title } = Astro.props;
 
 			.post-info {
 				display: flex;
+				align-items: center;
 				gap: 10px;
 
 				.post-date {
@@ -210,7 +212,7 @@ const { posts, title } = Astro.props;
 					border-width: 1px;
 
 					font-size: 12px;
-					padding: 2px 6px 3px;
+					padding: 2px 6px;
 					border-radius: 8px;
 					position: relative;
 					z-index: 1;

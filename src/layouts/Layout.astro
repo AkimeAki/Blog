@@ -1,7 +1,7 @@
 ---
 import { ViewTransitions } from "astro:transitions";
-import Header from "@/components/Header.astro";
-import Footer from "@/components/Footer.astro";
+import Header from "@/components/molecules/Header.astro";
+import Footer from "@/components/molecules/Footer.astro";
 import "@akimeaki/reset-css";
 
 interface Props {
@@ -81,7 +81,6 @@ const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
 		/>
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400&display=swap" rel="stylesheet" />
 		<link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap" rel="stylesheet" />
 		<link rel="sitemap" href="/sitemap-index.xml" />
 		<script
@@ -150,8 +149,6 @@ const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
 		</script>
 		<style lang="scss">
 			:global(*) {
-				font-family: "Noto Sans JP", sans-serif;
-
 				@media (prefers-color-scheme: dark) {
 					color: white;
 				}
