@@ -302,6 +302,9 @@ const thumbnailSrc = post.thumbnail !== undefined ? post.thumbnail.url : undefin
 				document.head.insertAdjacentHTML(
 					"beforeend",
 					/* css */ `
+					<link rel="preconnect" href="https://fonts.googleapis.com">
+					<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+					<link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap" rel="stylesheet">
 					<style>
 						pre > code,
 						pre > code * {
