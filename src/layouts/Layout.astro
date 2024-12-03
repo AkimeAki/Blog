@@ -22,7 +22,7 @@ const {
 	notFound = false
 } = Astro.props;
 const serviceTitle = "孅いエンジニアブログ";
-const pageTitle = title === undefined ? serviceTitle : `${title} | ${serviceTitle}`;
+const pageTitle = title === undefined ? serviceTitle : `${title} - ${serviceTitle}`;
 
 const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
 ---
