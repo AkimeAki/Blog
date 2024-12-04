@@ -58,20 +58,21 @@ for (const iframelyLink of iframelyLinks) {
 
 const body = document.querySelector("body");
 const contents = body !== null ? body.innerHTML : "";
-const thumbnailSrc = post.thumbnail !== undefined ? post.thumbnail.url : undefined;
 ---
 
 <div class="post-info">
 	<h2 class="post-title">{post.title}</h2>
 	{
-		thumbnailSrc !== undefined && (
+		post.thumbnail !== undefined && (
 			<img
 				class="post-thumbnail"
-				src={`${thumbnailSrc}?fm=webp&w=880`}
-				srcset={`${thumbnailSrc}?fm=webp&w=300px 300w,${thumbnailSrc}?fm=webp&w=500px 500w,${thumbnailSrc}?fm=webp&w=650px 650w,${thumbnailSrc}?fm=webp&w=880px 880w`}
+				src={`${post.thumbnail.url}?fm=webp&w=880`}
+				srcset={`${post.thumbnail.url}?fm=webp&w=300px 300w,${post.thumbnail.url}?fm=webp&w=500px 500w,${post.thumbnail.url}?fm=webp&w=650px 650w,${post.thumbnail.url}?fm=webp&w=880px 880w`}
 				sizes="(max-width: 350px) 300px,(max-width: 550px) 500px,(max-width: 700px) 650px,875px"
 				transition:name={`${post.id}-image`}
 				alt={post.title}
+				width={post.thumbnail.width}
+				height={post.thumbnail.height}
 			/>
 		)
 	}
@@ -130,6 +131,7 @@ const thumbnailSrc = post.thumbnail !== undefined ? post.thumbnail.url : undefin
 		.post-thumbnail {
 			width: 100%;
 			max-width: 800px;
+			height: auto;
 		}
 	}
 
