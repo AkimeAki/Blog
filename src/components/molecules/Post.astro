@@ -50,6 +50,11 @@ for (const iframelyScript of iframelyScripts) {
 	iframelyScript.remove();
 }
 
+const iframelyLinks = document.querySelectorAll(".iframely-embed a");
+for (const iframelyLink of iframelyLinks) {
+	iframelyLink.setAttribute("aria-hidden", "true");
+}
+
 const body = document.querySelector("body");
 const contents = body !== null ? body.innerHTML : "";
 const thumbnailSrc = post.thumbnail !== undefined ? post.thumbnail.url : undefined;
