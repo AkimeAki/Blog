@@ -53,6 +53,7 @@ for (const iframelyScript of iframelyScripts) {
 const iframelyLinks = document.querySelectorAll(".iframely-embed a");
 for (const iframelyLink of iframelyLinks) {
 	iframelyLink.setAttribute("aria-hidden", "true");
+	iframelyLink.setAttribute("tabindex", "-1");
 }
 
 const body = document.querySelector("body");
