@@ -4,7 +4,10 @@ import { getListAllContents } from "@/lib/microcms";
 import type { Blog } from "@/lib/microcms";
 
 const posts = (await getListAllContents<Blog>("blogs")).filter((post) => {
-	return (post.category !== undefined && post.category.id !== "allergy-navi") || post.category === undefined;
+	return (
+		(post.category !== undefined && post.category.id !== "allergy-navi" && post.category.id !== "pixel-gives") ||
+		post.category === undefined
+	);
 });
 ---
 
