@@ -12,7 +12,7 @@ interface Props {
 	notFound?: boolean;
 }
 
-const defaultDescription = "エンジニアがちまちま書いてるブログ";
+const defaultDescription = "ウェブエンジニアがちまちま書いてるブログ";
 
 const {
 	title,
@@ -21,7 +21,7 @@ const {
 	ogImage = `${Astro.site}default-ogp.png`,
 	notFound = false
 } = Astro.props;
-const serviceTitle = "孅いエンジニアブログ";
+const serviceTitle = "孅いウェブエンジニアブログ";
 const pageTitle = title === undefined ? serviceTitle : `${title} - ${serviceTitle}`;
 
 const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
