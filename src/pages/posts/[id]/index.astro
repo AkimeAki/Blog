@@ -4,7 +4,7 @@ import Post from "@/components/molecules/Post.astro";
 import { getListAllContents } from "@/lib/microcms";
 import type { Blog } from "@/lib/microcms";
 import type { MicroCMSContentId, MicroCMSDate } from "microcms-js-sdk";
-import { JSDOM } from "jsdom";
+import * as cheerio from "cheerio";
 import ShareButton from "@/components/atoms/ShareButton.astro";
 import { formatDate } from "@/lib/format-date";
 
@@ -31,9 +31,9 @@ export const getStaticPaths = async (): Promise<pathType[]> => {
 
 const { blog } = Astro.props;
 
-const contentsDom = new JSDOM(blog.contents);
-const body = contentsDom.window.document.querySelector("body");
-const contents = body !== null ? body.textContent ?? "" : "";
+const $ = cheerio.load(blog.contents);
+const body = $("body");
+const contents = body !== null ? body.text() ?? "" : "";
 const description = contents.substring(0, 80) + "...";
 
 const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");

@@ -3,7 +3,7 @@ import type { Blog } from "@/lib/microcms";
 import type { MicroCMSListContent } from "microcms-js-sdk";
 import { formatDate } from "@/lib/format-date";
 import { codeToHtml } from "shiki";
-import { JSDOM } from "jsdom";
+import * as cheerio from "cheerio";
 
 interface Props {
 	post: Blog & MicroCMSListContent;
@@ -11,12 +11,11 @@ interface Props {
 
 const { post } = Astro.props;
 
-const contentsDom = new JSDOM(post.contents);
-const document = contentsDom.window.document;
-const codes = document.querySelectorAll("pre > code");
+const $ = cheerio.load(post.contents);
+const codes = $("pre > code");
 for (const code of codes) {
 	let lang = "";
-	for (const className of code.classList.value.split(" ")) {
+	for (const className of ($(code).attr("class") ?? "").split(" ")) {
 		const match = className.match(/^language-(.+)$/);
 		if (match !== null) {
 			lang = match[1] ?? "";
@@ -24,40 +23,40 @@ for (const code of codes) {
 		}
 	}
 
-	if (lang !== "" && code.textContent !== null) {
-		const hilightedCode = await codeToHtml(code.textContent, {
+	if (lang !== "" && $(code).text() !== null) {
+		const hilightedCode = await codeToHtml($(code).text(), {
 			lang: lang,
 			theme: "github-dark-dimmed"
 		});
-
-		if (code.parentElement !== null) {
-			code.parentElement.outerHTML = hilightedCode;
-		}
+		$(code).parent().replaceWith(hilightedCode);
 	}
 }
 
-const images = document.querySelectorAll("img");
+const images = $("img");
 for (const image of images) {
-	const src = image.src;
-	image.src = `${src}?fm=webp&w=880`;
-	image.srcset = `${src}?fm=webp&w=300px 300w,${src}?fm=webp&w=500px 500w,${src}?fm=webp&w=650px 650w,${src}?fm=webp&w=880px 880w`;
-	image.sizes = "(max-width: 350px) 300px,(max-width: 550px) 500px,(max-width: 700px) 650px,875px";
-	image.setAttribute("loading", "lazy");
+	const src = $(image).attr("src");
+	$(image).attr("src", `${src}?fm=webp&w=880`);
+	$(image).attr(
+		"srcset",
+		`${src}?fm=webp&w=300px 300w,${src}?fm=webp&w=500px 500w,${src}?fm=webp&w=650px 650w,${src}?fm=webp&w=880px 880w`
+	);
+	$(image).attr("sizes", "(max-width: 350px) 300px,(max-width: 550px) 500px,(max-width: 700px) 650px,875px");
+	$(image).attr("loading", "lazy");
 }
 
-const iframelyScripts = document.querySelectorAll('script[src="//cdn.iframe.ly/embed.js"]');
+const iframelyScripts = $('script[src="//cdn.iframe.ly/embed.js"]');
 for (const iframelyScript of iframelyScripts) {
-	iframelyScript.remove();
+	$(iframelyScript).remove();
 }
 
-const iframelyLinks = document.querySelectorAll(".iframely-embed a");
+const iframelyLinks = $(".iframely-embed a");
 for (const iframelyLink of iframelyLinks) {
-	iframelyLink.setAttribute("aria-hidden", "true");
-	iframelyLink.setAttribute("tabindex", "-1");
+	$(iframelyLink).attr("aria-hidden", "true");
+	$(iframelyLink).attr("tabindex", "-1");
 }
 
-const body = document.querySelector("body");
-const contents = body !== null ? body.innerHTML : "";
+const body = $("body");
+const contents = body !== null ? body.prop("innerHTML") : "";
 ---
 
 <div class="post-info">
