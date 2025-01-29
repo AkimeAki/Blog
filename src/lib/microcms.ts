@@ -17,6 +17,7 @@ const client = createClient({
 export interface Category {
 	name: string;
 	color: string;
+	contents?: string;
 }
 
 export interface Blog {
