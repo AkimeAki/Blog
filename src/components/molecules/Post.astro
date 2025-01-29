@@ -35,26 +35,28 @@ const contents = categoryContents + (await formatContents(post.contents));
 </div>
 
 <div class="post-head">
-	<div class="post-tags">
-		{
-			post.tags.map((tag) => {
-				const size = 30;
+	{
+		post.tags.length !== 0 && (
+			<div class="post-tags">
+				{post.tags.map((tag) => {
+					const size = 30;
 
-				return (
-					<div class="post-tag">
-						<img
-							class="post-tag-icon"
-							src={tag.image !== undefined ? `${tag.image.url}?fm=webp&w=${size}` : ""}
-							width={size}
-							height={size}
-							alt={tag.name}
-						/>
-						<span class="post-tag-name">{tag.name}</span>
-					</div>
-				);
-			})
-		}
-	</div>
+					return (
+						<div class="post-tag">
+							<img
+								class="post-tag-icon"
+								src={tag.image !== undefined ? `${tag.image.url}?fm=webp&w=${size}` : ""}
+								width={size}
+								height={size}
+								alt={tag.name}
+							/>
+							<span class="post-tag-name">{tag.name}</span>
+						</div>
+					);
+				})}
+			</div>
+		)
+	}
 	<time class="post-published-at" datetime={post.publishedAt ?? post.createdAt}>
 		{formatDate(post.publishedAt ?? post.createdAt)}
 	</time>
