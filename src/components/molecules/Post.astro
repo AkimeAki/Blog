@@ -326,6 +326,24 @@ const contents = categoryContents + (await formatContents(post.contents));
 				font-size: 15px;
 				margin-top: 10px;
 			}
+
+			& :global(.note) {
+				font-size: 12px;
+				font-weight: bold;
+				transform: translateY(-0.5em);
+				display: inline-block;
+				color: #f0425a;
+				cursor: pointer;
+			}
+
+			& :global(.note_address) {
+				font-size: 12px;
+				font-weight: bold;
+				transform: translateY(-0.5em);
+				display: inline-block;
+				color: #f0425a;
+				scroll-margin: 20px;
+			}
 		}
 	}
 </style>
@@ -420,4 +438,27 @@ const contents = categoryContents + (await formatContents(post.contents));
 	});
 
 	checkImage();
+</script>
+
+<script>
+	function checkNote() {
+		const noteList = document.querySelectorAll<HTMLSpanElement>(".rich-contents .note");
+		const noteAddressList = document.querySelectorAll<HTMLSpanElement>(".rich-contents .note_address");
+		for (const noteElement of noteList) {
+			noteElement.addEventListener("click", () => {
+				const noteContent = noteElement.textContent;
+				for (const noteAddressElement of noteAddressList) {
+					if (noteAddressElement.textContent === noteContent) {
+						noteAddressElement.scrollIntoView({ behavior: "smooth" });
+					}
+				}
+			});
+		}
+	}
+
+	document.addEventListener("astro:after-swap", () => {
+		checkNote();
+	});
+
+	checkNote();
 </script>
