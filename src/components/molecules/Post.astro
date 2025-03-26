@@ -177,9 +177,11 @@ const contents = categoryContents + (await formatContents(post.contents));
 				margin-top: 40px;
 				font-size: 17px;
 				font-weight: bold;
+				line-height: 1.4;
 
 				&:before {
 					content: "### ";
+					color: #9b9b9b;
 				}
 			}
 
@@ -187,9 +189,15 @@ const contents = categoryContents + (await formatContents(post.contents));
 				margin-top: 40px;
 				font-size: 20px;
 				font-weight: bold;
+				line-height: 1.4;
+
+				& :global(+ h5) {
+					margin-top: 0;
+				}
 
 				&:before {
 					content: "## ";
+					color: #9b9b9b;
 				}
 			}
 
@@ -199,6 +207,10 @@ const contents = categoryContents + (await formatContents(post.contents));
 				padding: 10px 0;
 				font-weight: bold;
 				line-height: 1.4;
+
+				& :global(+ h4) {
+					margin-top: 0;
+				}
 
 				&:before {
 					content: "# ";
