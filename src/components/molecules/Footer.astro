@@ -1,10 +1,54 @@
 ---
 import SnsIcon from "@/components/atoms/SnsIcon.astro";
+import { css } from "@/styled-system/css";
+
+interface Props {
+	position: "fixed" | "static";
+}
+
+const { position } = Astro.props;
 ---
 
-<footer>
-	<span id="copy">Created by <a href="https://aki.wtf" target="_blank">彩季</a></span>
-	<div class="footer-link">
+<footer
+	style={{ position: position }}
+	class={css`
+		padding: 10px;
+		bottom: 0;
+		right: 0;
+		z-index: 100;
+		text-align: center;
+	`}
+>
+	<span
+		class={css`
+			display: inline-block;
+			font-weight: 300;
+
+			@media (prefers-color-scheme: dark) {
+				color: white;
+			}
+		`}
+	>
+		Created by
+		<a
+			href="https://aki.wtf"
+			target="_blank"
+			class={css`
+				font-weight: bold;
+				text-decoration: none;
+			`}
+		>
+			彩季
+		</a>
+	</span>
+	<div
+		class={css`
+			display: flex;
+			justify-content: center;
+			padding: 10px;
+			gap: 10px;
+		`}
+	>
 		<SnsIcon file="twitter" name="Twitter" href="https://twitter.com/Akime_Aki" loading="lazy" />
 		<SnsIcon file="x" name="X" href="https://x.com/Akime_Aki" loading="lazy" />
 		<SnsIcon
@@ -15,31 +59,3 @@ import SnsIcon from "@/components/atoms/SnsIcon.astro";
 		/>
 	</div>
 </footer>
-
-<style lang="scss">
-	footer {
-		text-align: center;
-		padding: 60px 0;
-
-		#copy {
-			display: inline-block;
-			font-weight: 300;
-
-			@media (prefers-color-scheme: dark) {
-				color: white;
-			}
-
-			a {
-				font-weight: bold;
-				text-decoration: none;
-			}
-		}
-
-		.footer-link {
-			display: flex;
-			justify-content: center;
-			padding: 20px 10px;
-			gap: 20px;
-		}
-	}
-</style>

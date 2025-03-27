@@ -1,42 +1,123 @@
-<header>
-	<div id="title-wrap">
-		<a id="title-link" href="/">
-			<h1 id="title">孅いウェブエンジニアブログ</h1>
-		</a>
-	</div>
-</header>
+---
+import { css, cx } from "@/styled-system/css";
 
-<style lang="scss">
-	.br-allergy-navi,
-	.br-pixel-gives {
-		@media (min-width: 601px) {
-			display: none;
-		}
-	}
+interface Props {
+	position: "fixed" | "static";
+	pathList?: {
+		name: string;
+		url: string;
+	}[];
+	transitionName?: string;
+}
 
-	header {
+const { position, pathList = [], transitionName } = Astro.props;
+---
+
+<header
+	style={{ position: position }}
+	class={css`
+		padding: 10px;
 		text-align: center;
-		background-color: #f0425a;
-
-		@media (prefers-color-scheme: dark) {
-			background-color: #216135;
-		}
-
-		#title-wrap {
-			display: flex;
-			justify-content: center;
-			padding: 60px 0;
-
-			#title-link {
-				text-decoration: none;
-
-				#title {
+		z-index: 100;
+	`}
+>
+	<div class="title-logo">
+		<div
+			class={css`
+				display: inline-block;
+				line-height: 1.2;
+			`}
+		>
+			<div
+				class={css`
 					display: inline-block;
 					font-size: 23px;
 					font-weight: bold;
-					color: white;
-				}
+				`}
+			>
+				/
+			</div>
+			<a href="/">
+				<h1
+					class={css`
+						display: inline-block;
+						font-size: 23px;
+						font-weight: bold;
+						color: #f0425a;
+						word-break: break-all;
+
+						@media (prefers-color-scheme: dark) {
+							color: #81ffa9;
+						}
+					`}
+				>
+					孅いウェブエンジニアブログ
+				</h1>
+			</a>
+			{
+				pathList.map((path, index) => {
+					return (
+						<>
+							<div
+								class={css`
+									display: inline-block;
+									font-size: 18px;
+									font-weight: bold;
+								`}
+							>
+								/
+							</div>
+							<a
+								href={path.url}
+								class={cx(
+									css`
+										font-size: 18px;
+										font-weight: bold;
+										color: #f0425a;
+										word-break: break-all;
+
+										@media (prefers-color-scheme: dark) {
+											color: white;
+										}
+									`,
+									index === pathList.length - 1 &&
+										css`
+											color: #464646;
+
+											@media (prefers-color-scheme: dark) {
+												color: #f0425a;
+											}
+										`
+								)}
+								transition:name={index === pathList.length - 1 ? transitionName ?? "" : ""}
+							>
+								{path.name}
+							</a>
+						</>
+					);
+				})
 			}
-		}
-	}
-</style>
+		</div>
+		<div
+			class={css`
+				position: fixed;
+				top: 37px;
+				left: 30px;
+				font-size: 15px;
+				transform: translateY(-10px);
+				transition-duration: 300ms;
+				transition-property: transform, opacity;
+				user-select: none;
+				pointer-events: none;
+				opacity: 0;
+
+				.title-logo:hover & {
+					transform: translateY(0);
+					opacity: 1;
+				}
+			`}
+		>
+			ｶﾖﾜｲ
+		</div>
+	</div>
+</header>

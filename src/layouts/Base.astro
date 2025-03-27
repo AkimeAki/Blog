@@ -1,8 +1,8 @@
 ---
-import { ViewTransitions } from "astro:transitions";
-import Header from "@/components/molecules/Header.astro";
-import Footer from "@/components/molecules/Footer.astro";
+import { ClientRouter } from "astro:transitions";
+import "@/panda.css";
 import "@akimeaki/reset-css";
+import { css } from "@/styled-system/css";
 
 interface Props {
 	title?: string;
@@ -84,9 +84,18 @@ const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
 			async
 			src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6914867149724943"
 			crossorigin="anonymous"></script>
-		<ViewTransitions />
+		<ClientRouter />
 	</head>
-	<body>
+	<body
+		class={css`
+			background-image: radial-gradient(#ffffff, #bebebe);
+			overflow: hidden;
+
+			@media (prefers-color-scheme: dark) {
+				background-image: radial-gradient(#555, #000);
+			}
+		`}
+	>
 		<!-- Google Tag Manager (noscript) -->
 		<noscript>
 			<iframe
@@ -97,13 +106,7 @@ const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
 		</noscript>
 		<!-- End Google Tag Manager (noscript) -->
 
-		<Header />
-
-		<main id="main">
-			<slot />
-		</main>
-
-		<Footer />
+		<slot />
 
 		<script>
 			const isTouchDevice = (): boolean => {
@@ -145,25 +148,14 @@ const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
 			});
 		</script>
 		<style lang="scss">
-			:global(*) {
-				color: #232323;
+			@layer base {
+				:global(*) {
+					color: #232323;
 
-				@media (prefers-color-scheme: dark) {
-					color: white;
+					@media (prefers-color-scheme: dark) {
+						color: white;
+					}
 				}
-			}
-
-			body {
-				background-color: #eeeeee;
-				overflow-y: scroll;
-
-				@media (prefers-color-scheme: dark) {
-					background-color: #363636;
-				}
-			}
-
-			#main {
-				padding: 30px 20px;
 			}
 		</style>
 	</body>

@@ -1,5 +1,5 @@
 ---
-import Layout from "@/layouts/Layout.astro";
+import Base from "@/layouts/Base.astro";
 import Post from "@/components/molecules/Post.astro";
 import { getListAllContents } from "@/lib/microcms";
 import type { Blog } from "@/lib/microcms";
@@ -7,6 +7,9 @@ import type { MicroCMSContentId, MicroCMSDate } from "microcms-js-sdk";
 import * as cheerio from "cheerio";
 import ShareButton from "@/components/atoms/ShareButton.astro";
 import { formatDate } from "@/lib/format-date";
+import { css } from "@/styled-system/css";
+import Header from "@/components/molecules/Header.astro";
+import Footer from "@/components/molecules/Footer.astro";
 
 interface pathType {
 	params: {
@@ -37,69 +40,102 @@ const contents = body !== null ? body.text() ?? "" : "";
 const description = contents.substring(0, 80) + "...";
 
 const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
+
+const formattedPublishedAt = formatDate(blog.publishedAt ?? blog.createdAt);
+const formattedUpdatedAt = formatDate(blog.updatedAt ?? blog.createdAt);
 ---
 
-<Layout title={blog.title} ogType="article" description={description} ogImage={blog?.thumbnail?.url}>
-	{
-		blog.publishedAt !== undefined && (
-			<script
-				type="application/ld+json"
-				is:inline
-				set:html={JSON.stringify({
-					"@context": "https://schema.org",
-					"@type": "BlogPosting",
-					headline: blog.title,
-					name: blog.title,
-					datePublished: formatDate(blog.publishedAt, "jsonld"),
-					dateModified: formatDate(blog.updatedAt, "jsonld"),
-					inLanguage: "ja",
-					description: description,
-					image:
-						blog.thumbnail !== undefined
-							? {
-									"@type": "ImageObject",
-									url: `${blog.thumbnail.url}?fm=webp`,
-									width: blog.thumbnail.width,
-									height: blog.thumbnail.height
-								}
-							: {
-									"@type": "ImageObject",
-									url: "/default-thumbnail.png",
-									width: 1200,
-									height: 670
-								},
-					author: {
-						"@type": "Person",
-						name: "彩季",
-						url: "https://aki.wtf"
-					}
-				})}
-			/>
-		)
-	}
+<Base title={blog.title} ogType="article" description={description} ogImage={blog?.thumbnail?.url}>
+	<div
+		class={css`
+			overflow-y: scroll;
+			height: 100%;
+		`}
+	>
+		<Header
+			position="static"
+			pathList={[{ name: blog.title, url: `/posts/${blog.id}` }]}
+			transitionName={`${blog.id}-title`}
+		/>
+		{
+			blog.publishedAt !== undefined && (
+				<script
+					type="application/ld+json"
+					is:inline
+					set:html={JSON.stringify({
+						"@context": "https://schema.org",
+						"@type": "BlogPosting",
+						headline: blog.title,
+						name: blog.title,
+						datePublished: `${formattedPublishedAt.year}-${formattedPublishedAt.month}-${formattedPublishedAt.date}T${formattedPublishedAt.hour}:${formattedPublishedAt.minute}:${formattedPublishedAt.secound}+09:00`,
+						dateModified: `${formattedUpdatedAt.year}-${formattedUpdatedAt.month}-${formattedUpdatedAt.date}T${formattedUpdatedAt.hour}:${formattedUpdatedAt.minute}:${formattedUpdatedAt.secound}+09:00`,
+						inLanguage: "ja",
+						description: description,
+						image:
+							blog.thumbnail !== undefined
+								? {
+										"@type": "ImageObject",
+										url: `${blog.thumbnail.url}?fm=webp`,
+										width: blog.thumbnail.width,
+										height: blog.thumbnail.height
+									}
+								: {
+										"@type": "ImageObject",
+										url: "/default-thumbnail.png",
+										width: 1200,
+										height: 670
+									},
+						author: {
+							"@type": "Person",
+							name: "彩季",
+							url: "https://aki.wtf"
+						}
+					})}
+				/>
+			)
+		}
 
-	<Post post={blog} />
-	<div class="post-button">
-		<ShareButton url={`${Astro.site}${path}`} service="x" text={blog.title} loading="lazy" />
-		<ShareButton url={`${Astro.site}${path}`} service="bluesky" text={blog.title} loading="lazy" />
-		<ShareButton url={`${Astro.site}${path}`} service="pocket" loading="lazy" />
-		<ShareButton url={`${Astro.site}${path}`} service="hatena" loading="lazy" />
+		<div
+			class={css`
+				padding: 0 10px;
+			`}
+		>
+			<Post post={blog} />
+			<div
+				class={css`
+					width: 100%;
+					max-width: 800px;
+					margin: 60px auto;
+					display: flex;
+					gap: 20px;
+					user-select: none;
+					flex-wrap: wrap;
+				`}
+			>
+				<ShareButton url={`${Astro.site}${path}`} service="x" text={blog.title} loading="lazy" />
+				<ShareButton url={`${Astro.site}${path}`} service="bluesky" text={blog.title} loading="lazy" />
+				<ShareButton url={`${Astro.site}${path}`} service="pocket" loading="lazy" />
+				<ShareButton url={`${Astro.site}${path}`} service="hatena" loading="lazy" />
+			</div>
+		</div>
+
+		<div
+			class={css`
+				display: flex;
+				justify-content: flex-end;
+			`}
+		>
+			<Footer position="static" slot="footer" />
+		</div>
 	</div>
+</Base>
 
-	<style lang="scss">
-		.comment-note {
-			margin-bottom: 10px;
-			font-weight: bold;
-		}
+<style is:global>
+	body {
+		background-image: radial-gradient(#f1f1f1, #f1f1f1);
 
-		.post-button {
-			width: 100%;
-			max-width: 800px;
-			margin: 60px auto;
-			display: flex;
-			gap: 20px;
-			user-select: none;
-			flex-wrap: wrap;
+		@media (prefers-color-scheme: dark) {
+			background-image: radial-gradient(#202020, #202020);
 		}
-	</style>
-</Layout>
+	}
+</style>

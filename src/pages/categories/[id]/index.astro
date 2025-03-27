@@ -1,8 +1,9 @@
 ---
+import Header from "@/components/molecules/Header.astro";
+import PostList from "@/layouts/PostList.astro";
 import { getListAllContents } from "@/lib/microcms";
 import type { Blog, Category } from "@/lib/microcms";
 import type { MicroCMSContentId, MicroCMSDate } from "microcms-js-sdk";
-import PostList from "@/components/molecules/PostList.astro";
 
 interface pathType {
 	params: {
@@ -33,4 +34,6 @@ const posts = (await getListAllContents<Blog>("blogs")).filter((post) => {
 });
 ---
 
-<PostList posts={posts} title={category.name} />
+<PostList posts={posts}>
+	<Header position="fixed" pathList={[{ name: category.name, url: `/categories/${category.id}` }]} slot="header" />
+</PostList>

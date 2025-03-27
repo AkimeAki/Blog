@@ -13,16 +13,18 @@
 		"astro": "astro",
 		"format": "prettier --write './**/*'",
 		"lint": "ESLINT_USE_FLAT_CONFIG=true eslint .",
-		"lint:fix": "npm run lint -- --fix && npm run format"
+		"lint:fix": "npm run lint -- --fix && npm run format",
+		"prepare": "panda codegen"
 	},
 	"dependencies": {
 		"@akimeaki/null-to-undefined": "1.0.1",
 		"@akimeaki/reset-css": "0.3.0",
 		"@astrojs/cloudflare": "12.2.1",
 		"@astrojs/sitemap": "3.2.1",
+		"@pandacss/dev": "0.53.3",
 		"astro": "5.1.9",
 		"cheerio": "1.0.0",
-		"microcms-js-sdk": "3.1.1",
+		"microcms-js-sdk": "3.2.0",
 		"sass": "1.75.0",
 		"shiki": "1.22.0"
 	},
