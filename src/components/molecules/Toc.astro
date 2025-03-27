@@ -1,0 +1,61 @@
+---
+import { css } from "@/styled-system/css";
+import * as cheerio from "cheerio";
+
+interface Props {
+	contents: string;
+}
+
+const { contents } = Astro.props;
+
+const $ = cheerio.load(contents);
+
+const headingList = $("h3, h4");
+let tocData: {
+	id: string;
+	text: string;
+	level: number;
+}[] = [];
+
+headingList.each((_, element) => {
+	const heading = $(element);
+	const id = heading.attr("id") ?? "";
+	const text = heading.text();
+	const tagName = heading.prop("tagName") ?? "";
+	const level = parseInt(tagName.replace("H", ""));
+	tocData.push({ id, text, level });
+});
+---
+
+<div
+	class={css`
+		position: fixed;
+		bottom: 10px;
+		left: 10px;
+		width: 250px;
+		z-index: 1000;
+	`}
+>
+	{
+		tocData.map((data) => {
+			return (
+				<a
+					href={`#${data.id}`}
+					class={css`
+						text-decoration: none;
+						color: black;
+						font-size: 15px;
+						display: -webkit-box;
+						-webkit-box-orient: vertical;
+						-webkit-line-clamp: 3;
+						overflow: hidden;
+					`}
+				>
+					{data.text}
+				</a>
+			);
+		})
+	}
+</div>
+
+<script></script>

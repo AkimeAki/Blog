@@ -1,16 +1,9 @@
 ---
 import SnsIcon from "@/components/atoms/SnsIcon.astro";
 import { css } from "@/styled-system/css";
-
-interface Props {
-	position: "fixed" | "static";
-}
-
-const { position } = Astro.props;
 ---
 
 <footer
-	style={{ position: position }}
 	class={css`
 		padding: 10px;
 		bottom: 0;

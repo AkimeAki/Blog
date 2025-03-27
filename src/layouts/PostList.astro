@@ -1,4 +1,5 @@
 ---
+import Footer from "@/components/molecules/Footer.astro";
 import Base from "@/layouts/Base.astro";
 import { formatDate, getEmojiOfWeek } from "@/lib/format-date";
 import { cx } from "@/lib/merge-panda";
@@ -22,7 +23,6 @@ const { posts } = Astro.props;
 			top: 10vh;
 			right: 5vw;
 			border: 4px solid #ffffff;
-			z-index: -1;
 			user-select: none;
 			pointer-events: none;
 
@@ -415,7 +415,8 @@ const { posts } = Astro.props;
 					})
 				}
 			</div>
-			<slot name="footer" />
+
+			<Footer />
 		</div>
 	</div>
 </Base>

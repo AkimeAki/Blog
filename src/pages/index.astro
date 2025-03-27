@@ -1,10 +1,8 @@
 ---
-import Footer from "@/components/molecules/Footer.astro";
 import Header from "@/components/molecules/Header.astro";
 import PostList from "@/layouts/PostList.astro";
 import { getListAllContents } from "@/lib/microcms";
 import type { Blog } from "@/lib/microcms";
-import { css } from "@/styled-system/css";
 
 const posts = (await getListAllContents<Blog>("blogs")).filter((post) => {
 	return (
@@ -16,13 +14,4 @@ const posts = (await getListAllContents<Blog>("blogs")).filter((post) => {
 
 <PostList posts={posts}>
 	<Header position="fixed" slot="header" />
-	<div
-		class={css`
-			display: flex;
-			justify-content: flex-end;
-		`}
-		slot="footer"
-	>
-		<Footer position="static" slot="footer" />
-	</div>
 </PostList>

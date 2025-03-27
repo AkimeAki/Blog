@@ -10,6 +10,7 @@ import { formatDate } from "@/lib/format-date";
 import { css } from "@/styled-system/css";
 import Header from "@/components/molecules/Header.astro";
 import Footer from "@/components/molecules/Footer.astro";
+// import Toc from "@/components/molecules/Toc.astro";
 
 interface pathType {
 	params: {
@@ -46,92 +47,81 @@ const formattedUpdatedAt = formatDate(blog.updatedAt ?? blog.createdAt);
 ---
 
 <Base title={blog.title} ogType="article" description={description} ogImage={blog?.thumbnail?.url}>
+	<!-- <Toc contents={blog.contents} /> -->
+
+	<Header
+		position="static"
+		pathList={[{ name: blog.title, url: `/posts/${blog.id}` }]}
+		transitionName={`${blog.id}-title`}
+	/>
+
+	{
+		blog.publishedAt !== undefined && (
+			<script
+				type="application/ld+json"
+				is:inline
+				set:html={JSON.stringify({
+					"@context": "https://schema.org",
+					"@type": "BlogPosting",
+					headline: blog.title,
+					name: blog.title,
+					datePublished: `${formattedPublishedAt.year}-${formattedPublishedAt.month}-${formattedPublishedAt.date}T${formattedPublishedAt.hour}:${formattedPublishedAt.minute}:${formattedPublishedAt.secound}+09:00`,
+					dateModified: `${formattedUpdatedAt.year}-${formattedUpdatedAt.month}-${formattedUpdatedAt.date}T${formattedUpdatedAt.hour}:${formattedUpdatedAt.minute}:${formattedUpdatedAt.secound}+09:00`,
+					inLanguage: "ja",
+					description: description,
+					image:
+						blog.thumbnail !== undefined
+							? {
+									"@type": "ImageObject",
+									url: `${blog.thumbnail.url}?fm=webp`,
+									width: blog.thumbnail.width,
+									height: blog.thumbnail.height
+								}
+							: {
+									"@type": "ImageObject",
+									url: "/default-thumbnail.png",
+									width: 1200,
+									height: 670
+								},
+					author: {
+						"@type": "Person",
+						name: "彩季",
+						url: "https://aki.wtf"
+					}
+				})}
+			/>
+		)
+	}
+
 	<div
 		class={css`
-			overflow-y: scroll;
-			height: 100%;
+			padding: 0 10px;
 		`}
 	>
-		<Header
-			position="static"
-			pathList={[{ name: blog.title, url: `/posts/${blog.id}` }]}
-			transitionName={`${blog.id}-title`}
-		/>
-		{
-			blog.publishedAt !== undefined && (
-				<script
-					type="application/ld+json"
-					is:inline
-					set:html={JSON.stringify({
-						"@context": "https://schema.org",
-						"@type": "BlogPosting",
-						headline: blog.title,
-						name: blog.title,
-						datePublished: `${formattedPublishedAt.year}-${formattedPublishedAt.month}-${formattedPublishedAt.date}T${formattedPublishedAt.hour}:${formattedPublishedAt.minute}:${formattedPublishedAt.secound}+09:00`,
-						dateModified: `${formattedUpdatedAt.year}-${formattedUpdatedAt.month}-${formattedUpdatedAt.date}T${formattedUpdatedAt.hour}:${formattedUpdatedAt.minute}:${formattedUpdatedAt.secound}+09:00`,
-						inLanguage: "ja",
-						description: description,
-						image:
-							blog.thumbnail !== undefined
-								? {
-										"@type": "ImageObject",
-										url: `${blog.thumbnail.url}?fm=webp`,
-										width: blog.thumbnail.width,
-										height: blog.thumbnail.height
-									}
-								: {
-										"@type": "ImageObject",
-										url: "/default-thumbnail.png",
-										width: 1200,
-										height: 670
-									},
-						author: {
-							"@type": "Person",
-							name: "彩季",
-							url: "https://aki.wtf"
-						}
-					})}
-				/>
-			)
-		}
-
+		<Post post={blog} />
 		<div
 			class={css`
-				padding: 0 10px;
-			`}
-		>
-			<Post post={blog} />
-			<div
-				class={css`
-					width: 100%;
-					max-width: 800px;
-					margin: 60px auto;
-					display: flex;
-					gap: 20px;
-					user-select: none;
-					flex-wrap: wrap;
-				`}
-			>
-				<ShareButton url={`${Astro.site}${path}`} service="x" text={blog.title} loading="lazy" />
-				<ShareButton url={`${Astro.site}${path}`} service="bluesky" text={blog.title} loading="lazy" />
-				<ShareButton url={`${Astro.site}${path}`} service="pocket" loading="lazy" />
-				<ShareButton url={`${Astro.site}${path}`} service="hatena" loading="lazy" />
-			</div>
-		</div>
-
-		<div
-			class={css`
+				width: 100%;
+				max-width: 800px;
+				margin: 60px auto;
 				display: flex;
-				justify-content: flex-end;
+				gap: 20px;
+				user-select: none;
+				flex-wrap: wrap;
 			`}
 		>
-			<Footer position="static" slot="footer" />
+			<ShareButton url={`${Astro.site}${path}`} service="x" text={blog.title} loading="lazy" />
+			<ShareButton url={`${Astro.site}${path}`} service="bluesky" text={blog.title} loading="lazy" />
+			<ShareButton url={`${Astro.site}${path}`} service="pocket" loading="lazy" />
+			<ShareButton url={`${Astro.site}${path}`} service="hatena" loading="lazy" />
 		</div>
 	</div>
+
+	<Footer />
 </Base>
 
 <style is:global>
-	body {
+	#background {
 		background-image: radial-gradient(#f1f1f1, #f1f1f1);
 
 		@media (prefers-color-scheme: dark) {
