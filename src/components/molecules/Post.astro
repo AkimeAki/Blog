@@ -59,7 +59,6 @@ const formattedPublishedAt = formatDate(post.publishedAt ?? post.createdAt);
 				src={`${post.thumbnail.url}?fm=webp&w=880`}
 				srcset={`${post.thumbnail.url}?fm=webp&w=300px 300w,${post.thumbnail.url}?fm=webp&w=500px 500w,${post.thumbnail.url}?fm=webp&w=650px 650w,${post.thumbnail.url}?fm=webp&w=880px 880w`}
 				sizes="(max-width: 350px) 300px,(max-width: 550px) 500px,(max-width: 700px) 650px,875px"
-				transition:name={`${post.id}-image`}
 				alt={post.title}
 				width={post.thumbnail.width}
 				height={post.thumbnail.height}
@@ -384,13 +383,6 @@ const formattedPublishedAt = formatDate(post.publishedAt ?? post.createdAt);
 		}
 	});
 
-	document.addEventListener("astro:after-swap", () => {
-		const code = document.querySelector("pre > code");
-		if (code !== null) {
-			observer.observe(code);
-		}
-	});
-
 	const code = document.querySelector("pre > code");
 	if (code !== null) {
 		observer.observe(code);
@@ -410,13 +402,6 @@ const formattedPublishedAt = formatDate(post.publishedAt ?? post.createdAt);
 		}
 	});
 
-	document.addEventListener("astro:after-swap", () => {
-		const iframely = document.querySelector(".iframely-embed");
-		if (iframely !== null) {
-			observer.observe(iframely);
-		}
-	});
-
 	const iframely = document.querySelector(".iframely-embed");
 	if (iframely !== null) {
 		observer.observe(iframely);
@@ -428,50 +413,34 @@ const formattedPublishedAt = formatDate(post.publishedAt ?? post.createdAt);
 		e.preventDefault();
 	}
 
-	function checkImage() {
-		const imgs = document.querySelectorAll(".rich-contents img");
-		for (const imgElement of imgs) {
-			imgElement.addEventListener("click", () => {
-				if (imgElement.classList.contains("zoom")) {
-					imgElement.classList.remove("zoom");
-					document.removeEventListener("touchmove", noScroll);
-					document.removeEventListener("wheel", noScroll);
-				} else {
-					imgElement.classList.add("zoom");
-					document.addEventListener("touchmove", noScroll, { passive: false });
-					document.addEventListener("wheel", noScroll, { passive: false });
-					console.log("aaa");
-				}
-			});
-		}
+	const imgs = document.querySelectorAll(".rich-contents img");
+	for (const imgElement of imgs) {
+		imgElement.addEventListener("click", () => {
+			if (imgElement.classList.contains("zoom")) {
+				imgElement.classList.remove("zoom");
+				document.removeEventListener("touchmove", noScroll);
+				document.removeEventListener("wheel", noScroll);
+			} else {
+				imgElement.classList.add("zoom");
+				document.addEventListener("touchmove", noScroll, { passive: false });
+				document.addEventListener("wheel", noScroll, { passive: false });
+				console.log("aaa");
+			}
+		});
 	}
-
-	document.addEventListener("astro:after-swap", () => {
-		checkImage();
-	});
-
-	checkImage();
 </script>
 
 <script>
-	function checkNote() {
-		const noteList = document.querySelectorAll<HTMLSpanElement>(".rich-contents .note");
-		const noteAddressList = document.querySelectorAll<HTMLSpanElement>(".rich-contents .note_address");
-		for (const noteElement of noteList) {
-			noteElement.addEventListener("click", () => {
-				const noteContent = noteElement.textContent;
-				for (const noteAddressElement of noteAddressList) {
-					if (noteAddressElement.textContent === noteContent) {
-						noteAddressElement.scrollIntoView({ behavior: "smooth" });
-					}
+	const noteList = document.querySelectorAll<HTMLSpanElement>(".rich-contents .note");
+	const noteAddressList = document.querySelectorAll<HTMLSpanElement>(".rich-contents .note_address");
+	for (const noteElement of noteList) {
+		noteElement.addEventListener("click", () => {
+			const noteContent = noteElement.textContent;
+			for (const noteAddressElement of noteAddressList) {
+				if (noteAddressElement.textContent === noteContent) {
+					noteAddressElement.scrollIntoView({ behavior: "smooth" });
 				}
-			});
-		}
+			}
+		});
 	}
-
-	document.addEventListener("astro:after-swap", () => {
-		checkNote();
-	});
-
-	checkNote();
 </script>

@@ -1,5 +1,4 @@
 ---
-import { ClientRouter } from "astro:transitions";
 import "@/panda.css";
 import "@akimeaki/reset-css";
 import { css } from "@/styled-system/css";
@@ -84,7 +83,6 @@ const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
 			async
 			src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6914867149724943"
 			crossorigin="anonymous"></script>
-		<ClientRouter />
 	</head>
 	<body>
 		<div
@@ -149,13 +147,6 @@ const path = Astro.url.pathname.replace(/^\//, "").replace(/\.html$/, "");
 
 			window.addEventListener("touchstart", touched, false);
 			window.addEventListener("pointermove", move, false);
-		</script>
-		<script>
-			document.addEventListener("astro:after-swap", () => {
-				window.dataLayer.push({
-					event: "view-transitions-change-path"
-				});
-			});
 		</script>
 		<style lang="scss">
 			@layer base {

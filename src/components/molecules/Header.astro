@@ -7,10 +7,9 @@ interface Props {
 		name: string;
 		url: string;
 	}[];
-	transitionName?: string;
 }
 
-const { position, pathList = [], transitionName } = Astro.props;
+const { position, pathList = [] } = Astro.props;
 ---
 
 <header
@@ -89,7 +88,6 @@ const { position, pathList = [], transitionName } = Astro.props;
 											}
 										`
 								)}
-								transition:name={index === pathList.length - 1 ? transitionName ?? "" : ""}
 							>
 								{path.name}
 							</a>

@@ -49,11 +49,7 @@ const formattedUpdatedAt = formatDate(blog.updatedAt ?? blog.createdAt);
 <Base title={blog.title} ogType="article" description={description} ogImage={blog?.thumbnail?.url}>
 	<!-- <Toc contents={blog.contents} /> -->
 
-	<Header
-		position="static"
-		pathList={[{ name: blog.title, url: `/posts/${blog.id}` }]}
-		transitionName={`${blog.id}-title`}
-	/>
+	<Header position="static" pathList={[{ name: blog.title, url: `/posts/${blog.id}` }]} />
 
 	{
 		blog.publishedAt !== undefined && (

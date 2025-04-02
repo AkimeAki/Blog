@@ -178,7 +178,6 @@ const { posts } = Astro.props;
 									)}
 									data-id={post.id}
 									src={`${post.thumbnail.url}?fm=webp&w=500`}
-									transition:name={`${post.id}-image`}
 									alt={post.thumbnail.alt ?? post.title}
 									loading={"lazy"}
 								/>
@@ -303,7 +302,6 @@ const { posts } = Astro.props;
 										`,
 										"post-title"
 									)}
-									transition:name={`${post.id}-title`}
 								>
 									{post.title}
 								</h2>
@@ -554,85 +552,75 @@ const { posts } = Astro.props;
 		});
 	};
 
-	const flowTagIcons = () => {
-		if (document.body.dataset.executedFlowTag === "true") {
-			return;
-		}
+	if (document.body.dataset.executedFlowTag === "true") {
+		return;
+	}
 
-		document.body.dataset.executedFlowTag = "true";
-		const postCards = document.querySelectorAll<HTMLDivElement>(".post-card");
-		postCards.forEach((postCard) => {
-			const postTitle = postCard.querySelector<HTMLHeadingElement>(".post-title");
-			if (postTitle !== null) {
-				postTitle.addEventListener("mouseover", () => {
-					if (document.body.dataset.touch === "true") {
+	document.body.dataset.executedFlowTag = "true";
+	const postCards = document.querySelectorAll<HTMLDivElement>(".post-card");
+	postCards.forEach((postCard) => {
+		const postTitle = postCard.querySelector<HTMLHeadingElement>(".post-title");
+		if (postTitle !== null) {
+			postTitle.addEventListener("mouseover", () => {
+				if (document.body.dataset.touch === "true") {
+					return;
+				}
+
+				createBubbleTag(postCard);
+			});
+
+			postTitle.addEventListener(
+				"touchstart",
+				() => {
+					if (document.body.dataset.touch === "false") {
 						return;
 					}
 
 					createBubbleTag(postCard);
-				});
-
-				postTitle.addEventListener(
-					"touchstart",
-					() => {
-						if (document.body.dataset.touch === "false") {
-							return;
-						}
-
-						createBubbleTag(postCard);
-					},
-					false
-				);
-			}
-		});
-	};
-
-	flowTagIcons();
-	document.addEventListener("astro:after-swap", flowTagIcons);
+				},
+				false
+			);
+		}
+	});
 </script>
 
 <script>
-	function hover() {
-		const postCardList = document.querySelectorAll<HTMLDivElement>(".post-card");
-		for (const postCard of postCardList) {
-			const title = postCard.querySelector<HTMLHeadingElement>(".post-title");
-			if (title !== null) {
-				title.addEventListener("mouseover", () => {
-					const thumbnailList = document.querySelectorAll<HTMLImageElement>(".post-thumbnail");
-					for (const thumbnail of thumbnailList) {
-						if (thumbnail.dataset.id === postCard.dataset.id) {
-							thumbnail.style.animationName = "signal";
-						}
+	const postCardList = document.querySelectorAll<HTMLDivElement>(".post-card");
+	for (const postCard of postCardList) {
+		const title = postCard.querySelector<HTMLHeadingElement>(".post-title");
+		if (title !== null) {
+			title.addEventListener("mouseover", () => {
+				const thumbnailList = document.querySelectorAll<HTMLImageElement>(".post-thumbnail");
+				for (const thumbnail of thumbnailList) {
+					if (thumbnail.dataset.id === postCard.dataset.id) {
+						thumbnail.style.animationName = "signal";
 					}
-				});
+				}
+			});
 
-				title.addEventListener("touchstart", () => {
-					const thumbnailList = document.querySelectorAll<HTMLImageElement>(".post-thumbnail");
-					for (const thumbnail of thumbnailList) {
-						if (thumbnail.dataset.id === postCard.dataset.id) {
-							thumbnail.style.animationName = "signal";
+			title.addEventListener("touchstart", () => {
+				const thumbnailList = document.querySelectorAll<HTMLImageElement>(".post-thumbnail");
+				for (const thumbnail of thumbnailList) {
+					if (thumbnail.dataset.id === postCard.dataset.id) {
+						thumbnail.style.animationName = "signal";
 
-							setTimeout(() => {
-								thumbnail.style.animationName = "";
-							}, 1000);
-						}
+						setTimeout(() => {
+							thumbnail.style.animationName = "";
+						}, 1000);
 					}
-				});
+				}
+			});
 
-				title.addEventListener("mouseleave", () => {
-					const thumbnailList = document.querySelectorAll<HTMLImageElement>(".post-thumbnail");
-					for (const thumbnail of thumbnailList) {
-						if (thumbnail.dataset.id === postCard.dataset.id) {
-							setTimeout(() => {
-								thumbnail.style.animationName = "";
-							}, 1000);
-						}
+			title.addEventListener("mouseleave", () => {
+				const thumbnailList = document.querySelectorAll<HTMLImageElement>(".post-thumbnail");
+				for (const thumbnail of thumbnailList) {
+					if (thumbnail.dataset.id === postCard.dataset.id) {
+						setTimeout(() => {
+							thumbnail.style.animationName = "";
+						}, 1000);
 					}
-				});
-			}
+				}
+			});
 		}
 	}
-
-	hover();
-	document.addEventListener("astro:after-swap", hover);
 </script>
