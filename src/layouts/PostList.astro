@@ -552,11 +552,6 @@ const { posts } = Astro.props;
 		});
 	};
 
-	if (document.body.dataset.executedFlowTag === "true") {
-		return;
-	}
-
-	document.body.dataset.executedFlowTag = "true";
 	const postCards = document.querySelectorAll<HTMLDivElement>(".post-card");
 	postCards.forEach((postCard) => {
 		const postTitle = postCard.querySelector<HTMLHeadingElement>(".post-title");
