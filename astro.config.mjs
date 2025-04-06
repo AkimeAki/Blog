@@ -8,7 +8,7 @@ export default defineConfig({
 		port: 46311
 	},
 	experimental: {},
-	site: "https://blog.aki.wtf",
+	site: "https://blog.shikiiro.net",
 	trailingSlash: "never",
 	integrations: [sitemap()],
 	build: {
