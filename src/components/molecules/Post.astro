@@ -308,6 +308,11 @@ const formattedPublishedAt = formatDate(post.publishedAt ?? post.createdAt);
 				text-decoration: line-through;
 			}
 
+			strong,
+			strong > * {
+				font-weight: bold;
+			}
+
 			p > code {
 				background-color: #242424;
 				color: white;
