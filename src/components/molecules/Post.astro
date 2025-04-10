@@ -200,21 +200,21 @@ const formattedPublishedAt = formatDate(post.publishedAt ?? post.createdAt);
 
 			h5 {
 				margin-top: 40px;
-				font-size: 17px;
-				font-weight: bold;
-				line-height: 1.4;
 
 				&:before {
 					content: "### ";
 					color: #9b9b9b;
 				}
 			}
+			h5,
+			h5 > * {
+				font-size: 17px;
+				font-weight: bold;
+				line-height: 1.4;
+			}
 
 			h4 {
 				margin-top: 40px;
-				font-size: 20px;
-				font-weight: bold;
-				line-height: 1.4;
 
 				& + h5 {
 					margin-top: 0;
@@ -226,12 +226,16 @@ const formattedPublishedAt = formatDate(post.publishedAt ?? post.createdAt);
 				}
 			}
 
-			h3 {
-				margin-top: 40px;
-				font-size: 25px;
-				padding: 10px 0;
+			h4,
+			h4 > * {
+				font-size: 20px;
 				font-weight: bold;
 				line-height: 1.4;
+			}
+
+			h3 {
+				margin-top: 40px;
+				padding: 10px 0;
 
 				& + h4 {
 					margin-top: 0;
@@ -241,6 +245,13 @@ const formattedPublishedAt = formatDate(post.publishedAt ?? post.createdAt);
 					content: "# ";
 					color: #9b9b9b;
 				}
+			}
+
+			h3,
+			h3 > * {
+				font-size: 25px;
+				font-weight: bold;
+				line-height: 1.4;
 			}
 
 			pre > code,
