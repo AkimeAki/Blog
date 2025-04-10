@@ -292,6 +292,11 @@ const formattedPublishedAt = formatDate(post.publishedAt ?? post.createdAt);
 				line-height: 1.6;
 			}
 
+			s,
+			s > * {
+				text-decoration: line-through;
+			}
+
 			p > code {
 				background-color: #242424;
 				color: white;
