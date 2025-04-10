@@ -254,6 +254,14 @@ const formattedPublishedAt = formatDate(post.publishedAt ?? post.createdAt);
 				line-height: 1.4;
 			}
 
+			hr {
+				& + h3,
+				& + h4,
+				& + h5 {
+					margin-top: 0;
+				}
+			}
+
 			pre > code,
 			pre > code * {
 				tab-size: 4;
